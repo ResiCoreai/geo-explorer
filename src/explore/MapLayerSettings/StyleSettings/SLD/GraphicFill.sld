@@ -1,0 +1,19 @@
+<FeatureTypeStyle>
+  <Rule>
+    <PolygonSymbolizer>
+      <Fill>
+        <GraphicFill>
+          <Graphic>
+            <ExternalGraphic>
+              <OnlineResource
+                  xlink:type="simple"
+                  xlink:href="https://docs.geoserver.org/main/en/user/_images/colorblocks.png"/>
+              <Format>image/png</Format>
+            </ExternalGraphic>
+            <Size>93</Size>
+          </Graphic>
+        </GraphicFill>
+      </Fill>
+    </PolygonSymbolizer>
+  </Rule>
+</FeatureTypeStyle>

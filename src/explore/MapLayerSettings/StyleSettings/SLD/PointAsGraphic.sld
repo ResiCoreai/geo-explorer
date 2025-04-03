@@ -1,0 +1,15 @@
+<FeatureTypeStyle>
+  <Rule>
+    <PointSymbolizer>
+      <Graphic>
+        <ExternalGraphic>
+          <OnlineResource
+              xlink:type="simple"
+              xlink:href="http://docs.geoserver.org/main/en/user/_images/smileyface.png"/>
+          <Format>image/png</Format>
+        </ExternalGraphic>
+        <Size>32</Size>
+      </Graphic>
+    </PointSymbolizer>
+  </Rule>
+</FeatureTypeStyle>
