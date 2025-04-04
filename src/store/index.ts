@@ -1,6 +1,6 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore } from "@reduxjs/toolkit";
 
-import { exploreSlice } from '@ncsa/geo-explorer/store/explore/slice';
+import { exploreSlice } from "@ncsa/geo-explorer/store/explore/slice";
 
 export const store = configureStore({
   reducer: {

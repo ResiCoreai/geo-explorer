@@ -2,7 +2,7 @@ import {
   AddOutlined,
   CloseOutlined,
   RemoveOutlined,
-} from '@mui/icons-material';
+} from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -11,13 +11,17 @@ import {
   Paper,
   Stack,
   Typography,
-} from '@mui/material';
-import { useCallback, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+} from "@mui/material";
+import { useCallback, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import { DatasetInfo } from '@ncsa/geo-explorer/explore/DatasetPreview/DatasetInfo';
-import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
-import { addLayer, removeLayer, selectDataset } from '@ncsa/geo-explorer/store/explore/slice';
+import { DatasetInfo } from "@ncsa/geo-explorer/explore/DatasetPreview/DatasetInfo";
+import { AppDispatch, RootState } from "@ncsa/geo-explorer/store";
+import {
+  addLayer,
+  removeLayer,
+  selectDataset,
+} from "@ncsa/geo-explorer/store/explore/slice";
 
 export function DatasetPreview() {
   const dispatch = useDispatch<AppDispatch>();

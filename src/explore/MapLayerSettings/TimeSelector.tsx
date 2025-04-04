@@ -1,11 +1,14 @@
-import { Pause, PlayArrow } from '@mui/icons-material';
-import { Box, IconButton, Stack, Typography } from '@mui/material';
-import classNames from 'classnames';
-import { useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { Pause, PlayArrow } from "@mui/icons-material";
+import { Box, IconButton, Stack, Typography } from "@mui/material";
+import classNames from "classnames";
+import { useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
-import { setTimestampIdx, togglePlaying } from '@ncsa/geo-explorer/store/explore/slice';
+import { AppDispatch, RootState } from "@ncsa/geo-explorer/store";
+import {
+  setTimestampIdx,
+  togglePlaying,
+} from "@ncsa/geo-explorer/store/explore/slice";
 
 type YearAndQuarters = {
   year: number;
@@ -76,10 +79,10 @@ export function TimeSelector() {
           >
             <IconButton
               className={classNames(
-                'h-[18px] leading-[18px] text-center text-[14px] font-semibold rounded-none',
+                "h-[18px] leading-[18px] text-center text-[14px] font-semibold rounded-none",
                 year === curYear
-                  ? 'bg-[#1976D2] text-[white]'
-                  : 'bg-[#2C343C1A] text-[#2C343C]',
+                  ? "bg-[#1976D2] text-[white]"
+                  : "bg-[#2C343C1A] text-[#2C343C]",
               )}
             >
               {year}
@@ -89,10 +92,10 @@ export function TimeSelector() {
                 <IconButton
                   key={quarter}
                   className={classNames(
-                    'h-[18px] w-[18px] rounded-none',
+                    "h-[18px] w-[18px] rounded-none",
                     year === curYear && quarter === curQuarter
-                      ? 'bg-[#1976D2] text-[white]'
-                      : 'bg-[#2C343C1A] text-[#2C343C]',
+                      ? "bg-[#1976D2] text-[white]"
+                      : "bg-[#2C343C1A] text-[#2C343C]",
                   )}
                   onClick={() => {
                     if (timestampIdx >= 0) {

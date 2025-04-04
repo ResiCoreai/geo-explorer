@@ -1,6 +1,6 @@
 // control camera state
-import { useEffect, useState } from 'react';
-import { useMap } from 'react-map-gl/maplibre';
+import { useEffect, useState } from "react";
+import { useMap } from "react-map-gl/maplibre";
 
 export function CameraControl() {
   const { current: map } = useMap();
@@ -13,7 +13,7 @@ export function CameraControl() {
       setPitch(map.getPitch());
       setBearing(map.getBearing());
       setZoom(map.getZoom());
-      map.on('pitch', (e) => {
+      map.on("pitch", (e) => {
         if (
           e.originalEvent instanceof MouseEvent ||
           e.originalEvent instanceof KeyboardEvent
@@ -21,7 +21,7 @@ export function CameraControl() {
           setPitch(map.getPitch());
         }
       });
-      map.on('rotate', (e) => {
+      map.on("rotate", (e) => {
         if (
           e.originalEvent instanceof MouseEvent ||
           e.originalEvent instanceof KeyboardEvent
@@ -29,7 +29,7 @@ export function CameraControl() {
           setBearing(map.getBearing());
         }
       });
-      map.on('zoom', (e) => {
+      map.on("zoom", (e) => {
         if (
           e.originalEvent instanceof MouseEvent ||
           e.originalEvent instanceof KeyboardEvent
@@ -67,13 +67,13 @@ export function CameraControl() {
   return (
     <div
       style={{
-        position: 'absolute',
-        top: '10px',
-        right: '10px',
+        position: "absolute",
+        top: "10px",
+        right: "10px",
         zIndex: 1000,
-        backgroundColor: 'white',
-        padding: '10px',
-        borderRadius: '5px',
+        backgroundColor: "white",
+        padding: "10px",
+        borderRadius: "5px",
       }}
     >
       <div>

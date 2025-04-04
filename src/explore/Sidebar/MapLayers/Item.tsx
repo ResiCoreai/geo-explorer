@@ -1,19 +1,19 @@
-import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
-import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
-import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
-import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
-import { Box, IconButton, Stack, Typography } from '@mui/material';
-import classNames from 'classnames';
-import { useCallback, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
+import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
+import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import { Box, IconButton, Stack, Typography } from "@mui/material";
+import classNames from "classnames";
+import { useCallback, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import { LayerControlIcon } from '@ncsa/geo-explorer/icons/LayerControl';
-import { CategoricalLegendIcon } from '@ncsa/geo-explorer/explore/Sidebar/MapLayers/CategoricalLegendIcon';
-import { ClimateLayerSummary } from '@ncsa/geo-explorer/explore/Sidebar/MapLayers/ClimateLayerSummary';
-import { ClimateLegendIcon } from '@ncsa/geo-explorer/explore/Sidebar/MapLayers/ClimateLegendIcon';
-import { SingleLegendIcon } from '@ncsa/geo-explorer/explore/Sidebar/MapLayers/SingleLegendIcon';
-import { getLayerIconByCategory } from '@ncsa/geo-explorer/explore/Sidebar/utils/icons';
-import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
+import { LayerControlIcon } from "@ncsa/geo-explorer/icons/LayerControl";
+import { CategoricalLegendIcon } from "@ncsa/geo-explorer/explore/Sidebar/MapLayers/CategoricalLegendIcon";
+import { ClimateLayerSummary } from "@ncsa/geo-explorer/explore/Sidebar/MapLayers/ClimateLayerSummary";
+import { ClimateLegendIcon } from "@ncsa/geo-explorer/explore/Sidebar/MapLayers/ClimateLegendIcon";
+import { SingleLegendIcon } from "@ncsa/geo-explorer/explore/Sidebar/MapLayers/SingleLegendIcon";
+import { getLayerIconByCategory } from "@ncsa/geo-explorer/explore/Sidebar/utils/icons";
+import { AppDispatch, RootState } from "@ncsa/geo-explorer/store";
 import {
   reorderEnd,
   reorderStart,
@@ -21,13 +21,13 @@ import {
   setCurrentIndex,
   toggleLayerSettings,
   toggleVisibility,
-} from '@ncsa/geo-explorer/store/explore/slice';
-import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
+} from "@ncsa/geo-explorer/store/explore/slice";
+import { MapLayer } from "@ncsa/geo-explorer/store/explore/types";
 import {
   isCategoricalData,
   isClimateData,
   isSingleCategoryData,
-} from '@ncsa/geo-explorer/utils/types';
+} from "@ncsa/geo-explorer/utils/types";
 
 type Props = {
   index: number;
@@ -53,11 +53,11 @@ export function Item({ index, layer }: Props) {
   const onMouseUpGlobal = useCallback(() => {
     if (!elRef.current) return;
     dispatch(reorderEnd());
-    elRef.current.style.transform = '';
-    elRef.current.style.zIndex = '';
-    elRef.current.style.pointerEvents = '';
-    window.removeEventListener('mousemove', onMouseMoveGlobal);
-    window.removeEventListener('mouseup', onMouseUpGlobal);
+    elRef.current.style.transform = "";
+    elRef.current.style.zIndex = "";
+    elRef.current.style.pointerEvents = "";
+    window.removeEventListener("mousemove", onMouseMoveGlobal);
+    window.removeEventListener("mouseup", onMouseUpGlobal);
   }, []);
 
   const onMouseMoveGlobal = useCallback((e: MouseEvent) => {
@@ -70,11 +70,11 @@ export function Item({ index, layer }: Props) {
     (e: React.MouseEvent) => {
       if (!elRef.current) return;
       initialPointRef.current = [e.clientX, e.clientY];
-      elRef.current.style.zIndex = '1';
-      elRef.current.style.pointerEvents = 'none';
+      elRef.current.style.zIndex = "1";
+      elRef.current.style.pointerEvents = "none";
       dispatch(reorderStart({ index }));
-      window.addEventListener('mousemove', onMouseMoveGlobal);
-      window.addEventListener('mouseup', onMouseUpGlobal);
+      window.addEventListener("mousemove", onMouseMoveGlobal);
+      window.addEventListener("mouseup", onMouseUpGlobal);
     },
     [index],
   );
@@ -120,10 +120,10 @@ export function Item({ index, layer }: Props) {
       ref={elRef}
       key={layer.data.layer_id}
       className={classNames(
-        'px-[16px] relative text-[#13294B] hover:bg-[#1976D214] hover:border-[#1976D2] transition-colors cursor-pointer select-none font-semibold rounded-md',
+        "px-[16px] relative text-[#13294B] hover:bg-[#1976D214] hover:border-[#1976D2] transition-colors cursor-pointer select-none font-semibold rounded-md",
         selected
-          ? 'border-0 border-l-[2px] border-solid border-[#0066FF] bg-[#F1F6FF] shadow-[0px_4px_4px_0px_#00000040]'
-          : 'border border-solid border-[#D1D5DB] bg-white',
+          ? "border-0 border-l-[2px] border-solid border-[#0066FF] bg-[#F1F6FF] shadow-[0px_4px_4px_0px_#00000040]"
+          : "border border-solid border-[#D1D5DB] bg-white",
       )}
       onMouseMove={onDragOver}
       onClick={toggleSelectedLayer}
@@ -143,7 +143,7 @@ export function Item({ index, layer }: Props) {
           ) : isSingleCategoryData(layer) ? (
             <SingleLegendIcon layer={layer} />
           ) : (
-            getLayerIconByCategory(layer)?.({ className: 'w-[18px] h-[18px]' })
+            getLayerIconByCategory(layer)?.({ className: "w-[18px] h-[18px]" })
           )}
         </Stack>
 

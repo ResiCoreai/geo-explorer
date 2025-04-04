@@ -1,32 +1,35 @@
-import { Box, Stack } from '@mui/material';
-import classNames from 'classnames';
+import { Box, Stack } from "@mui/material";
+import classNames from "classnames";
 import {
   MouseEventHandler,
   useCallback,
   useEffect,
   useRef,
   useState,
-} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+} from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import { LAYER_SETTINGS_HEIGHT, SIDEBAR_WIDTH } from '@ncsa/geo-explorer/config';
-import { Header } from '@ncsa/geo-explorer/explore/MapLayerSettings/Header';
-import { StyleSettings } from '@ncsa/geo-explorer/explore/MapLayerSettings/StyleSettings';
-import { TimeSelector } from '@ncsa/geo-explorer/explore/MapLayerSettings/TimeSelector';
-import { WFSFeatureTable } from '@ncsa/geo-explorer/explore/components/WFSFeatureTable';
-import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
-import { toggleLayerSettings } from '@ncsa/geo-explorer/store/explore/slice';
-import { isVectorData } from '@ncsa/geo-explorer/utils/types';
+import {
+  LAYER_SETTINGS_HEIGHT,
+  SIDEBAR_WIDTH,
+} from "@ncsa/geo-explorer/config";
+import { Header } from "@ncsa/geo-explorer/explore/MapLayerSettings/Header";
+import { StyleSettings } from "@ncsa/geo-explorer/explore/MapLayerSettings/StyleSettings";
+import { TimeSelector } from "@ncsa/geo-explorer/explore/MapLayerSettings/TimeSelector";
+import { WFSFeatureTable } from "@ncsa/geo-explorer/explore/components/WFSFeatureTable";
+import { AppDispatch, RootState } from "@ncsa/geo-explorer/store";
+import { toggleLayerSettings } from "@ncsa/geo-explorer/store/explore/slice";
+import { isVectorData } from "@ncsa/geo-explorer/utils/types";
 
 const TRANSITION_DURATION = 200;
 const WIDTH_DETACHED = 727;
 const HEIGHT_DETACHED = 368;
 
 enum State {
-  Attached = 'Attached',
-  Detaching = 'Detaching',
-  Detached = 'Detached',
-  Dragged = 'Dragged',
+  Attached = "Attached",
+  Detaching = "Detaching",
+  Detached = "Detached",
+  Dragged = "Dragged",
 }
 
 export function MapLayerSettings() {
@@ -52,11 +55,11 @@ export function MapLayerSettings() {
     const el = containerRef.current;
     if (!el) return;
     el.style.transform =
-      'translate(' +
+      "translate(" +
       `calc(${e.clientX}px - ${cursorOffsetXPercentage.current * 100}%)` +
-      ',' +
+      "," +
       `calc(${e.clientY}px - ${cursorOffsetYPercentage.current * 100}%)` +
-      ')';
+      ")";
   }, []);
 
   const onMouseDown: MouseEventHandler = useCallback(
@@ -76,9 +79,9 @@ export function MapLayerSettings() {
         }
         case State.Detached: {
           el.style.transform =
-            'translate(' +
+            "translate(" +
             `calc(${e.clientX}px - ${cursorOffsetXPercentage.current * 100}%)` +
-            ',' +
+            "," +
             `calc(${e.clientY}px - ${cursorOffsetYPercentage.current * 100}%)`;
           setState(State.Dragged);
           break;
@@ -131,12 +134,12 @@ export function MapLayerSettings() {
       }
     };
 
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('mouseup', onMouseUp);
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseup", onMouseUp);
 
     return () => {
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('mouseup', onMouseUp);
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onMouseUp);
     };
   }, [state]);
 
@@ -154,12 +157,12 @@ export function MapLayerSettings() {
           ref={containerRef}
           direction="column"
           className={classNames(
-            'bg-white gap-[16px] px-[32px] py-[16px] box-border',
+            "bg-white gap-[16px] px-[32px] py-[16px] box-border",
             floating
-              ? 'fixed left-0 top-0 rounded-[12px] z-[1] shadow-[0_8px_20px_0_rgba(0,0,0,0.25)]'
-              : 'transform-none',
-            'transition-[width,height] ease-out',
-            dragging ? 'cursor-grabbing select-none' : 'cursor-grab',
+              ? "fixed left-0 top-0 rounded-[12px] z-[1] shadow-[0_8px_20px_0_rgba(0,0,0,0.25)]"
+              : "transform-none",
+            "transition-[width,height] ease-out",
+            dragging ? "cursor-grabbing select-none" : "cursor-grab",
           )}
           sx={{
             transitionDuration: `${TRANSITION_DURATION}ms !important`,
@@ -168,9 +171,9 @@ export function MapLayerSettings() {
                 ? initialWidth
                 : floating
                   ? WIDTH_DETACHED
-                  : '100%',
+                  : "100%",
             height: !isVectorData(selectedLayer)
-              ? 'auto'
+              ? "auto"
               : floating
                 ? HEIGHT_DETACHED
                 : LAYER_SETTINGS_HEIGHT,

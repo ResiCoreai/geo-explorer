@@ -1,13 +1,16 @@
-import { Box } from '@mui/material';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { Feature, GeoJsonProperties } from 'geojson';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { Box } from "@mui/material";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { Feature, GeoJsonProperties } from "geojson";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useDispatch } from "react-redux";
 
-import { AppDispatch } from '@ncsa/geo-explorer/store';
-import { SimpleFeature, setSelectedFeatures } from '@ncsa/geo-explorer/store/explore/slice';
-import { sendWFSRequest } from '@ncsa/geo-explorer/utils/geoserver';
-import { Dataset } from '@ncsa/geo-explorer/utils/types';
+import { AppDispatch } from "@ncsa/geo-explorer/store";
+import {
+  SimpleFeature,
+  setSelectedFeatures,
+} from "@ncsa/geo-explorer/store/explore/slice";
+import { sendWFSRequest } from "@ncsa/geo-explorer/utils/geoserver";
+import { Dataset } from "@ncsa/geo-explorer/utils/types";
 
 type Props = {
   dataset: Dataset;
@@ -32,7 +35,7 @@ export function WFSFeatureTable({ dataset }: Props) {
     return keys.map((key) => ({
       field: key,
       headerName: key,
-      headerClassName: 'bg-[#00000000]',
+      headerClassName: "bg-[#00000000]",
       sortable: false,
     }));
   }, [featureAttributes]);
@@ -47,7 +50,7 @@ export function WFSFeatureTable({ dataset }: Props) {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (dataset.dataset_info.dataset_type === 'raster') {
+    if (dataset.dataset_info.dataset_type === "raster") {
       setRowCount(0);
       setFeatureAttributes([]);
       return;
@@ -57,7 +60,7 @@ export function WFSFeatureTable({ dataset }: Props) {
       features: SimpleFeature[];
       numberMatched: number;
     }>({
-      version: '2.0.0',
+      version: "2.0.0",
       typeNames: [dataset.layer_id],
       count: paginationModel.pageSize,
       startIndex: paginationModel.pageSize * paginationModel.page,
@@ -75,7 +78,7 @@ export function WFSFeatureTable({ dataset }: Props) {
   }, [dataset.layer_id, paginationModel]);
 
   const selectSingleFeature = useCallback(
-    (featureId: Feature['id']) => {
+    (featureId: Feature["id"]) => {
       const selectedFeatures = features.filter((f) => f.id === featureId);
       dispatch(setSelectedFeatures(selectedFeatures));
     },

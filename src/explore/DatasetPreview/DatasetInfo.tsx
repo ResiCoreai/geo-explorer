@@ -1,13 +1,16 @@
-import { Box, Divider, Typography } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { Box, Divider, Typography } from "@mui/material";
+import { useSelector } from "react-redux";
 
 import {
   climateVariableIcons,
   layerTypeIcons,
   typeDescription,
-} from '@ncsa/geo-explorer/explore/Sidebar/utils/icons';
-import { RootState } from '@ncsa/geo-explorer/store';
-import { ClimateDatasetInfo, VectorDatasetInfo } from '@ncsa/geo-explorer/utils/types';
+} from "@ncsa/geo-explorer/explore/Sidebar/utils/icons";
+import { RootState } from "@ncsa/geo-explorer/store";
+import {
+  ClimateDatasetInfo,
+  VectorDatasetInfo,
+} from "@ncsa/geo-explorer/utils/types";
 
 export const DatasetInfo = () => {
   const dataset = useSelector(
@@ -52,9 +55,9 @@ export const DatasetInfo = () => {
               Dataset Type
             </Typography>
             <Typography className="text-right capitalize">
-              {dataset.dataset_info?.dataset_category === 'climate'
-                ? 'Climate'
-                : 'DAC Tech'}
+              {dataset.dataset_info?.dataset_category === "climate"
+                ? "Climate"
+                : "DAC Tech"}
             </Typography>
           </Box>
 
@@ -78,7 +81,7 @@ export const DatasetInfo = () => {
                 (dataset.dataset_info as VectorDatasetInfo)?.feature_type ===
                 type ? (
                   <Box key={type} className="flex items-center">
-                    {icon({ className: 'text-red-500' })}
+                    {icon({ className: "text-red-500" })}
                     <Typography className="ml-2 capitalize">{type}</Typography>
                   </Box>
                 ) : null,
@@ -88,7 +91,7 @@ export const DatasetInfo = () => {
                 (dataset.dataset_info as ClimateDatasetInfo)
                   ?.climate_variable === type ? (
                   <Box key={type} className="flex items-center">
-                    {icon({ className: 'text-red-500' })}
+                    {icon({ className: "text-red-500" })}
                     <Typography className="ml-2 capitalize">
                       {typeDescription[type]?.description ?? type}
                     </Typography>

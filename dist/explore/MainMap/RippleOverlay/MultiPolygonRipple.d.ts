@@ -1,6 +1,8 @@
-import { Feature, MultiPolygon } from 'geojson';
+import { Feature, MultiPolygon } from "geojson";
 type Props = {
-    feature: Feature<MultiPolygon>;
+  feature: Feature<MultiPolygon>;
 };
-export declare function MultiPolygonRipple({ feature }: Props): import("react/jsx-runtime").JSX.Element[];
+export declare function MultiPolygonRipple({
+  feature,
+}: Props): import("react/jsx-runtime").JSX.Element[];
 export {};

@@ -1,9 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
-import { getLegendJSON } from '@ncsa/geo-explorer/utils/geoserver';
-import { getImageBlobUrl } from '@ncsa/geo-explorer/utils/image';
-import { CategoricalLegend, VectorDatasetInfo } from '@ncsa/geo-explorer/utils/types';
+import { MapLayer } from "@ncsa/geo-explorer/store/explore/types";
+import { getLegendJSON } from "@ncsa/geo-explorer/utils/geoserver";
+import { getImageBlobUrl } from "@ncsa/geo-explorer/utils/image";
+import {
+  CategoricalLegend,
+  VectorDatasetInfo,
+} from "@ncsa/geo-explorer/utils/types";
 
 type Props = {
   layer: MapLayer & { data: { dataset_info: VectorDatasetInfo } };
@@ -23,19 +26,19 @@ export function SingleLegendIcon({ layer }: Props) {
 
       for (const rule of rules) {
         for (const symbolizer of rule.symbolizers ?? []) {
-          if ('Point' in symbolizer) {
+          if ("Point" in symbolizer) {
             const rawUrl = symbolizer?.Point?.url;
             if (rawUrl) {
               const decoded = decodeURIComponent(rawUrl);
               // TODO: make this pattern configurable
-              const cleaned = decoded.replace(/\/DAC:([^/?#]+)/, '/$1');
+              const cleaned = decoded.replace(/\/DAC:([^/?#]+)/, "/$1");
 
               try {
                 const objectUrl = await getImageBlobUrl({ url: cleaned });
                 setImageBlobUrl(objectUrl);
                 return;
               } catch (err) {
-                console.error('Failed to fetch icon with auth:', err);
+                console.error("Failed to fetch icon with auth:", err);
                 return;
               }
             }

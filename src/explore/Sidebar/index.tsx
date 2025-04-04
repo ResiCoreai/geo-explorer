@@ -1,6 +1,6 @@
-import { BaseMaps } from '@ncsa/geo-explorer/explore/Sidebar/BaseMaps';
-import { DataInventory } from '@ncsa/geo-explorer/explore/Sidebar/DataInventory';
-import { MapLayers } from '@ncsa/geo-explorer/explore/Sidebar/MapLayers';
+import { BaseMaps } from "@ncsa/geo-explorer/explore/Sidebar/BaseMaps";
+import { DataInventory } from "@ncsa/geo-explorer/explore/Sidebar/DataInventory";
+import { MapLayers } from "@ncsa/geo-explorer/explore/Sidebar/MapLayers";
 
 export function Sidebar() {
   return (

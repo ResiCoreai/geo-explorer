@@ -1,9 +1,9 @@
-import { useMemo } from 'react';
-import { Layer, Source } from 'react-map-gl/maplibre';
+import { useMemo } from "react";
+import { Layer, Source } from "react-map-gl/maplibre";
 
-import { TILE_SIZE } from '@ncsa/geo-explorer/config';
-import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
-import { makeWMSUrl } from '@ncsa/geo-explorer/utils/geoserver';
+import { TILE_SIZE } from "@ncsa/geo-explorer/config";
+import { MapLayer } from "@ncsa/geo-explorer/store/explore/types";
+import { makeWMSUrl } from "@ncsa/geo-explorer/utils/geoserver";
 
 type Props = {
   layer: MapLayer;
@@ -29,13 +29,13 @@ export function WMSLayerSimple({ layer, prevLayer }: Props) {
     >
       <Layer
         id={layer.data.layer_id}
-        beforeId={prevLayer?.data.layer_id ?? ''}
+        beforeId={prevLayer?.data.layer_id ?? ""}
         type="raster"
         layout={{
-          visibility: layer.visible ? 'visible' : 'none',
+          visibility: layer.visible ? "visible" : "none",
         }}
         paint={{
-          'raster-opacity': layer.style.layerOpacity,
+          "raster-opacity": layer.style.layerOpacity,
         }}
       />
     </Source>

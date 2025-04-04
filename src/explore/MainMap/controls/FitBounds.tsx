@@ -1,15 +1,15 @@
-import { bbox } from '@turf/turf';
-import { useEffect } from 'react';
-import { useMap } from 'react-map-gl/maplibre';
-import { useSelector } from 'react-redux';
+import { bbox } from "@turf/turf";
+import { useEffect } from "react";
+import { useMap } from "react-map-gl/maplibre";
+import { useSelector } from "react-redux";
 
 import {
   FIT_BOUNDS_PADDING,
   LAYER_SETTINGS_HEIGHT,
   MAX_ZOOM_LEVEL,
   SIDEBAR_WIDTH,
-} from '@ncsa/geo-explorer/config';
-import { RootState } from '@ncsa/geo-explorer/store';
+} from "@ncsa/geo-explorer/config";
+import { RootState } from "@ncsa/geo-explorer/store";
 
 export function FitBounds() {
   const { current: map } = useMap();
@@ -26,7 +26,7 @@ export function FitBounds() {
   useEffect(() => {
     if (features.length > 0) {
       const [minX, minY, maxX, maxY] = bbox({
-        type: 'FeatureCollection',
+        type: "FeatureCollection",
         features,
       });
       map?.fitBounds([minX, minY, maxX, maxY], {
