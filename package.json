@@ -1,5 +1,5 @@
 {
-  "name": "geo-explorer",
+  "name": "@ncsa/geo-explorer",
   "version": "0.0.0",
   "description": "",
   "exports": {
