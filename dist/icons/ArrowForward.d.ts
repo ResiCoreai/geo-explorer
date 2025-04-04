@@ -1,5 +1,7 @@
 type Props = {
-    size?: number;
+  size?: number;
 };
-export declare function ArrowForward({ size }: Props): import("react/jsx-runtime").JSX.Element;
+export declare function ArrowForward({
+  size,
+}: Props): import("react/jsx-runtime").JSX.Element;
 export {};

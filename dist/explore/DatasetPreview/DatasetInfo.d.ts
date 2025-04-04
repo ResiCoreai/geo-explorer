@@ -1,1 +1,3 @@
-export declare const DatasetInfo: () => import("react/jsx-runtime").JSX.Element | null;
+export declare const DatasetInfo: () =>
+  | import("react/jsx-runtime").JSX.Element
+  | null;

@@ -1,6 +1,8 @@
-import { Feature } from 'geojson';
+import { Feature } from "geojson";
 type Props = {
-    feature: Feature;
+  feature: Feature;
 };
-export declare function RippleEffects({ feature }: Props): import("react/jsx-runtime").JSX.Element | null;
+export declare function RippleEffects({
+  feature,
+}: Props): import("react/jsx-runtime").JSX.Element | null;
 export {};

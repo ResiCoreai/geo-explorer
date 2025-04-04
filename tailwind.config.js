@@ -3,7 +3,7 @@ module.exports = {
   corePlugins: {
     preflight: false,
   },
-  content: ['./src/**/*.{html,ts,tsx}'],
+  content: ["./src/**/*.{html,ts,tsx}"],
   important: true,
   theme: {
     fontFamily: {

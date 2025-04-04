@@ -1,6 +1,6 @@
-import { Feature, MultiPoint } from 'geojson';
+import { Feature, MultiPoint } from "geojson";
 
-import { PointRipple } from '@ncsa/geo-explorer/explore/MainMap/RippleOverlay/PointRipple';
+import { PointRipple } from "@ncsa/geo-explorer/explore/MainMap/RippleOverlay/PointRipple";
 
 type Props = {
   feature: Feature<MultiPoint>;
@@ -12,9 +12,9 @@ export function MultiPointRipple({ feature }: Props) {
       key={i}
       feature={{
         id: `${feature.id}_${i}`,
-        type: 'Feature',
+        type: "Feature",
         geometry: {
-          type: 'Point',
+          type: "Point",
           coordinates: pointCoords,
         },
         properties: {},

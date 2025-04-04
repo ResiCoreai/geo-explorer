@@ -1,8 +1,4 @@
-import {
-  PayloadAction,
-  createAsyncThunk,
-  createSlice,
-} from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
   Feature,
   FeatureCollection,
@@ -14,7 +10,10 @@ import {
   Polygon,
 } from "geojson";
 
-import { MapLayer, MapLayerStyle } from "@ncsa/geo-explorer/store/explore/types";
+import {
+  MapLayer,
+  MapLayerStyle,
+} from "@ncsa/geo-explorer/store/explore/types";
 import { getInitialSettings } from "@ncsa/geo-explorer/utils/geoserver";
 import { Basemap, Dataset } from "@ncsa/geo-explorer/utils/types";
 

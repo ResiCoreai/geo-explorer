@@ -1,22 +1,22 @@
-import { isAbortError } from 'maplibre-gl/src/util/abort_error';
+import { isAbortError } from "maplibre-gl/src/util/abort_error";
 import {
   FullscreenControl,
   Layer,
   Map,
   NavigationControl,
   Source,
-} from 'react-map-gl/maplibre';
-import { useAuth } from 'react-oidc-context';
-import { useDispatch, useSelector } from 'react-redux';
+} from "react-map-gl/maplibre";
+import { useAuth } from "react-oidc-context";
+import { useDispatch, useSelector } from "react-redux";
 
-import { GEOSERVER_URL } from '@ncsa/geo-explorer/config';
-import { LegendPanel } from '@ncsa/geo-explorer/explore/MainMap/LegendPanel';
-import { RippleOverlay } from '@ncsa/geo-explorer/explore/MainMap/RippleOverlay/RippleOverlay';
-import { WMSLayer } from '@ncsa/geo-explorer/explore/MainMap/WMSLayer';
-import { FitBounds } from '@ncsa/geo-explorer/explore/MainMap/controls/FitBounds';
-import { SelectedFeatures } from '@ncsa/geo-explorer/explore/SelectedFeatures';
-import { AppDispatch, RootState, store } from '@ncsa/geo-explorer/store';
-import { identifyFeature } from '@ncsa/geo-explorer/store/explore/actions';
+import { GEOSERVER_URL } from "@ncsa/geo-explorer/config";
+import { LegendPanel } from "@ncsa/geo-explorer/explore/MainMap/LegendPanel";
+import { RippleOverlay } from "@ncsa/geo-explorer/explore/MainMap/RippleOverlay/RippleOverlay";
+import { WMSLayer } from "@ncsa/geo-explorer/explore/MainMap/WMSLayer";
+import { FitBounds } from "@ncsa/geo-explorer/explore/MainMap/controls/FitBounds";
+import { SelectedFeatures } from "@ncsa/geo-explorer/explore/SelectedFeatures";
+import { AppDispatch, RootState, store } from "@ncsa/geo-explorer/store";
+import { identifyFeature } from "@ncsa/geo-explorer/store/explore/actions";
 
 export function MainMap() {
   const auth = useAuth();
@@ -37,7 +37,7 @@ export function MainMap() {
       id="map"
       transformRequest={(url) => {
         if (url.startsWith(GEOSERVER_URL)) {
-          const layer_id = new URLSearchParams(url).get('layers')!;
+          const layer_id = new URLSearchParams(url).get("layers")!;
           const mapLayers = store.getState().explore.mapLayers;
           const layer = mapLayers.find(
             (layer) => layer.data.layer_id === layer_id,
@@ -49,7 +49,7 @@ export function MainMap() {
 
           if (shouldUseClientStyle) {
             return {
-              url: url + '&sld_body=' + encodeURIComponent(layer.styleSLD!),
+              url: url + "&sld_body=" + encodeURIComponent(layer.styleSLD!),
               headers: {
                 Authorization: `Bearer ${auth.user?.access_token}`,
               },
@@ -84,11 +84,11 @@ export function MainMap() {
         zoom: 6,
         pitch: 0,
       }}
-      interactiveLayerIds={['storage']}
+      interactiveLayerIds={["storage"]}
       onClick={(e) => {
         if (
           selectedLayer &&
-          selectedLayer.data.dataset_info.dataset_type === 'vector'
+          selectedLayer.data.dataset_info.dataset_type === "vector"
         ) {
           dispatch(
             identifyFeature(
@@ -99,7 +99,7 @@ export function MainMap() {
           );
         }
       }}
-      cursor={selectedLayer ? 'crosshair' : ''}
+      cursor={selectedLayer ? "crosshair" : ""}
       maxPitch={85}
     >
       <NavigationControl position="top-right" visualizePitch={true} />
@@ -112,7 +112,7 @@ export function MainMap() {
                 baseMaps.find((b) => b.layer_id === selectedBaseMap)
                   ?.tile_url_template ??
                   baseMaps[0]?.tile_url_template ??
-                  '',
+                  "",
               ]
             : []
         }
