@@ -5,5 +5,5 @@ type Props = {
 export declare function StyleSettings({
   open,
   onClose,
-}: Props): import("react/jsx-runtime").JSX.Element | null;
+}: Props): import('react/jsx-runtime').JSX.Element | null;
 export {};

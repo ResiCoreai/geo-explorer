@@ -1,7 +1,7 @@
 export function isDatasetTypeMatch(datasetInfo, type) {
   return (
-    ("feature_type" in datasetInfo && datasetInfo["feature_type"] === type) ||
-    ("dataset_type" in datasetInfo && datasetInfo["dataset_type"] === type)
+    ('feature_type' in datasetInfo && datasetInfo['feature_type'] === type) ||
+    ('dataset_type' in datasetInfo && datasetInfo['dataset_type'] === type)
   );
 }
 export function truncateClimateDatasetSuffix(input) {

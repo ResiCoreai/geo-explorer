@@ -13,5 +13,5 @@ export declare function NumberInput({
   max,
   step,
   renderValue,
-}: Props): import("react/jsx-runtime").JSX.Element;
+}: Props): import('react/jsx-runtime').JSX.Element;
 export {};

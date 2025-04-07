@@ -1,20 +1,22 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getInitialSettings } from "../../utils/geoserver";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+
+import { getInitialSettings } from '../../utils/geoserver';
+
 export const defaultLayerStyle = {
   radius: 8,
   strokeWidth: 2,
-  strokeColor: "#000000",
+  strokeColor: '#000000',
   strokeOpacity: 1,
-  fillColor: "#000000",
+  fillColor: '#000000',
   fillOpacity: 0.2,
   layerOpacity: 1,
 };
 export const initialize = createAsyncThunk(
-  "explore/initialize",
+  'explore/initialize',
   getInitialSettings,
 );
 export const exploreSlice = createSlice({
-  name: "mapLayers",
+  name: 'mapLayers',
   initialState: {
     prevIndex: -1,
     currentIndex: -1,
@@ -137,7 +139,7 @@ export const exploreSlice = createSlice({
         visible: true,
         version: 0,
         style: defaultLayerStyle,
-        styleSLD: "",
+        styleSLD: '',
       });
       state.selectedFeatures = [];
     },
@@ -187,7 +189,7 @@ export const exploreSlice = createSlice({
       if (layer) {
         layer.version = 0;
         layer.style = defaultLayerStyle;
-        layer.styleSLD = "";
+        layer.styleSLD = '';
       }
     },
   },

@@ -1,4 +1,5 @@
-import { MapLayer } from "../../store/explore/types";
+import { MapLayer } from '../../store/explore/types';
+
 type Props = {
   layers: MapLayer[];
   selectedLayer: MapLayer;
@@ -6,5 +7,5 @@ type Props = {
 export declare function LegendPanel({
   layers,
   selectedLayer,
-}: Props): import("react/jsx-runtime").JSX.Element;
+}: Props): import('react/jsx-runtime').JSX.Element;
 export {};

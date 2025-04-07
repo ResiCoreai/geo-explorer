@@ -1,4 +1,5 @@
-import { DatasetInfo } from "../utils/types";
+import { DatasetInfo } from '../utils/types';
+
 export declare function isDatasetTypeMatch(
   datasetInfo: DatasetInfo,
   type: string,

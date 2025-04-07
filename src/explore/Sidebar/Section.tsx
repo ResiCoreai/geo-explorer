@@ -1,7 +1,7 @@
-import classNames from "classnames";
-import { ReactNode, useState } from "react";
+import classNames from 'classnames';
+import { ReactNode, useState } from 'react';
 
-import { ArrowForward } from "@ncsa/geo-explorer/icons/ArrowForward";
+import { ArrowForward } from '@ncsa/geo-explorer/icons/ArrowForward';
 
 type Props = {
   title: string;
@@ -22,9 +22,9 @@ export function Section({ icon, title, extras, weight = 1, children }: Props) {
       >
         <div
           className={classNames(
-            "w-[16px] h-[16px] flex items-center justify-center transition-transform",
+            'w-[16px] h-[16px] flex items-center justify-center transition-transform',
             {
-              "rotate-[90deg]": expanded,
+              'rotate-[90deg]': expanded,
             },
           )}
         >

@@ -1,12 +1,12 @@
-import { DatasetInfo } from "@ncsa/geo-explorer/utils/types";
+import { DatasetInfo } from '@ncsa/geo-explorer/utils/types';
 
 export function isDatasetTypeMatch(
   datasetInfo: DatasetInfo,
   type: string,
 ): boolean {
   return (
-    ("feature_type" in datasetInfo && datasetInfo["feature_type"] === type) ||
-    ("dataset_type" in datasetInfo && datasetInfo["dataset_type"] === type)
+    ('feature_type' in datasetInfo && datasetInfo['feature_type'] === type) ||
+    ('dataset_type' in datasetInfo && datasetInfo['dataset_type'] === type)
   );
 }
 

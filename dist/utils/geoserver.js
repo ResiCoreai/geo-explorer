@@ -1,10 +1,11 @@
-import { GEOSERVER_URL, TILE_SIZE } from "../config";
-import { getImageBlobUrl } from "../utils/image";
-import { request } from "../utils/request";
+import { GEOSERVER_URL, TILE_SIZE } from '../config';
+import { getImageBlobUrl } from '../utils/image';
+import { request } from '../utils/request';
+
 export function makeUrl(url, params) {
   return (
     url +
-    "?" +
+    '?' +
     new URLSearchParams(
       Object.entries(params).map(([key, value]) => [key, String(value)]),
     ).toString()
@@ -13,33 +14,33 @@ export function makeUrl(url, params) {
 export function makeWMSUrl(options) {
   return (
     makeUrl(`${GEOSERVER_URL}/wms`, {
-      format: "image/png",
-      service: "WMS",
-      version: "1.3.0",
-      request: "GetMap",
-      srs: "EPSG:3857",
+      format: 'image/png',
+      service: 'WMS',
+      version: '1.3.0',
+      request: 'GetMap',
+      srs: 'EPSG:3857',
       width: TILE_SIZE,
       height: TILE_SIZE,
       transparent: true,
       ...options,
-    }) + "&bbox={bbox-epsg-3857}"
+    }) + '&bbox={bbox-epsg-3857}'
   );
 }
 export function sendWFSRequest(options, config) {
   return request({
     url: makeUrl(`${GEOSERVER_URL}/wfs`, {
-      service: "WFS",
-      version: "2.0.0",
-      request: "GetFeature",
-      srsName: "EPSG:4326",
-      outputFormat: "application/json",
+      service: 'WFS',
+      version: '2.0.0',
+      request: 'GetFeature',
+      srsName: 'EPSG:4326',
+      outputFormat: 'application/json',
       ...options,
     }),
     ...config,
   });
 }
 export async function getInitialSettings() {
-  const { data } = await request.get("/layers.json");
+  const { data } = await request.get('/layers.json');
   // Process climate layers to ensure timestamps are sorted and in ISO 8601 format
   const processedLayers = data.climate_layers.map((layer) => ({
     ...layer,
@@ -62,15 +63,15 @@ export async function downloadDataset(name) {
     const { data } = await sendWFSRequest(
       {
         typeNames: name,
-        outputFormat: "csv",
+        outputFormat: 'csv',
       },
       {
-        responseType: "blob",
+        responseType: 'blob',
       },
     );
-    const a = document.createElement("a");
+    const a = document.createElement('a');
     a.href = URL.createObjectURL(data);
-    a.download = name + ".csv";
+    a.download = name + '.csv';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -82,9 +83,9 @@ export async function getLegendImageObjectUrl(layerId) {
   return getImageBlobUrl({
     url: `${GEOSERVER_URL}/wms`,
     params: {
-      request: "GetLegendGraphic",
-      version: "1.0.0",
-      format: "image/png",
+      request: 'GetLegendGraphic',
+      version: '1.0.0',
+      format: 'image/png',
       layer: layerId,
     },
   });
@@ -93,9 +94,9 @@ export async function getLegendJSON(layerId) {
   const { data } = await request({
     url: `${GEOSERVER_URL}/wms`,
     params: {
-      version: "1.3.0",
-      request: "GetLegendGraphic",
-      format: "application/json",
+      version: '1.3.0',
+      request: 'GetLegendGraphic',
+      format: 'application/json',
       layer: layerId,
     },
   });

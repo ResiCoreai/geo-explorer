@@ -1,8 +1,10 @@
-import { jsx as _jsx } from "react/jsx-runtime";
-import { useMemo } from "react";
-import { Layer, Source } from "react-map-gl/maplibre";
-import { TILE_SIZE } from "../../config";
-import { makeWMSUrl } from "../../utils/geoserver";
+import { useMemo } from 'react';
+import { Layer, Source } from 'react-map-gl/maplibre';
+import { jsx as _jsx } from 'react/jsx-runtime';
+
+import { TILE_SIZE } from '../../config';
+import { makeWMSUrl } from '../../utils/geoserver';
+
 export function WMSLayerSimple({ layer, prevLayer }) {
   var _a;
   const tiles = useMemo(() => {
@@ -14,7 +16,7 @@ export function WMSLayerSimple({ layer, prevLayer }) {
   }, [layer.version]);
   return _jsx(Source, {
     id: layer.data.layer_id,
-    type: "raster",
+    type: 'raster',
     tiles: tiles,
     tileSize: TILE_SIZE,
     children: _jsx(Layer, {
@@ -25,13 +27,13 @@ export function WMSLayerSimple({ layer, prevLayer }) {
             ? void 0
             : prevLayer.data.layer_id) !== null && _a !== void 0
           ? _a
-          : "",
-      type: "raster",
+          : '',
+      type: 'raster',
       layout: {
-        visibility: layer.visible ? "visible" : "none",
+        visibility: layer.visible ? 'visible' : 'none',
       },
       paint: {
-        "raster-opacity": layer.style.layerOpacity,
+        'raster-opacity': layer.style.layerOpacity,
       },
     }),
   });

@@ -1,5 +1,6 @@
-import { MapLayer } from "../../../store/explore/types";
-import { VectorDatasetInfo } from "../../../utils/types";
+import { MapLayer } from '../../../store/explore/types';
+import { VectorDatasetInfo } from '../../../utils/types';
+
 type Props = {
   layer: MapLayer & {
     data: {
@@ -9,5 +10,5 @@ type Props = {
 };
 export declare function SingleLegendIcon({
   layer,
-}: Props): import("react/jsx-runtime").JSX.Element | null;
+}: Props): import('react/jsx-runtime').JSX.Element | null;
 export {};

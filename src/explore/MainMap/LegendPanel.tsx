@@ -1,5 +1,5 @@
-import CloseFullscreenOutlinedIcon from "@mui/icons-material/CloseFullscreenOutlined";
-import OpenInFullOutlinedIcon from "@mui/icons-material/OpenInFullOutlined";
+import CloseFullscreenOutlinedIcon from '@mui/icons-material/CloseFullscreenOutlined';
+import OpenInFullOutlinedIcon from '@mui/icons-material/OpenInFullOutlined';
 import {
   Box,
   Collapse,
@@ -7,13 +7,13 @@ import {
   IconButton,
   Switch,
   Typography,
-} from "@mui/material";
-import classNames from "classnames";
-import { useEffect, useState } from "react";
-import { useAuth } from "react-oidc-context";
+} from '@mui/material';
+import classNames from 'classnames';
+import { useEffect, useState } from 'react';
+import { useAuth } from 'react-oidc-context';
 
-import { MapLayer } from "@ncsa/geo-explorer/store/explore/types";
-import { getLegendImageObjectUrl } from "@ncsa/geo-explorer/utils/geoserver";
+import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
+import { getLegendImageObjectUrl } from '@ncsa/geo-explorer/utils/geoserver';
 
 type Props = {
   layers: MapLayer[];
@@ -62,7 +62,7 @@ export function LegendPanel({ layers, selectedLayer }: Props) {
         <IconButton
           size="small"
           onClick={() => setCollapsed((prev) => !prev)}
-          aria-label={collapsed ? "Expand legend" : "Collapse legend"}
+          aria-label={collapsed ? 'Expand legend' : 'Collapse legend'}
         >
           {collapsed ? (
             <OpenInFullOutlinedIcon fontSize="inherit" />
@@ -87,8 +87,8 @@ export function LegendPanel({ layers, selectedLayer }: Props) {
               <Box key={layer.data.layer_id}>
                 <Box
                   className={classNames(
-                    "px-4 pt-3 pb-2",
-                    showAll && isSelected && "bg-blue-50",
+                    'px-4 pt-3 pb-2',
+                    showAll && isSelected && 'bg-blue-50',
                   )}
                 >
                   <Typography className="text-[14px] font-[600] text-[#2C343C] leading-tight">

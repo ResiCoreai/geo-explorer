@@ -4,22 +4,22 @@ import {
   ColorSwatch,
   ColorSwatchPicker,
   defaultTheme,
-} from "@adobe/react-spectrum";
-import { Box, Typography } from "@mui/material";
-import { Provider as SpectrumProvider } from "@react-spectrum/provider";
-import { Color } from "@react-types/color";
+} from '@adobe/react-spectrum';
+import { Box, Typography } from '@mui/material';
+import { Provider as SpectrumProvider } from '@react-spectrum/provider';
+import { Color } from '@react-types/color';
 
 const colorPalette = [
-  "#FF3939",
-  "#FF79A9",
-  "#F79941",
-  "#FFCD47",
-  "#22B45D",
-  "#80F485",
-  "#EAE21B",
-  "#384E9E",
-  "#5B7FFF",
-  "#8D43EB",
+  '#FF3939',
+  '#FF79A9',
+  '#F79941',
+  '#FFCD47',
+  '#22B45D',
+  '#80F485',
+  '#EAE21B',
+  '#384E9E',
+  '#5B7FFF',
+  '#8D43EB',
 ];
 
 type Props = {

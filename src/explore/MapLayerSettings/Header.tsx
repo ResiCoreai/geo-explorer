@@ -3,7 +3,7 @@ import {
   FileDownloadOutlined,
   PaletteOutlined,
   RemoveOutlined,
-} from "@mui/icons-material";
+} from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -11,13 +11,13 @@ import {
   Stack,
   Tooltip,
   Typography,
-} from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+} from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { DatasetDescriptionTooltip } from "@ncsa/geo-explorer/icons/DatasetDescriptionTooltip";
-import { AppDispatch, RootState } from "@ncsa/geo-explorer/store";
-import { removeLayer } from "@ncsa/geo-explorer/store/explore/slice";
-import { downloadDataset } from "@ncsa/geo-explorer/utils/geoserver";
+import { DatasetDescriptionTooltip } from '@ncsa/geo-explorer/icons/DatasetDescriptionTooltip';
+import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
+import { removeLayer } from '@ncsa/geo-explorer/store/explore/slice';
+import { downloadDataset } from '@ncsa/geo-explorer/utils/geoserver';
 
 type Props = {
   onOpenStyleSettings: () => void;
@@ -62,7 +62,7 @@ export function Header({ onOpenStyleSettings, onClose }: Props) {
         Remove
       </Button>
       <IconButton
-        disabled={selectedLayer.data.dataset_info.dataset_type === "raster"}
+        disabled={selectedLayer.data.dataset_info.dataset_type === 'raster'}
         onClick={() => {
           downloadDataset(selectedLayer.data.layer_id);
         }}

@@ -1,6 +1,6 @@
-import { User } from "oidc-client-ts";
+import { User } from 'oidc-client-ts';
 
-import { OIDC_AUTHORITY, OIDC_CLIENT_ID } from "@ncsa/geo-explorer/config";
+import { OIDC_AUTHORITY, OIDC_CLIENT_ID } from '@ncsa/geo-explorer/config';
 
 export function getUser() {
   const oidcStorage = localStorage.getItem(

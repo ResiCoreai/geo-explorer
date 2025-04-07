@@ -1,28 +1,30 @@
+import { Box, Stack } from '@mui/material';
+import classNames from 'classnames';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
+  Fragment as _Fragment,
   jsx as _jsx,
   jsxs as _jsxs,
-  Fragment as _Fragment,
-} from "react/jsx-runtime";
-import { Box, Stack } from "@mui/material";
-import classNames from "classnames";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { LAYER_SETTINGS_HEIGHT, SIDEBAR_WIDTH } from "../../config";
-import { Header } from "../../explore/MapLayerSettings/Header";
-import { StyleSettings } from "../../explore/MapLayerSettings/StyleSettings";
-import { TimeSelector } from "../../explore/MapLayerSettings/TimeSelector";
-import { WFSFeatureTable } from "../../explore/components/WFSFeatureTable";
-import { toggleLayerSettings } from "../../store/explore/slice";
-import { isVectorData } from "../../utils/types";
+} from 'react/jsx-runtime';
+
+import { LAYER_SETTINGS_HEIGHT, SIDEBAR_WIDTH } from '../../config';
+import { Header } from '../../explore/MapLayerSettings/Header';
+import { StyleSettings } from '../../explore/MapLayerSettings/StyleSettings';
+import { TimeSelector } from '../../explore/MapLayerSettings/TimeSelector';
+import { WFSFeatureTable } from '../../explore/components/WFSFeatureTable';
+import { toggleLayerSettings } from '../../store/explore/slice';
+import { isVectorData } from '../../utils/types';
+
 const TRANSITION_DURATION = 200;
 const WIDTH_DETACHED = 727;
 const HEIGHT_DETACHED = 368;
 var State;
 (function (State) {
-  State["Attached"] = "Attached";
-  State["Detaching"] = "Detaching";
-  State["Detached"] = "Detached";
-  State["Dragged"] = "Dragged";
+  State['Attached'] = 'Attached';
+  State['Detaching'] = 'Detaching';
+  State['Detached'] = 'Detached';
+  State['Dragged'] = 'Dragged';
 })(State || (State = {}));
 export function MapLayerSettings() {
   const dispatch = useDispatch();
@@ -43,11 +45,11 @@ export function MapLayerSettings() {
     const el = containerRef.current;
     if (!el) return;
     el.style.transform =
-      "translate(" +
+      'translate(' +
       `calc(${e.clientX}px - ${cursorOffsetXPercentage.current * 100}%)` +
-      "," +
+      ',' +
       `calc(${e.clientY}px - ${cursorOffsetYPercentage.current * 100}%)` +
-      ")";
+      ')';
   }, []);
   const onMouseDown = useCallback(
     (e) => {
@@ -64,9 +66,9 @@ export function MapLayerSettings() {
         }
         case State.Detached: {
           el.style.transform =
-            "translate(" +
+            'translate(' +
             `calc(${e.clientX}px - ${cursorOffsetXPercentage.current * 100}%)` +
-            "," +
+            ',' +
             `calc(${e.clientY}px - ${cursorOffsetYPercentage.current * 100}%)`;
           setState(State.Dragged);
           break;
@@ -113,11 +115,11 @@ export function MapLayerSettings() {
         }
       }
     };
-    window.addEventListener("mousemove", onMouseMove);
-    window.addEventListener("mouseup", onMouseUp);
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
     return () => {
-      window.removeEventListener("mousemove", onMouseMove);
-      window.removeEventListener("mouseup", onMouseUp);
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
     };
   }, [state]);
   const dragging = state === State.Detaching || state === State.Dragged;
@@ -127,18 +129,18 @@ export function MapLayerSettings() {
   return _jsxs(_Fragment, {
     children: [
       _jsx(Stack, {
-        direction: "column",
-        className: "w-full items-center",
+        direction: 'column',
+        className: 'w-full items-center',
         children: _jsxs(Stack, {
           ref: containerRef,
-          direction: "column",
+          direction: 'column',
           className: classNames(
-            "bg-white gap-[16px] px-[32px] py-[16px] box-border",
+            'bg-white gap-[16px] px-[32px] py-[16px] box-border',
             floating
-              ? "fixed left-0 top-0 rounded-[12px] z-[1] shadow-[0_8px_20px_0_rgba(0,0,0,0.25)]"
-              : "transform-none",
-            "transition-[width,height] ease-out",
-            dragging ? "cursor-grabbing select-none" : "cursor-grab",
+              ? 'fixed left-0 top-0 rounded-[12px] z-[1] shadow-[0_8px_20px_0_rgba(0,0,0,0.25)]'
+              : 'transform-none',
+            'transition-[width,height] ease-out',
+            dragging ? 'cursor-grabbing select-none' : 'cursor-grab',
           ),
           sx: {
             transitionDuration: `${TRANSITION_DURATION}ms !important`,
@@ -147,9 +149,9 @@ export function MapLayerSettings() {
                 ? initialWidth
                 : floating
                   ? WIDTH_DETACHED
-                  : "100%",
+                  : '100%',
             height: !isVectorData(selectedLayer)
-              ? "auto"
+              ? 'auto'
               : floating
                 ? HEIGHT_DETACHED
                 : LAYER_SETTINGS_HEIGHT,
@@ -167,7 +169,7 @@ export function MapLayerSettings() {
               _jsx(TimeSelector, {}),
             isVectorData(selectedLayer)
               ? _jsx(Box, {
-                  className: "flex-1 min-h-0 cursor-auto",
+                  className: 'flex-1 min-h-0 cursor-auto',
                   children: _jsx(WFSFeatureTable, {
                     dataset: selectedLayer.data,
                   }),

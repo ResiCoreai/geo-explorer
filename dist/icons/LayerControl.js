@@ -1,18 +1,19 @@
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { jsx as _jsx, jsxs as _jsxs } from 'react/jsx-runtime';
+
 export function LayerControlIcon() {
-  return _jsxs("svg", {
-    width: "9",
-    height: "13",
-    viewBox: "0 0 9 13",
-    fill: "none",
-    xmlns: "http://www.w3.org/2000/svg",
+  return _jsxs('svg', {
+    width: '9',
+    height: '13',
+    viewBox: '0 0 9 13',
+    fill: 'none',
+    xmlns: 'http://www.w3.org/2000/svg',
     children: [
-      _jsx("circle", { cx: "1.5", cy: "1.5", r: "1.5", fill: "#00000061" }),
-      _jsx("circle", { cx: "1.5", cy: "6.5", r: "1.5", fill: "#00000061" }),
-      _jsx("circle", { cx: "1.5", cy: "11.5", r: "1.5", fill: "#00000061" }),
-      _jsx("circle", { cx: "7.5", cy: "1.5", r: "1.5", fill: "#00000061" }),
-      _jsx("circle", { cx: "7.5", cy: "6.5", r: "1.5", fill: "#00000061" }),
-      _jsx("circle", { cx: "7.5", cy: "11.5", r: "1.5", fill: "#00000061" }),
+      _jsx('circle', { cx: '1.5', cy: '1.5', r: '1.5', fill: '#00000061' }),
+      _jsx('circle', { cx: '1.5', cy: '6.5', r: '1.5', fill: '#00000061' }),
+      _jsx('circle', { cx: '1.5', cy: '11.5', r: '1.5', fill: '#00000061' }),
+      _jsx('circle', { cx: '7.5', cy: '1.5', r: '1.5', fill: '#00000061' }),
+      _jsx('circle', { cx: '7.5', cy: '6.5', r: '1.5', fill: '#00000061' }),
+      _jsx('circle', { cx: '7.5', cy: '11.5', r: '1.5', fill: '#00000061' }),
     ],
   });
 }

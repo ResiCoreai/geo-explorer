@@ -1,13 +1,15 @@
-import { bbox } from "@turf/turf";
-import { useEffect } from "react";
-import { useMap } from "react-map-gl/maplibre";
-import { useSelector } from "react-redux";
+import { bbox } from '@turf/turf';
+import { useEffect } from 'react';
+import { useMap } from 'react-map-gl/maplibre';
+import { useSelector } from 'react-redux';
+
 import {
   FIT_BOUNDS_PADDING,
   LAYER_SETTINGS_HEIGHT,
   MAX_ZOOM_LEVEL,
   SIDEBAR_WIDTH,
-} from "../../../config";
+} from '../../../config';
+
 export function FitBounds() {
   const { current: map } = useMap();
   const features = useSelector((state) => state.explore.selectedFeatures);
@@ -17,7 +19,7 @@ export function FitBounds() {
   useEffect(() => {
     if (features.length > 0) {
       const [minX, minY, maxX, maxY] = bbox({
-        type: "FeatureCollection",
+        type: 'FeatureCollection',
         features,
       });
       map === null || map === void 0

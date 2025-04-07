@@ -1,7 +1,8 @@
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 // control camera state
-import { useEffect, useState } from "react";
-import { useMap } from "react-map-gl/maplibre";
+import { useEffect, useState } from 'react';
+import { useMap } from 'react-map-gl/maplibre';
+import { jsx as _jsx, jsxs as _jsxs } from 'react/jsx-runtime';
+
 export function CameraControl() {
   const { current: map } = useMap();
   const [pitch, setPitch] = useState(0);
@@ -12,7 +13,7 @@ export function CameraControl() {
       setPitch(map.getPitch());
       setBearing(map.getBearing());
       setZoom(map.getZoom());
-      map.on("pitch", (e) => {
+      map.on('pitch', (e) => {
         if (
           e.originalEvent instanceof MouseEvent ||
           e.originalEvent instanceof KeyboardEvent
@@ -20,7 +21,7 @@ export function CameraControl() {
           setPitch(map.getPitch());
         }
       });
-      map.on("rotate", (e) => {
+      map.on('rotate', (e) => {
         if (
           e.originalEvent instanceof MouseEvent ||
           e.originalEvent instanceof KeyboardEvent
@@ -28,7 +29,7 @@ export function CameraControl() {
           setBearing(map.getBearing());
         }
       });
-      map.on("zoom", (e) => {
+      map.on('zoom', (e) => {
         if (
           e.originalEvent instanceof MouseEvent ||
           e.originalEvent instanceof KeyboardEvent
@@ -59,53 +60,53 @@ export function CameraControl() {
       map.setZoom(newZoom);
     }
   };
-  return _jsxs("div", {
+  return _jsxs('div', {
     style: {
-      position: "absolute",
-      top: "10px",
-      right: "10px",
+      position: 'absolute',
+      top: '10px',
+      right: '10px',
       zIndex: 1000,
-      backgroundColor: "white",
-      padding: "10px",
-      borderRadius: "5px",
+      backgroundColor: 'white',
+      padding: '10px',
+      borderRadius: '5px',
     },
     children: [
-      _jsxs("div", {
+      _jsxs('div', {
         children: [
-          _jsx("input", {
-            type: "range",
-            min: "0",
-            max: "85",
+          _jsx('input', {
+            type: 'range',
+            min: '0',
+            max: '85',
             value: pitch,
             onChange: handlePitchChange,
           }),
-          _jsxs("label", { children: ["Pitch: ", pitch.toFixed(2), "\u00B0"] }),
+          _jsxs('label', { children: ['Pitch: ', pitch.toFixed(2), '\u00B0'] }),
         ],
       }),
-      _jsxs("div", {
+      _jsxs('div', {
         children: [
-          _jsx("input", {
-            type: "range",
-            min: "0",
-            max: "360",
-            step: "1",
+          _jsx('input', {
+            type: 'range',
+            min: '0',
+            max: '360',
+            step: '1',
             value: bearing,
             onChange: handleBearingChange,
           }),
-          _jsxs("label", { children: ["Bearing: ", bearing.toFixed(2)] }),
+          _jsxs('label', { children: ['Bearing: ', bearing.toFixed(2)] }),
         ],
       }),
-      _jsxs("div", {
+      _jsxs('div', {
         children: [
-          _jsx("input", {
-            type: "range",
-            min: "0",
-            max: "22",
-            step: "0.1",
+          _jsx('input', {
+            type: 'range',
+            min: '0',
+            max: '22',
+            step: '0.1',
             value: zoom,
             onChange: handleZoomChange,
           }),
-          _jsxs("label", { children: ["Zoom: ", zoom.toFixed(2)] }),
+          _jsxs('label', { children: ['Zoom: ', zoom.toFixed(2)] }),
         ],
       }),
     ],

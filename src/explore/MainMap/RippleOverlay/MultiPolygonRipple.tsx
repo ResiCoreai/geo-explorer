@@ -1,6 +1,6 @@
-import { Feature, MultiPolygon } from "geojson";
+import { Feature, MultiPolygon } from 'geojson';
 
-import { PolygonRipple } from "@ncsa/geo-explorer/explore/MainMap/RippleOverlay/PolygonRipple";
+import { PolygonRipple } from '@ncsa/geo-explorer/explore/MainMap/RippleOverlay/PolygonRipple';
 
 type Props = {
   feature: Feature<MultiPolygon>;
@@ -12,9 +12,9 @@ export function MultiPolygonRipple({ feature }: Props) {
       key={i}
       feature={{
         id: `${feature.id}_${i}`,
-        type: "Feature",
+        type: 'Feature',
         geometry: {
-          type: "Polygon",
+          type: 'Polygon',
           coordinates: polygonCoords,
         },
         properties: {},

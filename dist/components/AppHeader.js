@@ -1,5 +1,4 @@
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { ExpandMore, LocationOn } from "@mui/icons-material";
+import { ExpandMore, LocationOn } from '@mui/icons-material';
 import {
   AppBar,
   Avatar,
@@ -12,16 +11,18 @@ import {
   Tabs,
   Toolbar,
   Typography,
-} from "@mui/material";
-import { useState } from "react";
-import Gravatar from "react-gravatar";
-import { useAuth } from "react-oidc-context";
+} from '@mui/material';
+import { useState } from 'react';
+import Gravatar from 'react-gravatar';
+import { useAuth } from 'react-oidc-context';
+import { jsx as _jsx, jsxs as _jsxs } from 'react/jsx-runtime';
+
 export const AppHeader = () => {
   var _a, _b;
   const auth = useAuth();
   const [activeTab, setActiveTab] = useState(1); // Default active tab
   const [selectedLocation, setSelectedLocation] = useState(
-    "Illinois Basin DAC Hub",
+    'Illinois Basin DAC Hub',
   ); // Default selected location
   const [menuAnchorEl, setMenuAnchorEl] = useState(null);
   const [profileAnchorEl, setProfileAnchorEl] = useState(null);
@@ -44,22 +45,22 @@ export const AppHeader = () => {
   const handleLogout = () => {
     setProfileAnchorEl(null);
     document.cookie =
-      "Authorization=;expires=Thu, 01 Jan 1900 00:00:00 GMT;path=/";
+      'Authorization=;expires=Thu, 01 Jan 1900 00:00:00 GMT;path=/';
     auth.signoutRedirect();
   };
   return _jsx(AppBar, {
     elevation: 0,
-    className: "border-b border-gray-300 bg-white static",
+    className: 'border-b border-gray-300 bg-white static',
     children: _jsxs(Toolbar, {
-      className: "flex justify-between min-h-[66px]",
+      className: 'flex justify-between min-h-[66px]',
       children: [
         _jsx(Box, {
-          className: "flex center",
+          className: 'flex center',
           children: _jsx(Typography, {
-            variant: "body1",
+            variant: 'body1',
             className:
-              "font-playfair font-semibold text-[16px] leading-[14px] tracking-[0.17px] text-[#374151]",
-            children: "Master Planning Community App",
+              'font-playfair font-semibold text-[16px] leading-[14px] tracking-[0.17px] text-[#374151]',
+            children: 'Master Planning Community App',
           }),
         }),
         _jsxs(Tabs, {
@@ -67,27 +68,27 @@ export const AppHeader = () => {
           onChange: handleTabChange,
           children: [
             _jsx(Tab, {
-              label: "All Projects",
+              label: 'All Projects',
               disabled: true,
-              className: "capitalize",
+              className: 'capitalize',
             }),
-            _jsx(Tab, { label: "Data Explorer", className: "capitalize" }),
+            _jsx(Tab, { label: 'Data Explorer', className: 'capitalize' }),
             _jsx(Tab, {
-              label: "Site Analysis",
+              label: 'Site Analysis',
               disabled: true,
-              className: "capitalize",
+              className: 'capitalize',
             }),
           ],
         }),
         _jsxs(Box, {
-          className: "flex center",
+          className: 'flex center',
           children: [
             _jsx(Button, {
-              startIcon: _jsx(LocationOn, { className: "text-[#4B5563]" }),
-              endIcon: _jsx(ExpandMore, { className: "text-[#4B5563]" }),
+              startIcon: _jsx(LocationOn, { className: 'text-[#4B5563]' }),
+              endIcon: _jsx(ExpandMore, { className: 'text-[#4B5563]' }),
               onClick: handleMenuOpen,
               className:
-                "text-[13px] text-[#374151] bg-[#F3F4F6] px-[8px] py-[4px] rounded-[6px] min-h-[32px] capitalize",
+                'text-[13px] text-[#374151] bg-[#F3F4F6] px-[8px] py-[4px] rounded-[6px] min-h-[32px] capitalize',
               children: selectedLocation,
             }),
             _jsx(Menu, {
@@ -96,15 +97,15 @@ export const AppHeader = () => {
               onClose: () => setMenuAnchorEl(null),
               children: _jsx(MenuItem, {
                 onClick: () =>
-                  handleLocationSelection("Illinois Basin DAC Hub"),
-                children: "Illinois Basin DAC Hub",
+                  handleLocationSelection('Illinois Basin DAC Hub'),
+                children: 'Illinois Basin DAC Hub',
               }),
             }),
             _jsx(IconButton, {
               onClick: handleProfileOpen,
-              className: "ml-[8px]",
+              className: 'ml-[8px]',
               children: _jsx(Avatar, {
-                className: "w-[32px] h-[32px]",
+                className: 'w-[32px] h-[32px]',
                 children: _jsx(Gravatar, {
                   email:
                     (_b =
@@ -114,7 +115,7 @@ export const AppHeader = () => {
                       ? void 0
                       : _b.email,
                   size: 32,
-                  default: "mp",
+                  default: 'mp',
                 }),
               }),
             }),
@@ -124,7 +125,7 @@ export const AppHeader = () => {
               onClose: handleProfileClose,
               children: _jsx(MenuItem, {
                 onClick: handleLogout,
-                children: "Logout",
+                children: 'Logout',
               }),
             }),
           ],

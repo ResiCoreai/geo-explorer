@@ -1,4 +1,4 @@
-import { PayloadAction } from "@reduxjs/toolkit";
+import { PayloadAction } from '@reduxjs/toolkit';
 import {
   Feature,
   FeatureCollection,
@@ -8,9 +8,11 @@ import {
   MultiPolygon,
   Point,
   Polygon,
-} from "geojson";
-import { MapLayer, MapLayerStyle } from "../../store/explore/types";
-import { Basemap, Dataset } from "../../utils/types";
+} from 'geojson';
+
+import { MapLayer, MapLayerStyle } from '../../store/explore/types';
+import { Basemap, Dataset } from '../../utils/types';
+
 export type SimpleFeature = Feature<
   Point | LineString | Polygon | MultiPoint | MultiLineString | MultiPolygon
 >;
@@ -31,15 +33,15 @@ type ExploreState = {
   selectedFeatures: SimpleFeature[];
 };
 export declare const defaultLayerStyle: MapLayerStyle;
-export declare const initialize: import("@reduxjs/toolkit").AsyncThunk<
-  import("../../utils/types").Metadata,
+export declare const initialize: import('@reduxjs/toolkit').AsyncThunk<
+  import('../../utils/types').Metadata,
   void,
   {
     state?: unknown;
-    dispatch?: import("redux-thunk").ThunkDispatch<
+    dispatch?: import('redux-thunk').ThunkDispatch<
       unknown,
       unknown,
-      import("redux").UnknownAction
+      import('redux').UnknownAction
     >;
     extra?: unknown;
     rejectValue?: unknown;
@@ -49,86 +51,86 @@ export declare const initialize: import("@reduxjs/toolkit").AsyncThunk<
     rejectedMeta?: unknown;
   }
 >;
-export declare const exploreSlice: import("@reduxjs/toolkit").Slice<
+export declare const exploreSlice: import('@reduxjs/toolkit').Slice<
   ExploreState,
   {
     selectDataset(
-      state: import("immer").WritableDraft<ExploreState>,
+      state: import('immer').WritableDraft<ExploreState>,
       action: PayloadAction<{
         layer_id: string | null;
       }>,
     ): void;
     selectMapLayer(
-      state: import("immer").WritableDraft<ExploreState>,
+      state: import('immer').WritableDraft<ExploreState>,
       action: PayloadAction<{
         layer_id: string | null;
       }>,
     ): void;
     toggleLayerSettings(
-      state: import("immer").WritableDraft<ExploreState>,
+      state: import('immer').WritableDraft<ExploreState>,
     ): void;
     setShowLayerSettings(
-      state: import("immer").WritableDraft<ExploreState>,
+      state: import('immer').WritableDraft<ExploreState>,
       action: PayloadAction<{
         show: boolean;
       }>,
     ): void;
     selectBaseMap(
-      state: import("immer").WritableDraft<ExploreState>,
+      state: import('immer').WritableDraft<ExploreState>,
       action: PayloadAction<{
         layer_id: string | null;
       }>,
     ): void;
     reorderStart: (
-      state: import("immer").WritableDraft<ExploreState>,
+      state: import('immer').WritableDraft<ExploreState>,
       action: PayloadAction<{
         index: number;
       }>,
     ) => void;
-    reorderEnd: (state: import("immer").WritableDraft<ExploreState>) => void;
+    reorderEnd: (state: import('immer').WritableDraft<ExploreState>) => void;
     setCurrentIndex(
-      state: import("immer").WritableDraft<ExploreState>,
+      state: import('immer').WritableDraft<ExploreState>,
       action: PayloadAction<{
         index: number;
       }>,
     ): void;
     toggleVisibility(
-      state: import("immer").WritableDraft<ExploreState>,
+      state: import('immer').WritableDraft<ExploreState>,
       action: PayloadAction<{
         layer_id: string;
       }>,
     ): void;
     addLayer(
-      state: import("immer").WritableDraft<ExploreState>,
+      state: import('immer').WritableDraft<ExploreState>,
       action: PayloadAction<{
         layer_id: string;
       }>,
     ): void;
     removeLayer(
-      state: import("immer").WritableDraft<ExploreState>,
+      state: import('immer').WritableDraft<ExploreState>,
       action: PayloadAction<{
         layer_id: string;
       }>,
     ): void;
     togglePlaying(
-      state: import("immer").WritableDraft<ExploreState>,
+      state: import('immer').WritableDraft<ExploreState>,
       action: PayloadAction<{
         layer_id: string;
       }>,
     ): void;
     setTimestampIdx(
-      state: import("immer").WritableDraft<ExploreState>,
+      state: import('immer').WritableDraft<ExploreState>,
       action: PayloadAction<{
         layer_id: string;
         index: number;
       }>,
     ): void;
     setSelectedFeatures(
-      state: import("immer").WritableDraft<ExploreState>,
+      state: import('immer').WritableDraft<ExploreState>,
       action: PayloadAction<SimpleFeature[]>,
     ): void;
     setLayerStyle(
-      state: import("immer").WritableDraft<ExploreState>,
+      state: import('immer').WritableDraft<ExploreState>,
       action: PayloadAction<{
         layer_id: string;
         style: MapLayerStyle;
@@ -136,101 +138,101 @@ export declare const exploreSlice: import("@reduxjs/toolkit").Slice<
       }>,
     ): void;
     resetLayerStyle(
-      state: import("immer").WritableDraft<ExploreState>,
+      state: import('immer').WritableDraft<ExploreState>,
       action: PayloadAction<{
         layer_id: string;
       }>,
     ): void;
   },
-  "mapLayers",
-  "mapLayers",
-  import("@reduxjs/toolkit").SliceSelectors<ExploreState>
+  'mapLayers',
+  'mapLayers',
+  import('@reduxjs/toolkit').SliceSelectors<ExploreState>
 >;
-export declare const selectDataset: import("@reduxjs/toolkit").ActionCreatorWithPayload<
+export declare const selectDataset: import('@reduxjs/toolkit').ActionCreatorWithPayload<
     {
       layer_id: string | null;
     },
-    "mapLayers/selectDataset"
+    'mapLayers/selectDataset'
   >,
-  selectMapLayer: import("@reduxjs/toolkit").ActionCreatorWithPayload<
+  selectMapLayer: import('@reduxjs/toolkit').ActionCreatorWithPayload<
     {
       layer_id: string | null;
     },
-    "mapLayers/selectMapLayer"
+    'mapLayers/selectMapLayer'
   >,
-  toggleLayerSettings: import("@reduxjs/toolkit").ActionCreatorWithoutPayload<"mapLayers/toggleLayerSettings">,
-  setShowLayerSettings: import("@reduxjs/toolkit").ActionCreatorWithPayload<
+  toggleLayerSettings: import('@reduxjs/toolkit').ActionCreatorWithoutPayload<'mapLayers/toggleLayerSettings'>,
+  setShowLayerSettings: import('@reduxjs/toolkit').ActionCreatorWithPayload<
     {
       show: boolean;
     },
-    "mapLayers/setShowLayerSettings"
+    'mapLayers/setShowLayerSettings'
   >,
-  selectBaseMap: import("@reduxjs/toolkit").ActionCreatorWithPayload<
+  selectBaseMap: import('@reduxjs/toolkit').ActionCreatorWithPayload<
     {
       layer_id: string | null;
     },
-    "mapLayers/selectBaseMap"
+    'mapLayers/selectBaseMap'
   >,
-  addLayer: import("@reduxjs/toolkit").ActionCreatorWithPayload<
+  addLayer: import('@reduxjs/toolkit').ActionCreatorWithPayload<
     {
       layer_id: string;
     },
-    "mapLayers/addLayer"
+    'mapLayers/addLayer'
   >,
-  removeLayer: import("@reduxjs/toolkit").ActionCreatorWithPayload<
+  removeLayer: import('@reduxjs/toolkit').ActionCreatorWithPayload<
     {
       layer_id: string;
     },
-    "mapLayers/removeLayer"
+    'mapLayers/removeLayer'
   >,
-  reorderStart: import("@reduxjs/toolkit").ActionCreatorWithPayload<
+  reorderStart: import('@reduxjs/toolkit').ActionCreatorWithPayload<
     {
       index: number;
     },
-    "mapLayers/reorderStart"
+    'mapLayers/reorderStart'
   >,
-  reorderEnd: import("@reduxjs/toolkit").ActionCreatorWithoutPayload<"mapLayers/reorderEnd">,
-  setCurrentIndex: import("@reduxjs/toolkit").ActionCreatorWithPayload<
+  reorderEnd: import('@reduxjs/toolkit').ActionCreatorWithoutPayload<'mapLayers/reorderEnd'>,
+  setCurrentIndex: import('@reduxjs/toolkit').ActionCreatorWithPayload<
     {
       index: number;
     },
-    "mapLayers/setCurrentIndex"
+    'mapLayers/setCurrentIndex'
   >,
-  toggleVisibility: import("@reduxjs/toolkit").ActionCreatorWithPayload<
+  toggleVisibility: import('@reduxjs/toolkit').ActionCreatorWithPayload<
     {
       layer_id: string;
     },
-    "mapLayers/toggleVisibility"
+    'mapLayers/toggleVisibility'
   >,
-  togglePlaying: import("@reduxjs/toolkit").ActionCreatorWithPayload<
+  togglePlaying: import('@reduxjs/toolkit').ActionCreatorWithPayload<
     {
       layer_id: string;
     },
-    "mapLayers/togglePlaying"
+    'mapLayers/togglePlaying'
   >,
-  setTimestampIdx: import("@reduxjs/toolkit").ActionCreatorWithPayload<
+  setTimestampIdx: import('@reduxjs/toolkit').ActionCreatorWithPayload<
     {
       layer_id: string;
       index: number;
     },
-    "mapLayers/setTimestampIdx"
+    'mapLayers/setTimestampIdx'
   >,
-  setSelectedFeatures: import("@reduxjs/toolkit").ActionCreatorWithPayload<
+  setSelectedFeatures: import('@reduxjs/toolkit').ActionCreatorWithPayload<
     SimpleFeature[],
-    "mapLayers/setSelectedFeatures"
+    'mapLayers/setSelectedFeatures'
   >,
-  setLayerStyle: import("@reduxjs/toolkit").ActionCreatorWithPayload<
+  setLayerStyle: import('@reduxjs/toolkit').ActionCreatorWithPayload<
     {
       layer_id: string;
       style: MapLayerStyle;
       styleSLD: string;
     },
-    "mapLayers/setLayerStyle"
+    'mapLayers/setLayerStyle'
   >,
-  resetLayerStyle: import("@reduxjs/toolkit").ActionCreatorWithPayload<
+  resetLayerStyle: import('@reduxjs/toolkit').ActionCreatorWithPayload<
     {
       layer_id: string;
     },
-    "mapLayers/resetLayerStyle"
+    'mapLayers/resetLayerStyle'
   >;
 export {};

@@ -1,7 +1,9 @@
-import { jsx as _jsx } from "react/jsx-runtime";
-import Box from "@mui/material/Box";
-import { useEffect, useMemo, useState } from "react";
-import { getLegendJSON } from "../../../utils/geoserver";
+import Box from '@mui/material/Box';
+import { useEffect, useMemo, useState } from 'react';
+import { jsx as _jsx } from 'react/jsx-runtime';
+
+import { getLegendJSON } from '../../../utils/geoserver';
+
 export function ClimateLegendIcon({ layer }) {
   const [legend, setLegend] = useState(null);
   useEffect(() => {
@@ -28,12 +30,12 @@ export function ClimateLegendIcon({ layer }) {
       : [];
   }, [legend]);
   const gradient = useMemo(() => {
-    if (!colorMap.length) return "";
-    return `linear-gradient(180deg, ${colorMap.map((e) => e.color).join(", ")})`;
+    if (!colorMap.length) return '';
+    return `linear-gradient(180deg, ${colorMap.map((e) => e.color).join(', ')})`;
   }, [colorMap]);
   return _jsx(Box, {
     className:
-      "border border-black rounded-sm shadow-sm w-[18px] h-[18px] border-solid",
+      'border border-black rounded-sm shadow-sm w-[18px] h-[18px] border-solid',
     sx: {
       background: gradient,
     },

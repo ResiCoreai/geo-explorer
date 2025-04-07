@@ -1,4 +1,5 @@
-import { Dataset } from "../../utils/types";
+import { Dataset } from '../../utils/types';
+
 export type MapLayer = {
   data: Dataset;
   playing: boolean;

@@ -1,7 +1,8 @@
-import { formatSLD } from "../../explore/utils/format";
-import { setLayerStyle, setSelectedFeatures } from "../../store/explore/slice";
-import { sendWFSRequest } from "../../utils/geoserver";
-import { getMetersPerPixelAtLatitude } from "../../utils/maplibre-utils";
+import { formatSLD } from '../../explore/utils/format';
+import { setLayerStyle, setSelectedFeatures } from '../../store/explore/slice';
+import { sendWFSRequest } from '../../utils/geoserver';
+import { getMetersPerPixelAtLatitude } from '../../utils/maplibre-utils';
+
 export const identifyFeature = (layer_id, lngLat, zoom) => async (dispatch) => {
   const { lng, lat } = lngLat;
   const metersPerPixel = getMetersPerPixelAtLatitude(lat, zoom);

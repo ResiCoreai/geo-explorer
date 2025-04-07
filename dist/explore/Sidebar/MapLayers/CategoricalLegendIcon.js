@@ -1,7 +1,9 @@
-import { jsx as _jsx } from "react/jsx-runtime";
-import Box from "@mui/material/Box";
-import { useEffect, useMemo, useState } from "react";
-import { getLegendJSON } from "../../../utils/geoserver";
+import Box from '@mui/material/Box';
+import { useEffect, useMemo, useState } from 'react';
+import { jsx as _jsx } from 'react/jsx-runtime';
+
+import { getLegendJSON } from '../../../utils/geoserver';
+
 export function CategoricalLegendIcon({ layer }) {
   const [legend, setLegend] = useState(null);
   useEffect(() => {
@@ -27,7 +29,7 @@ export function CategoricalLegendIcon({ layer }) {
       const symbolizer =
         (_a = rule.symbolizers) === null || _a === void 0 ? void 0 : _a[0];
       // Point-based symbolizer
-      if ("Point" in symbolizer) {
+      if ('Point' in symbolizer) {
         const graphics =
           (_c =
             (_b =
@@ -48,7 +50,7 @@ export function CategoricalLegendIcon({ layer }) {
         }
       }
       // Line-based symbolizer
-      if ("Line" in symbolizer) {
+      if ('Line' in symbolizer) {
         const stroke =
           (_f =
             symbolizer === null || symbolizer === void 0
@@ -64,7 +66,7 @@ export function CategoricalLegendIcon({ layer }) {
         }
       }
       // polygon-based symbolizer
-      if ("Polygon" in symbolizer) {
+      if ('Polygon' in symbolizer) {
         const polygonFill =
           (_h =
             symbolizer === null || symbolizer === void 0
@@ -84,18 +86,18 @@ export function CategoricalLegendIcon({ layer }) {
   }, [legend]);
   const gradient = useMemo(() => {
     var _a;
-    if (!colorMap.length) return "";
+    if (!colorMap.length) return '';
     if (colorMap.length === 1) {
       return (
         ((_a = colorMap[0]) === null || _a === void 0 ? void 0 : _a.color) ||
-        "#fff"
+        '#fff'
       ); // solid fill
     }
-    return `linear-gradient(180deg, ${colorMap.map((c) => c.color).join(", ")})`;
+    return `linear-gradient(180deg, ${colorMap.map((c) => c.color).join(', ')})`;
   }, [colorMap]);
   return _jsx(Box, {
     className:
-      "border border-black rounded-sm shadow-sm w-[18px] h-[18px] border-solid",
+      'border border-black rounded-sm shadow-sm w-[18px] h-[18px] border-solid',
     sx: {
       background: gradient,
     },

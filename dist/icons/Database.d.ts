@@ -3,5 +3,5 @@ type Props = {
 };
 export declare function DatabaseIcon({
   size,
-}: Props): import("react/jsx-runtime").JSX.Element;
+}: Props): import('react/jsx-runtime').JSX.Element;
 export {};

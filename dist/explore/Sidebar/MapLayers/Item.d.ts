@@ -1,4 +1,5 @@
-import { MapLayer } from "../../../store/explore/types";
+import { MapLayer } from '../../../store/explore/types';
+
 type Props = {
   index: number;
   layer: MapLayer;
@@ -6,5 +7,5 @@ type Props = {
 export declare function Item({
   index,
   layer,
-}: Props): import("react/jsx-runtime").JSX.Element;
+}: Props): import('react/jsx-runtime').JSX.Element;
 export {};

@@ -1,5 +1,7 @@
-import { AxiosRequestConfig, AxiosResponse } from "axios";
-import { Metadata } from "../utils/types";
+import { AxiosRequestConfig, AxiosResponse } from 'axios';
+
+import { Metadata } from '../utils/types';
+
 type Params = Record<string, string | string[] | number | number[] | boolean>;
 export declare function makeUrl(url: string, params: Params): string;
 export declare function makeWMSUrl(options: Params): string;

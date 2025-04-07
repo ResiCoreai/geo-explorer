@@ -1,14 +1,14 @@
-import SLDParser from "geostyler-sld-parser";
-import { Rule, Style, Symbolizer } from "geostyler-style";
+import SLDParser from 'geostyler-sld-parser';
+import { Rule, Style, Symbolizer } from 'geostyler-style';
 
-import { store } from "@ncsa/geo-explorer/store";
-import { MapLayerStyle } from "@ncsa/geo-explorer/store/explore/types";
-import { FeatureType } from "@ncsa/geo-explorer/utils/types";
+import { store } from '@ncsa/geo-explorer/store';
+import { MapLayerStyle } from '@ncsa/geo-explorer/store/explore/types';
+import { FeatureType } from '@ncsa/geo-explorer/utils/types';
 
 function createPointSymbolizer(style: MapLayerStyle): Symbolizer {
   return {
-    kind: "Mark",
-    wellKnownName: "circle",
+    kind: 'Mark',
+    wellKnownName: 'circle',
     fillOpacity: style.fillOpacity,
     color: style.fillColor,
     strokeWidth: style.strokeWidth * devicePixelRatio,
@@ -20,7 +20,7 @@ function createPointSymbolizer(style: MapLayerStyle): Symbolizer {
 
 function createLineSymbolizer(style: MapLayerStyle): Symbolizer {
   return {
-    kind: "Line",
+    kind: 'Line',
     width: style.strokeWidth * devicePixelRatio,
     color: style.strokeColor,
     opacity: style.strokeOpacity,
@@ -29,7 +29,7 @@ function createLineSymbolizer(style: MapLayerStyle): Symbolizer {
 
 function createPolygonSymbolizer(style: MapLayerStyle): Symbolizer {
   return {
-    kind: "Fill",
+    kind: 'Fill',
     fillOpacity: style.fillOpacity,
     color: style.fillColor,
     outlineWidth: style.strokeWidth * devicePixelRatio,
@@ -43,11 +43,11 @@ function createSymbolizer(
   style: MapLayerStyle,
 ): Symbolizer | null {
   switch (type) {
-    case "point":
+    case 'point':
       return createPointSymbolizer(style);
-    case "line":
+    case 'line':
       return createLineSymbolizer(style);
-    case "polygon":
+    case 'polygon':
       return createPolygonSymbolizer(style);
   }
 }
@@ -57,7 +57,7 @@ function createStyleRules(type: FeatureType, style: MapLayerStyle): Rule[] {
   return symbolizer
     ? [
         {
-          name: "",
+          name: '',
           symbolizers: [symbolizer],
         },
       ]
@@ -73,8 +73,8 @@ export async function formatSLD(
     (layer) => layer.data.layer_id === layer_id,
   )!;
 
-  if (layer.data.dataset_info.dataset_type === "raster") {
-    return "";
+  if (layer.data.dataset_info.dataset_type === 'raster') {
+    return '';
   }
 
   const geoStylerStyle: Style = {
@@ -83,5 +83,5 @@ export async function formatSLD(
   };
   const { output: styleSLD } = await new SLDParser().writeStyle(geoStylerStyle);
 
-  return styleSLD ?? "";
+  return styleSLD ?? '';
 }

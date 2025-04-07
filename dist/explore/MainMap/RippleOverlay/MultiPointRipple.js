@@ -1,5 +1,7 @@
-import { jsx as _jsx } from "react/jsx-runtime";
-import { PointRipple } from "../../../explore/MainMap/RippleOverlay/PointRipple";
+import { jsx as _jsx } from 'react/jsx-runtime';
+
+import { PointRipple } from '../../../explore/MainMap/RippleOverlay/PointRipple';
+
 export function MultiPointRipple({ feature }) {
   return feature.geometry.coordinates.map((pointCoords, i) =>
     _jsx(
@@ -7,9 +9,9 @@ export function MultiPointRipple({ feature }) {
       {
         feature: {
           id: `${feature.id}_${i}`,
-          type: "Feature",
+          type: 'Feature',
           geometry: {
-            type: "Point",
+            type: 'Point',
             coordinates: pointCoords,
           },
           properties: {},

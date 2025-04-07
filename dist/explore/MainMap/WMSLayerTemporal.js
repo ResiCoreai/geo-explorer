@@ -1,43 +1,45 @@
+import { useEffect, useMemo } from 'react';
+import { Layer, Source, useMap } from 'react-map-gl/maplibre';
+import { useDispatch } from 'react-redux';
 import {
-  jsx as _jsx,
   Fragment as _Fragment,
+  jsx as _jsx,
   jsxs as _jsxs,
-} from "react/jsx-runtime";
-import { useEffect, useMemo } from "react";
-import { Layer, Source, useMap } from "react-map-gl/maplibre";
-import { useDispatch } from "react-redux";
-import { TILE_SIZE } from "../../config";
-import { setTimestampIdx } from "../../store/explore/slice";
-import { nextCircular, prevCircular } from "../../utils/array";
-import { makeWMSUrl } from "../../utils/geoserver";
+} from 'react/jsx-runtime';
+
+import { TILE_SIZE } from '../../config';
+import { setTimestampIdx } from '../../store/explore/slice';
+import { nextCircular, prevCircular } from '../../utils/array';
+import { makeWMSUrl } from '../../utils/geoserver';
+
 export function WMSLayerTemporal({ layer, prevLayer }) {
   var _a, _b, _c;
   const numTimestamps = layer.data.dataset_info.timestamps.length;
   const curTimestamp =
     numTimestamps > 0
       ? layer.data.dataset_info.timestamps[layer.timestampIdx]
-      : "";
+      : '';
   const prevTimestamp =
     (_a = prevCircular(
       layer.data.dataset_info.timestamps,
       layer.timestampIdx,
     )) !== null && _a !== void 0
       ? _a
-      : "";
+      : '';
   const nextTimestamp =
     (_b = nextCircular(
       layer.data.dataset_info.timestamps,
       layer.timestampIdx,
     )) !== null && _b !== void 0
       ? _b
-      : "";
+      : '';
   const tiles = useMemo(() => {
     const params = {
       layers: [layer.data.layer_id],
       __style_version__: layer.version,
     };
     if (curTimestamp) {
-      params["time"] = curTimestamp;
+      params['time'] = curTimestamp;
     }
     return [makeWMSUrl(params)];
   }, [layer.timestampIdx, layer.version]);
@@ -47,7 +49,7 @@ export function WMSLayerTemporal({ layer, prevLayer }) {
       __style_version__: layer.version,
     };
     if (prevTimestamp) {
-      params["time"] = prevTimestamp;
+      params['time'] = prevTimestamp;
     }
     return [makeWMSUrl(params)];
   }, [layer.timestampIdx, layer.version]);
@@ -57,7 +59,7 @@ export function WMSLayerTemporal({ layer, prevLayer }) {
       __style_version__: layer.version,
     };
     if (nextTimestamp) {
-      params["time"] = nextTimestamp;
+      params['time'] = nextTimestamp;
     }
     return [makeWMSUrl(params)];
   }, [layer.timestampIdx, layer.version]);
@@ -89,13 +91,13 @@ export function WMSLayerTemporal({ layer, prevLayer }) {
     };
     map === null || map === void 0
       ? void 0
-      : map.on("sourcedata", checkIfNextTimestampLoaded);
+      : map.on('sourcedata', checkIfNextTimestampLoaded);
     checkIfNextTimestampLoaded();
     return () => {
       clearTimeout(timeoutId);
       map === null || map === void 0
         ? void 0
-        : map.off("sourcedata", checkIfNextTimestampLoaded);
+        : map.off('sourcedata', checkIfNextTimestampLoaded);
     };
   }, [map, nextTimestamp, layer.playing]);
   return _jsxs(_Fragment, {
@@ -104,7 +106,7 @@ export function WMSLayerTemporal({ layer, prevLayer }) {
         Source,
         {
           id: layer.data.layer_id + prevTimestamp,
-          type: "raster",
+          type: 'raster',
           tiles: prevTiles,
           tileSize: TILE_SIZE,
           children: _jsx(Layer, {
@@ -115,13 +117,13 @@ export function WMSLayerTemporal({ layer, prevLayer }) {
                   ? void 0
                   : prevLayer.data.layer_id) !== null && _c !== void 0
                 ? _c
-                : "",
-            type: "raster",
+                : '',
+            type: 'raster',
             layout: {
-              visibility: layer.visible ? "visible" : "none",
+              visibility: layer.visible ? 'visible' : 'none',
             },
             paint: {
-              "raster-opacity": 0,
+              'raster-opacity': 0,
             },
           }),
         },
@@ -131,18 +133,18 @@ export function WMSLayerTemporal({ layer, prevLayer }) {
         Source,
         {
           id: layer.data.layer_id + curTimestamp,
-          type: "raster",
+          type: 'raster',
           tiles: tiles,
           tileSize: TILE_SIZE,
           children: _jsx(Layer, {
             id: layer.data.layer_id + curTimestamp,
             beforeId: layer.data.layer_id + prevTimestamp,
-            type: "raster",
+            type: 'raster',
             layout: {
-              visibility: layer.visible ? "visible" : "none",
+              visibility: layer.visible ? 'visible' : 'none',
             },
             paint: {
-              "raster-opacity": layer.style.layerOpacity,
+              'raster-opacity': layer.style.layerOpacity,
             },
           }),
         },
@@ -152,18 +154,18 @@ export function WMSLayerTemporal({ layer, prevLayer }) {
         Source,
         {
           id: layer.data.layer_id + nextTimestamp,
-          type: "raster",
+          type: 'raster',
           tiles: nextTiles,
           tileSize: TILE_SIZE,
           children: _jsx(Layer, {
             id: layer.data.layer_id + nextTimestamp,
             beforeId: layer.data.layer_id + curTimestamp,
-            type: "raster",
+            type: 'raster',
             layout: {
-              visibility: layer.visible ? "visible" : "none",
+              visibility: layer.visible ? 'visible' : 'none',
             },
             paint: {
-              "raster-opacity": 0,
+              'raster-opacity': 0,
             },
           }),
         },
@@ -172,9 +174,9 @@ export function WMSLayerTemporal({ layer, prevLayer }) {
       _jsx(Layer, {
         id: layer.data.layer_id,
         beforeId: layer.data.layer_id + nextTimestamp,
-        type: "background",
+        type: 'background',
         layout: {
-          visibility: "none",
+          visibility: 'none',
         },
       }),
     ],

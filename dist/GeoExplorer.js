@@ -1,14 +1,17 @@
-import { jsx as _jsx } from "react/jsx-runtime";
-import { ThemeProvider, createTheme } from "@mui/material";
-import { useEffect, useState } from "react";
-import { hasAuthParams, useAuth } from "react-oidc-context";
-import { Provider } from "react-redux";
-import { store } from "./store";
-import { Explore } from "./explore";
-import "./index.css";
+import { ThemeProvider, createTheme } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { hasAuthParams, useAuth } from 'react-oidc-context';
+import { Provider } from 'react-redux';
+import { jsx as _jsx } from 'react/jsx-runtime';
+
+import { Explore } from './explore';
+import { store } from './store';
+
+import './index.css';
+
 const theme = createTheme({
   typography: {
-    fontFamily: "Open Sans",
+    fontFamily: 'Open Sans',
   },
 });
 export function GeoExplorer() {
@@ -46,10 +49,10 @@ export function GeoExplorer() {
     document.cookie = `Authorization=${(_a = auth.user) === null || _a === void 0 ? void 0 : _a.access_token}`;
   }, [(_a = auth.user) === null || _a === void 0 ? void 0 : _a.access_token]);
   if (auth.isLoading) {
-    return _jsx("div", { children: "Signing you in/out..." });
+    return _jsx('div', { children: 'Signing you in/out...' });
   }
   if (!auth.isAuthenticated) {
-    return _jsx("div", { children: "Unable to log in" });
+    return _jsx('div', { children: 'Unable to log in' });
   }
   return _jsx(Provider, {
     store: store,

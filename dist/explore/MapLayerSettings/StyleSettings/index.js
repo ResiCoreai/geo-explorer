@@ -1,9 +1,4 @@
-import {
-  jsx as _jsx,
-  jsxs as _jsxs,
-  Fragment as _Fragment,
-} from "react/jsx-runtime";
-import { CloseOutlined } from "@mui/icons-material";
+import { CloseOutlined } from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -13,17 +8,24 @@ import {
   Paper,
   Stack,
   Typography,
-} from "@mui/material";
-import { parseColor } from "@react-stately/color";
-import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { ColorInput } from "../../../explore/MapLayerSettings/StyleSettings/ColorInput";
-import { NumberInput } from "../../../explore/MapLayerSettings/StyleSettings/NumberInput";
-import { setLayerStyleSLD } from "../../../store/explore/actions";
+} from '@mui/material';
+import { parseColor } from '@react-stately/color';
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  Fragment as _Fragment,
+  jsx as _jsx,
+  jsxs as _jsxs,
+} from 'react/jsx-runtime';
+
+import { ColorInput } from '../../../explore/MapLayerSettings/StyleSettings/ColorInput';
+import { NumberInput } from '../../../explore/MapLayerSettings/StyleSettings/NumberInput';
+import { setLayerStyleSLD } from '../../../store/explore/actions';
 import {
   defaultLayerStyle,
   resetLayerStyle,
-} from "../../../store/explore/slice";
+} from '../../../store/explore/slice';
+
 export function StyleSettings({ open, onClose }) {
   const dispatch = useDispatch();
   const selectedLayer = useSelector((state) =>
@@ -71,17 +73,17 @@ export function StyleSettings({ open, onClose }) {
     disablePortal: true,
     children: _jsxs(Paper, {
       className:
-        "fixed left-0 right-0 top-0 bottom-0 w-[535px] h-[60%] m-auto rounded-[6px] overflow-scroll no-scrollbar",
+        'fixed left-0 right-0 top-0 bottom-0 w-[535px] h-[60%] m-auto rounded-[6px] overflow-scroll no-scrollbar',
       children: [
         _jsxs(Stack, {
-          direction: "row",
-          className: "sticky top-0 pt-[24px] px-[32px] bg-white z-[1]",
+          direction: 'row',
+          className: 'sticky top-0 pt-[24px] px-[32px] bg-white z-[1]',
           children: [
             _jsx(Typography, {
-              className: "text-[20px]",
-              children: "Style Settings",
+              className: 'text-[20px]',
+              children: 'Style Settings',
             }),
-            _jsx(Box, { className: "flex-1" }),
+            _jsx(Box, { className: 'flex-1' }),
             _jsx(IconButton, {
               onClick: onClose,
               children: _jsx(CloseOutlined, {}),
@@ -89,16 +91,16 @@ export function StyleSettings({ open, onClose }) {
           ],
         }),
         _jsxs(Box, {
-          className: "pb-[24px] px-[32px]",
+          className: 'pb-[24px] px-[32px]',
           children: [
-            selectedLayer.data.dataset_info.dataset_type === "vector" &&
-              selectedLayer.data.dataset_info.feature_type === "point" &&
+            selectedLayer.data.dataset_info.dataset_type === 'vector' &&
+              selectedLayer.data.dataset_info.feature_type === 'point' &&
               _jsxs(_Fragment, {
                 children: [
-                  _jsx(Divider, { className: "my-[20px]" }),
+                  _jsx(Divider, { className: 'my-[20px]' }),
                   _jsx(Typography, {
-                    className: "font-bold text-[16px]",
-                    children: "Radius",
+                    className: 'font-bold text-[16px]',
+                    children: 'Radius',
                   }),
                   _jsx(NumberInput, {
                     value: style.radius,
@@ -113,37 +115,37 @@ export function StyleSettings({ open, onClose }) {
                   }),
                 ],
               }),
-            selectedLayer.data.dataset_info.dataset_type === "vector" &&
-              (selectedLayer.data.dataset_info.feature_type === "point" ||
-                selectedLayer.data.dataset_info.feature_type === "polygon") &&
+            selectedLayer.data.dataset_info.dataset_type === 'vector' &&
+              (selectedLayer.data.dataset_info.feature_type === 'point' ||
+                selectedLayer.data.dataset_info.feature_type === 'polygon') &&
               _jsxs(_Fragment, {
                 children: [
-                  _jsx(Divider, { className: "my-[20px]" }),
+                  _jsx(Divider, { className: 'my-[20px]' }),
                   _jsx(Typography, {
-                    className: "font-bold text-[16px]",
-                    children: "Fill Color",
+                    className: 'font-bold text-[16px]',
+                    children: 'Fill Color',
                   }),
                   _jsx(ColorInput, {
                     value: parseColor(style.fillColor).withChannelValue(
-                      "alpha",
+                      'alpha',
                       style.fillOpacity,
                     ),
                     onChange: (color) => {
                       updateStyleDebounced({
-                        fillColor: color.toString("hex"),
-                        fillOpacity: color.getChannelValue("alpha"),
+                        fillColor: color.toString('hex'),
+                        fillOpacity: color.getChannelValue('alpha'),
                       });
                     },
                   }),
                 ],
               }),
-            selectedLayer.data.dataset_info.dataset_type !== "raster" &&
+            selectedLayer.data.dataset_info.dataset_type !== 'raster' &&
               _jsxs(_Fragment, {
                 children: [
-                  _jsx(Divider, { className: "my-[20px]" }),
+                  _jsx(Divider, { className: 'my-[20px]' }),
                   _jsx(Typography, {
-                    className: "font-bold text-[16px]",
-                    children: "Stroke Width",
+                    className: 'font-bold text-[16px]',
+                    children: 'Stroke Width',
                   }),
                   _jsx(NumberInput, {
                     value: style.strokeWidth,
@@ -156,29 +158,29 @@ export function StyleSettings({ open, onClose }) {
                     max: 10,
                     renderValue: String,
                   }),
-                  _jsx(Divider, { className: "my-[20px]" }),
+                  _jsx(Divider, { className: 'my-[20px]' }),
                   _jsx(Typography, {
-                    className: "font-bold text-[16px]",
-                    children: "Stroke Color",
+                    className: 'font-bold text-[16px]',
+                    children: 'Stroke Color',
                   }),
                   _jsx(ColorInput, {
                     value: parseColor(style.strokeColor).withChannelValue(
-                      "alpha",
+                      'alpha',
                       style.strokeOpacity,
                     ),
                     onChange: (color) => {
                       updateStyleDebounced({
-                        strokeColor: color.toString("hex"),
-                        strokeOpacity: color.getChannelValue("alpha"),
+                        strokeColor: color.toString('hex'),
+                        strokeOpacity: color.getChannelValue('alpha'),
                       });
                     },
                   }),
                 ],
               }),
-            _jsx(Divider, { className: "my-[20px]" }),
+            _jsx(Divider, { className: 'my-[20px]' }),
             _jsx(Typography, {
-              className: "font-bold text-[16px]",
-              children: "Layer Visibility",
+              className: 'font-bold text-[16px]',
+              children: 'Layer Visibility',
             }),
             _jsx(NumberInput, {
               value: style.layerOpacity,
@@ -190,20 +192,20 @@ export function StyleSettings({ open, onClose }) {
               min: 0,
               max: 1,
               step: 0.1,
-              renderValue: (alpha) => alpha * 100 + "%",
+              renderValue: (alpha) => alpha * 100 + '%',
             }),
             _jsxs(Stack, {
-              direction: "row",
-              className: "mt-[64px] gap-[8px]",
+              direction: 'row',
+              className: 'mt-[64px] gap-[8px]',
               children: [
-                _jsx(Box, { className: "flex-1" }),
+                _jsx(Box, { className: 'flex-1' }),
                 _jsx(Button, {
-                  variant: "outlined",
+                  variant: 'outlined',
                   disableElevation: true,
                   onClick: () => {
                     reset();
                   },
-                  children: "Reset",
+                  children: 'Reset',
                 }),
               ],
             }),

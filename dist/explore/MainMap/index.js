@@ -1,22 +1,24 @@
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { isAbortError } from "maplibre-gl/src/util/abort_error";
+import { isAbortError } from 'maplibre-gl/src/util/abort_error';
 import {
   FullscreenControl,
   Layer,
   Map,
   NavigationControl,
   Source,
-} from "react-map-gl/maplibre";
-import { useAuth } from "react-oidc-context";
-import { useDispatch, useSelector } from "react-redux";
-import { GEOSERVER_URL } from "../../config";
-import { LegendPanel } from "../../explore/MainMap/LegendPanel";
-import { RippleOverlay } from "../../explore/MainMap/RippleOverlay/RippleOverlay";
-import { WMSLayer } from "../../explore/MainMap/WMSLayer";
-import { FitBounds } from "../../explore/MainMap/controls/FitBounds";
-import { SelectedFeatures } from "../../explore/SelectedFeatures";
-import { store } from "../../store";
-import { identifyFeature } from "../../store/explore/actions";
+} from 'react-map-gl/maplibre';
+import { useAuth } from 'react-oidc-context';
+import { useDispatch, useSelector } from 'react-redux';
+import { jsx as _jsx, jsxs as _jsxs } from 'react/jsx-runtime';
+
+import { GEOSERVER_URL } from '../../config';
+import { LegendPanel } from '../../explore/MainMap/LegendPanel';
+import { RippleOverlay } from '../../explore/MainMap/RippleOverlay/RippleOverlay';
+import { WMSLayer } from '../../explore/MainMap/WMSLayer';
+import { FitBounds } from '../../explore/MainMap/controls/FitBounds';
+import { SelectedFeatures } from '../../explore/SelectedFeatures';
+import { store } from '../../store';
+import { identifyFeature } from '../../store/explore/actions';
+
 export function MainMap() {
   var _a, _b, _c, _d;
   const auth = useAuth();
@@ -30,11 +32,11 @@ export function MainMap() {
   const baseMaps = useSelector((state) => state.explore.baseMaps);
   const selectedBaseMap = useSelector((state) => state.explore.selectedBaseMap);
   return _jsxs(Map, {
-    id: "map",
+    id: 'map',
     transformRequest: (url) => {
       var _a, _b;
       if (url.startsWith(GEOSERVER_URL)) {
-        const layer_id = new URLSearchParams(url).get("layers");
+        const layer_id = new URLSearchParams(url).get('layers');
         const mapLayers = store.getState().explore.mapLayers;
         const layer = mapLayers.find(
           (layer) => layer.data.layer_id === layer_id,
@@ -44,7 +46,7 @@ export function MainMap() {
         );
         if (shouldUseClientStyle) {
           return {
-            url: url + "&sld_body=" + encodeURIComponent(layer.styleSLD),
+            url: url + '&sld_body=' + encodeURIComponent(layer.styleSLD),
             headers: {
               Authorization: `Bearer ${(_a = auth.user) === null || _a === void 0 ? void 0 : _a.access_token}`,
             },
@@ -78,11 +80,11 @@ export function MainMap() {
       zoom: 6,
       pitch: 0,
     },
-    interactiveLayerIds: ["storage"],
+    interactiveLayerIds: ['storage'],
     onClick: (e) => {
       if (
         selectedLayer &&
-        selectedLayer.data.dataset_info.dataset_type === "vector"
+        selectedLayer.data.dataset_info.dataset_type === 'vector'
       ) {
         dispatch(
           identifyFeature(
@@ -93,13 +95,13 @@ export function MainMap() {
         );
       }
     },
-    cursor: selectedLayer ? "crosshair" : "",
+    cursor: selectedLayer ? 'crosshair' : '',
     maxPitch: 85,
     children: [
-      _jsx(NavigationControl, { position: "top-right", visualizePitch: true }),
-      _jsx(FullscreenControl, { position: "top-right" }),
+      _jsx(NavigationControl, { position: 'top-right', visualizePitch: true }),
+      _jsx(FullscreenControl, { position: 'top-right' }),
       _jsx(Source, {
-        type: "raster",
+        type: 'raster',
         tiles:
           baseMaps.length > 0
             ? [
@@ -115,11 +117,11 @@ export function MainMap() {
                       ? void 0
                       : _c.tile_url_template) !== null && _d !== void 0
                   ? _d
-                  : "",
+                  : '',
               ]
             : [],
         tileSize: 256,
-        children: _jsx(Layer, { type: "raster" }),
+        children: _jsx(Layer, { type: 'raster' }),
       }),
       mapLayers.map((layer, index) => {
         var _a;
@@ -137,8 +139,8 @@ export function MainMap() {
       _jsx(SelectedFeatures, {}),
       _jsx(FitBounds, {}),
       selectedLayer &&
-        _jsx("div", {
-          className: "absolute bottom-12 right-3 z-50",
+        _jsx('div', {
+          className: 'absolute bottom-12 right-3 z-50',
           children: _jsx(LegendPanel, {
             layers: mapLayers,
             selectedLayer: selectedLayer,

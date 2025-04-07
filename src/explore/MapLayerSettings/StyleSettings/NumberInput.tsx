@@ -1,4 +1,4 @@
-import { Box, Slider, Stack, Typography } from "@mui/material";
+import { Box, Slider, Stack, Typography } from '@mui/material';
 
 type Props = {
   value: number;

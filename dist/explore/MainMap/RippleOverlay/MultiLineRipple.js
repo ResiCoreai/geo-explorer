@@ -1,5 +1,7 @@
-import { jsx as _jsx } from "react/jsx-runtime";
-import { LineRipple } from "../../../explore/MainMap/RippleOverlay/LineRipple";
+import { jsx as _jsx } from 'react/jsx-runtime';
+
+import { LineRipple } from '../../../explore/MainMap/RippleOverlay/LineRipple';
+
 export function MultiLineRipple({ feature }) {
   return feature.geometry.coordinates.map((lineCoords, i) =>
     _jsx(
@@ -7,9 +9,9 @@ export function MultiLineRipple({ feature }) {
       {
         feature: {
           id: `${feature.id}_${i}`,
-          type: "Feature",
+          type: 'Feature',
           geometry: {
-            type: "LineString",
+            type: 'LineString',
             coordinates: lineCoords,
           },
           properties: {},

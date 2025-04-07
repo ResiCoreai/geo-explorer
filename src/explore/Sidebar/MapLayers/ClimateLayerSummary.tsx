@@ -1,7 +1,7 @@
-import { Box, Divider, Stack, Typography } from "@mui/material";
+import { Box, Divider, Stack, Typography } from '@mui/material';
 
-import { MapLayer } from "@ncsa/geo-explorer/store/explore/types";
-import { ClimateDatasetInfo } from "@ncsa/geo-explorer/utils/types";
+import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
+import { ClimateDatasetInfo } from '@ncsa/geo-explorer/utils/types';
 
 type Props = {
   layer: MapLayer & { data: { dataset_info: ClimateDatasetInfo } };
@@ -15,7 +15,7 @@ export function ClimateLayerSummary({ layer }: Props) {
       <Divider />
       <Stack direction="row" className="my-[6px]">
         <Typography className="text-[12px] text-[#2C343CCC]">
-          Scenario:{" "}
+          Scenario:{' '}
         </Typography>
         <Box className="flex-1" />
         <Typography className="text-[12px] text-[#0455A4] font-semibold">
@@ -25,7 +25,7 @@ export function ClimateLayerSummary({ layer }: Props) {
       {timestamp && (
         <Stack direction="row" className="my-[6px] text-[#2C343CCC]">
           <Typography className="text-[12px] text-[#2C343CCC]">
-            Timestamp:{" "}
+            Timestamp:{' '}
           </Typography>
           <Box className="flex-1" />
           <Typography className="text-[12px] font-semibold">

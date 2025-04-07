@@ -1,12 +1,12 @@
-import Box from "@mui/material/Box";
-import { useEffect, useMemo, useState } from "react";
+import Box from '@mui/material/Box';
+import { useEffect, useMemo, useState } from 'react';
 
-import { MapLayer } from "@ncsa/geo-explorer/store/explore/types";
-import { getLegendJSON } from "@ncsa/geo-explorer/utils/geoserver";
+import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
+import { getLegendJSON } from '@ncsa/geo-explorer/utils/geoserver';
 import {
   ClimateDatasetInfo,
   RasterLegend,
-} from "@ncsa/geo-explorer/utils/types";
+} from '@ncsa/geo-explorer/utils/types';
 
 type Props = {
   layer: MapLayer & { data: { dataset_info: ClimateDatasetInfo } };
@@ -27,8 +27,8 @@ export function ClimateLegendIcon({ layer }: Props) {
   }, [legend]);
 
   const gradient = useMemo(() => {
-    if (!colorMap.length) return "";
-    return `linear-gradient(180deg, ${colorMap.map((e) => e.color).join(", ")})`;
+    if (!colorMap.length) return '';
+    return `linear-gradient(180deg, ${colorMap.map((e) => e.color).join(', ')})`;
   }, [colorMap]);
 
   return (

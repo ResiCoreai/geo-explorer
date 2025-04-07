@@ -1,5 +1,5 @@
 type Style = {
-  featureType: "point" | "line" | "polygon" | "raster";
+  featureType: 'point' | 'line' | 'polygon' | 'raster';
   name: string;
   sld: string;
 };

@@ -1,4 +1,5 @@
-import { MapLayer } from "../../store/explore/types";
+import { MapLayer } from '../../store/explore/types';
+
 type Props = {
   layer: MapLayer;
   prevLayer: MapLayer | null;
@@ -6,5 +7,5 @@ type Props = {
 export declare function WMSLayer({
   layer,
   prevLayer,
-}: Props): import("react/jsx-runtime").JSX.Element;
+}: Props): import('react/jsx-runtime').JSX.Element;
 export {};

@@ -1,10 +1,10 @@
-import LayersOutlinedIcon from "@mui/icons-material/LayersOutlined";
-import classNames from "classnames";
-import { useSelector } from "react-redux";
+import LayersOutlinedIcon from '@mui/icons-material/LayersOutlined';
+import classNames from 'classnames';
+import { useSelector } from 'react-redux';
 
-import { Item } from "@ncsa/geo-explorer/explore/Sidebar/MapLayers/Item";
-import { Section } from "@ncsa/geo-explorer/explore/Sidebar/Section";
-import { RootState } from "@ncsa/geo-explorer/store";
+import { Item } from '@ncsa/geo-explorer/explore/Sidebar/MapLayers/Item';
+import { Section } from '@ncsa/geo-explorer/explore/Sidebar/Section';
+import { RootState } from '@ncsa/geo-explorer/store';
 
 export function MapLayers() {
   const currentIndex = useSelector(
@@ -25,7 +25,7 @@ export function MapLayers() {
           <div key={layer.data.layer_id} className="relative pt-1">
             <div
               className={classNames(`absolute top-0 left-0 w-full h-[4px]`, {
-                "bg-[#1976D2]": currentIndex === i,
+                'bg-[#1976D2]': currentIndex === i,
               })}
             />
             <Item key={layer.data.layer_id} index={i} layer={layer} />
@@ -34,7 +34,7 @@ export function MapLayers() {
         <div
           key={selectedLayers.length}
           className={classNames(`absolute top-0 left-0 w-full h-[4px]`, {
-            "bg-[#1976D2]": currentIndex === selectedLayers.length,
+            'bg-[#1976D2]': currentIndex === selectedLayers.length,
           })}
         />
       </div>

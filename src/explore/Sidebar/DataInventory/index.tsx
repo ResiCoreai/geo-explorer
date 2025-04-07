@@ -1,5 +1,5 @@
-import { FilterAltOutlined, Search } from "@mui/icons-material";
-import FolderOpenOutlinedIcon from "@mui/icons-material/FolderOpenOutlined";
+import { FilterAltOutlined, Search } from '@mui/icons-material';
+import FolderOpenOutlinedIcon from '@mui/icons-material/FolderOpenOutlined';
 import {
   Box,
   IconButton,
@@ -9,23 +9,23 @@ import {
   SelectChangeEvent,
   Tab,
   Tabs,
-} from "@mui/material";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+} from '@mui/material';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
-import { DatabaseHeavy } from "@ncsa/geo-explorer/icons/DatabaseHeavy";
-import { ClimateList } from "@ncsa/geo-explorer/explore/Sidebar/DataInventory/ClimateList";
-import { TechItem } from "@ncsa/geo-explorer/explore/Sidebar/DataInventory/TechItem";
-import { Section } from "@ncsa/geo-explorer/explore/Sidebar/Section";
+import { ClimateList } from '@ncsa/geo-explorer/explore/Sidebar/DataInventory/ClimateList';
+import { TechItem } from '@ncsa/geo-explorer/explore/Sidebar/DataInventory/TechItem';
+import { Section } from '@ncsa/geo-explorer/explore/Sidebar/Section';
 import {
   categoryIcons,
   layerTypeIcons,
-} from "@ncsa/geo-explorer/explore/Sidebar/utils/icons";
-import { RootState } from "@ncsa/geo-explorer/store";
+} from '@ncsa/geo-explorer/explore/Sidebar/utils/icons';
+import { DatabaseHeavy } from '@ncsa/geo-explorer/icons/DatabaseHeavy';
+import { RootState } from '@ncsa/geo-explorer/store';
 import {
   ClimateDatasetInfo,
   VectorDatasetInfo,
-} from "@ncsa/geo-explorer/utils/types";
+} from '@ncsa/geo-explorer/utils/types';
 
 export function DataInventory() {
   const techDatasets = useSelector(
@@ -38,9 +38,9 @@ export function DataInventory() {
 
   const [tabIndex, setTabIndex] = useState(0);
   const [techSelectedOption, setTechSelectedOption] =
-    useState<keyof VectorDatasetInfo>("dataset_category");
+    useState<keyof VectorDatasetInfo>('dataset_category');
   const [climateSelectedOption, setClimateSelectedOption] =
-    useState<keyof ClimateDatasetInfo>("climate_scenario");
+    useState<keyof ClimateDatasetInfo>('climate_scenario');
 
   const handleTechSelectChange = (
     event: SelectChangeEvent<keyof VectorDatasetInfo>,
@@ -108,28 +108,28 @@ export function DataInventory() {
               </Select>
             </Box>
             <Box className="flex-auto overflow-scroll no-scrollbar">
-              {(techSelectedOption === "feature_type"
+              {(techSelectedOption === 'feature_type'
                 ? layerTypeIcons
                 : categoryIcons
               ).map(({ type, icon }) => (
                 <Box className="my-[20px]" key={type}>
                   <Box className="flex flex-row items-center gap-[6px] text-[#13294B99] text-[11px] px-[32px] capitalize font-bold">
-                    {icon({ className: "w-5 h-5" })}
-                    {type}{" "}
-                    {techSelectedOption === "feature_type" ? "Feature" : "Data"}
+                    {icon({ className: 'w-5 h-5' })}
+                    {type}{' '}
+                    {techSelectedOption === 'feature_type' ? 'Feature' : 'Data'}
                   </Box>
                   <Box className="mt-[5px]">
                     {techDatasets.filter(
                       (layer) =>
-                        (layer.dataset_info.dataset_type === "raster"
-                          ? "raster"
+                        (layer.dataset_info.dataset_type === 'raster'
+                          ? 'raster'
                           : layer.dataset_info?.[techSelectedOption]) === type,
                     ).length > 0 ? (
                       techDatasets
                         .filter(
                           (layer) =>
-                            (layer.dataset_info.dataset_type === "raster"
-                              ? "raster"
+                            (layer.dataset_info.dataset_type === 'raster'
+                              ? 'raster'
                               : layer.dataset_info?.[techSelectedOption]) ===
                             type,
                         )

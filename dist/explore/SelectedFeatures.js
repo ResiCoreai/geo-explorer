@@ -1,7 +1,6 @@
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
 import {
   Box,
   Button,
@@ -10,13 +9,16 @@ import {
   Divider,
   IconButton,
   Typography,
-} from "@mui/material";
-import { center } from "@turf/turf";
-import { Fragment, useEffect, useMemo, useRef, useState } from "react";
-import { useMap } from "react-map-gl/maplibre";
-import { useDispatch, useSelector } from "react-redux";
-import { getLayerIconByCategory } from "../explore/Sidebar/utils/icons";
-import { setShowLayerSettings } from "../store/explore/slice";
+} from '@mui/material';
+import { center } from '@turf/turf';
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
+import { useMap } from 'react-map-gl/maplibre';
+import { useDispatch, useSelector } from 'react-redux';
+import { jsx as _jsx, jsxs as _jsxs } from 'react/jsx-runtime';
+
+import { getLayerIconByCategory } from '../explore/Sidebar/utils/icons';
+import { setShowLayerSettings } from '../store/explore/slice';
+
 export function SelectedFeatures() {
   var _a;
   const { current: map } = useMap();
@@ -43,12 +45,12 @@ export function SelectedFeatures() {
         elRef.current.style.transform = `translate(${point.x - 160}px, ${point.y + 10}px)`;
       }
     };
-    map.on("zoom", update);
-    map.on("move", update);
+    map.on('zoom', update);
+    map.on('move', update);
     update();
     return () => {
-      map.off("zoom", update);
-      map.off("move", update);
+      map.off('zoom', update);
+      map.off('move', update);
     };
   }, [map, features]);
   const selectedLayer = useSelector((state) =>
@@ -80,78 +82,78 @@ export function SelectedFeatures() {
     dispatch(setShowLayerSettings({ show: true }));
   };
   return _jsxs(Box, {
-    className: "absolute left-0 top-0 w-[320px]",
+    className: 'absolute left-0 top-0 w-[320px]',
     ref: elRef,
     children: [
       _jsx(Box, {
-        className: "flex items-center justify-center",
-        children: _jsx("svg", {
-          width: "16",
-          height: "10",
-          children: _jsx("polygon", {
-            fill: "white",
-            points: "8,0 0,10, 16,10",
+        className: 'flex items-center justify-center',
+        children: _jsx('svg', {
+          width: '16',
+          height: '10',
+          children: _jsx('polygon', {
+            fill: 'white',
+            points: '8,0 0,10, 16,10',
           }),
         }),
       }),
       _jsxs(Card, {
         className:
-          "rounded-md shadow-md overflow-hidden text-[14px] leading-[100%] tracking-[0.15px] p-2",
+          'rounded-md shadow-md overflow-hidden text-[14px] leading-[100%] tracking-[0.15px] p-2',
         children: [
           _jsxs(CardContent, {
-            className: "max-h-[500px] overflow-y-auto pt-2 pb-1",
+            className: 'max-h-[500px] overflow-y-auto pt-2 pb-1',
             children: [
               selectedLayer &&
                 _jsxs(Box, {
-                  className: "flex items-center gap-2 mb-3",
+                  className: 'flex items-center gap-2 mb-3',
                   children: [
                     (_a = getLayerIconByCategory(selectedLayer)) === null ||
                     _a === void 0
                       ? void 0
                       : _a({
-                          className: "w-[18px] h-[18px]",
+                          className: 'w-[18px] h-[18px]',
                         }),
                     _jsx(Typography, {
-                      variant: "h6",
+                      variant: 'h6',
                       className:
-                        "font-semibold text-[14px] leading-[100%] tracking-[0.15px]",
+                        'font-semibold text-[14px] leading-[100%] tracking-[0.15px]',
                       children: selectedLayer.data.display_name,
                     }),
                   ],
                 }),
               _jsx(Divider, {}),
               _jsx(Box, {
-                className: "grid grid-cols-2 gap-y-2 pt-2",
+                className: 'grid grid-cols-2 gap-y-2 pt-2',
                 children: keys.map((key) =>
                   _jsxs(
                     Fragment,
                     {
                       children: [
                         _jsx(Box, {
-                          className: "pr-2",
+                          className: 'pr-2',
                           children: _jsx(Typography, {
-                            variant: "body2",
+                            variant: 'body2',
                             className:
-                              "text-gray-500 font-normal text-[12px] tracking-[0.15px] leading-[100%] align-middle break-words",
-                            children: key.replace(/_/g, " "),
+                              'text-gray-500 font-normal text-[12px] tracking-[0.15px] leading-[100%] align-middle break-words',
+                            children: key.replace(/_/g, ' '),
                           }),
                         }),
                         _jsx(Box, {
-                          className: "pl-2",
+                          className: 'pl-2',
                           children: _jsx(Typography, {
-                            variant: "body2",
+                            variant: 'body2',
                             className:
-                              "text-left font-normal text-[14px] tracking-[0.15px] leading-[100%] align-middle break-words",
+                              'text-left font-normal text-[14px] tracking-[0.15px] leading-[100%] align-middle break-words',
                             children:
                               (current === null || current === void 0
                                 ? void 0
                                 : current[key]) != null
                                 ? String(current[key])
-                                : "",
+                                : '',
                           }),
                         }),
                         _jsx(Box, {
-                          className: "col-span-2",
+                          className: 'col-span-2',
                           children: _jsx(Divider, {}),
                         }),
                       ],
@@ -164,35 +166,35 @@ export function SelectedFeatures() {
           }),
           _jsxs(Box, {
             className:
-              "bg-[#F3F4F6] px-1 flex items-center justify-between rounded-full mx-4 mt-2",
+              'bg-[#F3F4F6] px-1 flex items-center justify-between rounded-full mx-4 mt-2',
             children: [
               _jsx(IconButton, {
                 onClick: handlePrev,
                 disabled: pageIndex === 0,
-                children: _jsx(ArrowBackIosNewIcon, { fontSize: "small" }),
+                children: _jsx(ArrowBackIosNewIcon, { fontSize: 'small' }),
               }),
               _jsxs(Typography, {
-                variant: "body2",
-                className: "text-gray-600 text-[14px] font-normal",
-                children: [pageIndex + 1, " of ", featureAttributes.length],
+                variant: 'body2',
+                className: 'text-gray-600 text-[14px] font-normal',
+                children: [pageIndex + 1, ' of ', featureAttributes.length],
               }),
               _jsx(IconButton, {
                 onClick: handleNext,
                 disabled: pageIndex === featureAttributes.length - 1,
-                children: _jsx(ArrowForwardIosIcon, { fontSize: "small" }),
+                children: _jsx(ArrowForwardIosIcon, { fontSize: 'small' }),
               }),
             ],
           }),
           _jsx(Box, {
-            className: "flex justify-end py-2 px-2",
+            className: 'flex justify-end py-2 px-2',
             children: _jsx(Button, {
-              size: "small",
-              variant: "text",
+              size: 'small',
+              variant: 'text',
               endIcon: _jsx(TableChartOutlinedIcon, {}),
               className:
-                "!normal-case font-normal text-[14px] tracking-[0.15px]",
+                '!normal-case font-normal text-[14px] tracking-[0.15px]',
               onClick: viewFullTable,
-              children: "View Full Table",
+              children: 'View Full Table',
             }),
           }),
         ],

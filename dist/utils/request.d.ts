@@ -1,1 +1,1 @@
-export declare const request: import("axios").AxiosInstance;
+export declare const request: import('axios').AxiosInstance;

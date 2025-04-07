@@ -1,4 +1,4 @@
-import { ExpandMore, LocationOn } from "@mui/icons-material";
+import { ExpandMore, LocationOn } from '@mui/icons-material';
 import {
   AppBar,
   Avatar,
@@ -11,17 +11,17 @@ import {
   Tabs,
   Toolbar,
   Typography,
-} from "@mui/material";
-import { useState } from "react";
-import Gravatar from "react-gravatar";
-import { useAuth } from "react-oidc-context";
+} from '@mui/material';
+import { useState } from 'react';
+import Gravatar from 'react-gravatar';
+import { useAuth } from 'react-oidc-context';
 
 export const AppHeader: React.FC = () => {
   const auth = useAuth();
 
   const [activeTab, setActiveTab] = useState(1); // Default active tab
   const [selectedLocation, setSelectedLocation] = useState(
-    "Illinois Basin DAC Hub",
+    'Illinois Basin DAC Hub',
   ); // Default selected location
   const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
   const [profileAnchorEl, setProfileAnchorEl] = useState<null | HTMLElement>(
@@ -52,7 +52,7 @@ export const AppHeader: React.FC = () => {
   const handleLogout = () => {
     setProfileAnchorEl(null);
     document.cookie =
-      "Authorization=;expires=Thu, 01 Jan 1900 00:00:00 GMT;path=/";
+      'Authorization=;expires=Thu, 01 Jan 1900 00:00:00 GMT;path=/';
     auth.signoutRedirect();
   };
 
@@ -95,7 +95,7 @@ export const AppHeader: React.FC = () => {
             onClose={() => setMenuAnchorEl(null)}
           >
             <MenuItem
-              onClick={() => handleLocationSelection("Illinois Basin DAC Hub")}
+              onClick={() => handleLocationSelection('Illinois Basin DAC Hub')}
             >
               Illinois Basin DAC Hub
             </MenuItem>

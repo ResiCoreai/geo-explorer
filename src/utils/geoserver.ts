@@ -1,16 +1,16 @@
-import { AxiosRequestConfig, AxiosResponse } from "axios";
+import { AxiosRequestConfig, AxiosResponse } from 'axios';
 
-import { GEOSERVER_URL, TILE_SIZE } from "@ncsa/geo-explorer/config";
-import { getImageBlobUrl } from "@ncsa/geo-explorer/utils/image";
-import { request } from "@ncsa/geo-explorer/utils/request";
-import { Metadata } from "@ncsa/geo-explorer/utils/types";
+import { GEOSERVER_URL, TILE_SIZE } from '@ncsa/geo-explorer/config';
+import { getImageBlobUrl } from '@ncsa/geo-explorer/utils/image';
+import { request } from '@ncsa/geo-explorer/utils/request';
+import { Metadata } from '@ncsa/geo-explorer/utils/types';
 
 type Params = Record<string, string | string[] | number | number[] | boolean>;
 
 export function makeUrl(url: string, params: Params) {
   return (
     url +
-    "?" +
+    '?' +
     new URLSearchParams(
       Object.entries(params).map(([key, value]) => [key, String(value)]),
     ).toString()
@@ -20,16 +20,16 @@ export function makeUrl(url: string, params: Params) {
 export function makeWMSUrl(options: Params) {
   return (
     makeUrl(`${GEOSERVER_URL}/wms`, {
-      format: "image/png",
-      service: "WMS",
-      version: "1.3.0",
-      request: "GetMap",
-      srs: "EPSG:3857",
+      format: 'image/png',
+      service: 'WMS',
+      version: '1.3.0',
+      request: 'GetMap',
+      srs: 'EPSG:3857',
       width: TILE_SIZE,
       height: TILE_SIZE,
       transparent: true,
       ...options,
-    }) + "&bbox={bbox-epsg-3857}"
+    }) + '&bbox={bbox-epsg-3857}'
   );
 }
 
@@ -39,11 +39,11 @@ export function sendWFSRequest<T>(
 ): Promise<AxiosResponse<T>> {
   return request({
     url: makeUrl(`${GEOSERVER_URL}/wfs`, {
-      service: "WFS",
-      version: "2.0.0",
-      request: "GetFeature",
-      srsName: "EPSG:4326",
-      outputFormat: "application/json",
+      service: 'WFS',
+      version: '2.0.0',
+      request: 'GetFeature',
+      srsName: 'EPSG:4326',
+      outputFormat: 'application/json',
       ...options,
     }),
     ...config,
@@ -51,7 +51,7 @@ export function sendWFSRequest<T>(
 }
 
 export async function getInitialSettings(): Promise<Metadata> {
-  const { data } = await request.get<Metadata>("/layers.json");
+  const { data } = await request.get<Metadata>('/layers.json');
 
   // Process climate layers to ensure timestamps are sorted and in ISO 8601 format
   const processedLayers = data.climate_layers.map((layer) => ({
@@ -77,15 +77,15 @@ export async function downloadDataset(name: string) {
     const { data } = await sendWFSRequest<Blob>(
       {
         typeNames: name,
-        outputFormat: "csv",
+        outputFormat: 'csv',
       },
       {
-        responseType: "blob",
+        responseType: 'blob',
       },
     );
-    const a = document.createElement("a");
+    const a = document.createElement('a');
     a.href = URL.createObjectURL(data);
-    a.download = name + ".csv";
+    a.download = name + '.csv';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -100,9 +100,9 @@ export async function getLegendImageObjectUrl(
   return getImageBlobUrl({
     url: `${GEOSERVER_URL}/wms`,
     params: {
-      request: "GetLegendGraphic",
-      version: "1.0.0",
-      format: "image/png",
+      request: 'GetLegendGraphic',
+      version: '1.0.0',
+      format: 'image/png',
       layer: layerId,
     },
   });
@@ -112,9 +112,9 @@ export async function getLegendJSON<T>(layerId: string): Promise<T> {
   const { data } = await request<T>({
     url: `${GEOSERVER_URL}/wms`,
     params: {
-      version: "1.3.0",
-      request: "GetLegendGraphic",
-      format: "application/json",
+      version: '1.3.0',
+      request: 'GetLegendGraphic',
+      format: 'application/json',
       layer: layerId,
     },
   });

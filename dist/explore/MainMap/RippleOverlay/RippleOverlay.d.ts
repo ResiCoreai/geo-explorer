@@ -1,1 +1,1 @@
-export declare function RippleOverlay(): import("react/jsx-runtime").JSX.Element;
+export declare function RippleOverlay(): import('react/jsx-runtime').JSX.Element;

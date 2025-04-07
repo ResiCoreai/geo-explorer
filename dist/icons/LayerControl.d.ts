@@ -1,1 +1,1 @@
-export declare function LayerControlIcon(): import("react/jsx-runtime").JSX.Element;
+export declare function LayerControlIcon(): import('react/jsx-runtime').JSX.Element;

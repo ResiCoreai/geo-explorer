@@ -1,1 +1,1 @@
-export declare function LineLayerIcon(): import("react/jsx-runtime").JSX.Element;
+export declare function LineLayerIcon(): import('react/jsx-runtime').JSX.Element;

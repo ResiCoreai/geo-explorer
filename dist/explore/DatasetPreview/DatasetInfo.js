@@ -1,11 +1,13 @@
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { Box, Divider, Typography } from "@mui/material";
-import { useSelector } from "react-redux";
+import { Box, Divider, Typography } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { jsx as _jsx, jsxs as _jsxs } from 'react/jsx-runtime';
+
 import {
   climateVariableIcons,
   layerTypeIcons,
   typeDescription,
-} from "../../explore/Sidebar/utils/icons";
+} from '../../explore/Sidebar/utils/icons';
+
 export const DatasetInfo = () => {
   var _a;
   const dataset = useSelector(
@@ -19,82 +21,82 @@ export const DatasetInfo = () => {
   );
   if (!dataset) return null;
   return _jsx(Box, {
-    className: "p-4",
+    className: 'p-4',
     children: _jsxs(Box, {
-      className: "flex flex-col md:flex-row",
+      className: 'flex flex-col md:flex-row',
       children: [
         _jsxs(Box, {
-          className: "flex-1 pr-0 md:pr-4",
+          className: 'flex-1 pr-0 md:pr-4',
           children: [
             _jsx(Typography, {
-              className: "text-[16px] font-semibold",
-              children: "Description",
+              className: 'text-[16px] font-semibold',
+              children: 'Description',
             }),
             _jsx(Box, {
-              className: "mt-2",
+              className: 'mt-2',
               children: _jsx(Typography, {
-                variant: "body2",
-                className: "text-gray-600",
+                variant: 'body2',
+                className: 'text-gray-600',
                 children: dataset.description,
               }),
             }),
           ],
         }),
         _jsx(Divider, {
-          orientation: "vertical",
+          orientation: 'vertical',
           flexItem: true,
-          className: "my-4 md:my-0",
+          className: 'my-4 md:my-0',
         }),
         _jsxs(Box, {
-          className: "flex-1 pl-0 md:pl-4",
+          className: 'flex-1 pl-0 md:pl-4',
           children: [
             _jsx(Typography, {
-              className: "text-[16px] font-semibold",
-              children: "Attributes",
+              className: 'text-[16px] font-semibold',
+              children: 'Attributes',
             }),
             _jsxs(Box, {
-              className: "mt-2 flex justify-between items-center",
+              className: 'mt-2 flex justify-between items-center',
               children: [
                 _jsx(Typography, {
-                  variant: "body2",
-                  color: "gray",
-                  children: "Dataset Type",
+                  variant: 'body2',
+                  color: 'gray',
+                  children: 'Dataset Type',
                 }),
                 _jsx(Typography, {
-                  className: "text-right capitalize",
+                  className: 'text-right capitalize',
                   children:
                     ((_a = dataset.dataset_info) === null || _a === void 0
                       ? void 0
-                      : _a.dataset_category) === "climate"
-                      ? "Climate"
-                      : "DAC Tech",
+                      : _a.dataset_category) === 'climate'
+                      ? 'Climate'
+                      : 'DAC Tech',
                 }),
               ],
             }),
             _jsxs(Box, {
-              className: "mt-2 flex justify-between items-center",
+              className: 'mt-2 flex justify-between items-center',
               children: [
                 _jsx(Typography, {
-                  variant: "body2",
-                  color: "gray",
-                  children: "Dataset Category",
+                  variant: 'body2',
+                  color: 'gray',
+                  children: 'Dataset Category',
                 }),
                 _jsx(Typography, {
-                  className: "text-right capitalize",
+                  className: 'text-right capitalize',
                   children: dataset.dataset_info.dataset_category,
                 }),
               ],
             }),
             _jsxs(Box, {
-              className: "mt-2 flex justify-between items-center",
+              className: 'mt-2 flex justify-between items-center',
               children: [
                 _jsx(Typography, {
-                  variant: "body2",
-                  color: "gray",
-                  children: "Layer Type",
+                  variant: 'body2',
+                  color: 'gray',
+                  children: 'Layer Type',
                 }),
                 _jsxs(Box, {
-                  className: "flex items-center",
+                  className: 'flex items-center',
                   children: [
                     layerTypeIcons.map(({ type, icon }) => {
                       var _a;
@@ -105,11 +107,11 @@ export const DatasetInfo = () => {
                         ? _jsxs(
                             Box,
                             {
-                              className: "flex items-center",
+                              className: 'flex items-center',
                               children: [
-                                icon({ className: "text-red-500" }),
+                                icon({ className: 'text-red-500' }),
                                 _jsx(Typography, {
-                                  className: "ml-2 capitalize",
+                                  className: 'ml-2 capitalize',
                                   children: type,
                                 }),
                               ],
@@ -127,11 +129,11 @@ export const DatasetInfo = () => {
                         ? _jsxs(
                             Box,
                             {
-                              className: "flex items-center",
+                              className: 'flex items-center',
                               children: [
-                                icon({ className: "text-red-500" }),
+                                icon({ className: 'text-red-500' }),
                                 _jsx(Typography, {
-                                  className: "ml-2 capitalize",
+                                  className: 'ml-2 capitalize',
                                   children:
                                     (_c =
                                       (_b = typeDescription[type]) === null ||
@@ -153,16 +155,16 @@ export const DatasetInfo = () => {
               ],
             }),
             _jsxs(Box, {
-              className: "mt-2 flex justify-between items-center",
+              className: 'mt-2 flex justify-between items-center',
               children: [
                 _jsx(Typography, {
-                  variant: "body2",
-                  color: "gray",
-                  children: "Data Source",
+                  variant: 'body2',
+                  color: 'gray',
+                  children: 'Data Source',
                 }),
                 _jsx(Typography, {
-                  className: "text-right capitalize",
-                  children: "N/A",
+                  className: 'text-right capitalize',
+                  children: 'N/A',
                 }),
               ],
             }),

@@ -1,19 +1,20 @@
-import { MapLayer } from "../store/explore/types";
-export type FeatureType = "point" | "line" | "polygon";
+import { MapLayer } from '../store/explore/types';
+
+export type FeatureType = 'point' | 'line' | 'polygon';
 export interface BaseDatasetInfo {
   timestamps: string[];
 }
 export interface VectorDatasetInfo extends BaseDatasetInfo {
-  dataset_type: "vector";
+  dataset_type: 'vector';
   dataset_category: string;
   feature_type: FeatureType;
 }
 export interface RasterDatasetInfo extends BaseDatasetInfo {
-  dataset_type: "raster";
+  dataset_type: 'raster';
   dataset_category: string;
 }
 export interface ClimateDatasetInfo extends RasterDatasetInfo {
-  dataset_category: "climate";
+  dataset_category: 'climate';
   climate_variable_desc: string;
   climate_variable: string;
   climate_scenario: string;
@@ -112,7 +113,7 @@ export interface CategoricalPointLegend {
               graphics: Array<{
                 mark?: string;
                 fill: string;
-                "fill-opacity"?: string;
+                'fill-opacity'?: string;
               }>;
             };
           },
@@ -134,10 +135,10 @@ export interface CategoricalLineLegend {
           {
             Line: {
               stroke: string;
-              "stroke-width"?: string;
-              "stroke-opacity"?: string;
-              "stroke-linecap"?: string;
-              "stroke-linejoin"?: string;
+              'stroke-width'?: string;
+              'stroke-opacity'?: string;
+              'stroke-linecap'?: string;
+              'stroke-linejoin'?: string;
             };
           },
         ];
@@ -158,12 +159,12 @@ export interface CategoricalPolygonLegend {
           {
             Polygon: {
               stroke?: string;
-              "stroke-width"?: string;
-              "stroke-opacity"?: string;
-              "stroke-linecap"?: string;
-              "stroke-linejoin"?: string;
+              'stroke-width'?: string;
+              'stroke-opacity'?: string;
+              'stroke-linecap'?: string;
+              'stroke-linejoin'?: string;
               fill?: string;
-              "fill-opacity"?: string;
+              'fill-opacity'?: string;
             };
           },
         ];

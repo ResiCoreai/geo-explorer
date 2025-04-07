@@ -1,9 +1,11 @@
-import SLDParser from "geostyler-sld-parser";
-import { store } from "../../store";
+import SLDParser from 'geostyler-sld-parser';
+
+import { store } from '../../store';
+
 function createPointSymbolizer(style) {
   return {
-    kind: "Mark",
-    wellKnownName: "circle",
+    kind: 'Mark',
+    wellKnownName: 'circle',
     fillOpacity: style.fillOpacity,
     color: style.fillColor,
     strokeWidth: style.strokeWidth * devicePixelRatio,
@@ -14,7 +16,7 @@ function createPointSymbolizer(style) {
 }
 function createLineSymbolizer(style) {
   return {
-    kind: "Line",
+    kind: 'Line',
     width: style.strokeWidth * devicePixelRatio,
     color: style.strokeColor,
     opacity: style.strokeOpacity,
@@ -22,7 +24,7 @@ function createLineSymbolizer(style) {
 }
 function createPolygonSymbolizer(style) {
   return {
-    kind: "Fill",
+    kind: 'Fill',
     fillOpacity: style.fillOpacity,
     color: style.fillColor,
     outlineWidth: style.strokeWidth * devicePixelRatio,
@@ -32,11 +34,11 @@ function createPolygonSymbolizer(style) {
 }
 function createSymbolizer(type, style) {
   switch (type) {
-    case "point":
+    case 'point':
       return createPointSymbolizer(style);
-    case "line":
+    case 'line':
       return createLineSymbolizer(style);
-    case "polygon":
+    case 'polygon':
       return createPolygonSymbolizer(style);
   }
 }
@@ -45,7 +47,7 @@ function createStyleRules(type, style) {
   return symbolizer
     ? [
         {
-          name: "",
+          name: '',
           symbolizers: [symbolizer],
         },
       ]
@@ -56,13 +58,13 @@ export async function formatSLD(layer_id, style) {
   const layer = selectedLayers.find(
     (layer) => layer.data.layer_id === layer_id,
   );
-  if (layer.data.dataset_info.dataset_type === "raster") {
-    return "";
+  if (layer.data.dataset_info.dataset_type === 'raster') {
+    return '';
   }
   const geoStylerStyle = {
     name: layer_id,
     rules: createStyleRules(layer.data.dataset_info.feature_type, style),
   };
   const { output: styleSLD } = await new SLDParser().writeStyle(geoStylerStyle);
-  return styleSLD !== null && styleSLD !== void 0 ? styleSLD : "";
+  return styleSLD !== null && styleSLD !== void 0 ? styleSLD : '';
 }

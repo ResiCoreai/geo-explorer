@@ -1,5 +1,7 @@
-import { jsx as _jsx } from "react/jsx-runtime";
-import { PolygonRipple } from "../../../explore/MainMap/RippleOverlay/PolygonRipple";
+import { jsx as _jsx } from 'react/jsx-runtime';
+
+import { PolygonRipple } from '../../../explore/MainMap/RippleOverlay/PolygonRipple';
+
 export function MultiPolygonRipple({ feature }) {
   return feature.geometry.coordinates.map((polygonCoords, i) =>
     _jsx(
@@ -7,9 +9,9 @@ export function MultiPolygonRipple({ feature }) {
       {
         feature: {
           id: `${feature.id}_${i}`,
-          type: "Feature",
+          type: 'Feature',
           geometry: {
-            type: "Polygon",
+            type: 'Polygon',
             coordinates: polygonCoords,
           },
           properties: {},

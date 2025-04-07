@@ -1,6 +1,5 @@
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import CloseFullscreenOutlinedIcon from "@mui/icons-material/CloseFullscreenOutlined";
-import OpenInFullOutlinedIcon from "@mui/icons-material/OpenInFullOutlined";
+import CloseFullscreenOutlinedIcon from '@mui/icons-material/CloseFullscreenOutlined';
+import OpenInFullOutlinedIcon from '@mui/icons-material/OpenInFullOutlined';
 import {
   Box,
   Collapse,
@@ -8,11 +7,14 @@ import {
   IconButton,
   Switch,
   Typography,
-} from "@mui/material";
-import classNames from "classnames";
-import { useEffect, useState } from "react";
-import { useAuth } from "react-oidc-context";
-import { getLegendImageObjectUrl } from "../../utils/geoserver";
+} from '@mui/material';
+import classNames from 'classnames';
+import { useEffect, useState } from 'react';
+import { useAuth } from 'react-oidc-context';
+import { jsx as _jsx, jsxs as _jsxs } from 'react/jsx-runtime';
+
+import { getLegendImageObjectUrl } from '../../utils/geoserver';
+
 export function LegendPanel({ layers, selectedLayer }) {
   var _a;
   const auth = useAuth();
@@ -49,24 +51,24 @@ export function LegendPanel({ layers, selectedLayer }) {
   const visibleLayers = showAll ? layers : [selectedLayer];
   return _jsxs(Box, {
     className:
-      "w-[260px] rounded-lg shadow border border-gray-300 bg-white flex flex-col overflow-hidden",
+      'w-[260px] rounded-lg shadow border border-gray-300 bg-white flex flex-col overflow-hidden',
     children: [
       _jsxs(Box, {
         className:
-          "flex items-center justify-between px-4 py-2 border-b border-gray-200",
+          'flex items-center justify-between px-4 py-2 border-b border-gray-200',
         children: [
           _jsx(Typography, {
             className:
-              "text-[#2C343C] tracking-wide uppercase font-[400] text-[14px]",
-            children: "Legend List",
+              'text-[#2C343C] tracking-wide uppercase font-[400] text-[14px]',
+            children: 'Legend List',
           }),
           _jsx(IconButton, {
-            size: "small",
+            size: 'small',
             onClick: () => setCollapsed((prev) => !prev),
-            "aria-label": collapsed ? "Expand legend" : "Collapse legend",
+            'aria-label': collapsed ? 'Expand legend' : 'Collapse legend',
             children: collapsed
-              ? _jsx(OpenInFullOutlinedIcon, { fontSize: "inherit" })
-              : _jsx(CloseFullscreenOutlinedIcon, { fontSize: "inherit" }),
+              ? _jsx(OpenInFullOutlinedIcon, { fontSize: 'inherit' })
+              : _jsx(CloseFullscreenOutlinedIcon, { fontSize: 'inherit' }),
           }),
         ],
       }),
@@ -75,7 +77,7 @@ export function LegendPanel({ layers, selectedLayer }) {
         in: !collapsed,
         children: [
           _jsx(Box, {
-            className: "overflow-y-auto max-h-[500px]",
+            className: 'overflow-y-auto max-h-[500px]',
             children: visibleLayers.map((layer, index) => {
               const isSelected =
                 layer.data.layer_id === selectedLayer.data.layer_id;
@@ -87,28 +89,28 @@ export function LegendPanel({ layers, selectedLayer }) {
                   children: [
                     _jsxs(Box, {
                       className: classNames(
-                        "px-4 pt-3 pb-2",
-                        showAll && isSelected && "bg-blue-50",
+                        'px-4 pt-3 pb-2',
+                        showAll && isSelected && 'bg-blue-50',
                       ),
                       children: [
                         _jsx(Typography, {
                           className:
-                            "text-[14px] font-[600] text-[#2C343C] leading-tight",
+                            'text-[14px] font-[600] text-[#2C343C] leading-tight',
                           children: title,
                         }),
                         legendUrl &&
                           _jsx(Box, {
-                            className: "pt-2 pb-1",
-                            children: _jsx("img", {
+                            className: 'pt-2 pb-1',
+                            children: _jsx('img', {
                               src: legendUrl,
                               alt: `Legend for ${title}`,
-                              className: "object-contain",
+                              className: 'object-contain',
                             }),
                           }),
                       ],
                     }),
                     index < visibleLayers.length - 1 &&
-                      _jsx(Divider, { className: "-mx-4" }),
+                      _jsx(Divider, { className: '-mx-4' }),
                   ],
                 },
                 layer.data.layer_id,
@@ -118,16 +120,16 @@ export function LegendPanel({ layers, selectedLayer }) {
           _jsx(Divider, {}),
           _jsxs(Box, {
             className:
-              "border-t border-gray-200 px-4 py-2 flex items-center justify-end gap-2",
+              'border-t border-gray-200 px-4 py-2 flex items-center justify-end gap-2',
             children: [
               _jsx(Typography, {
-                className: "text-sm text-gray-700",
-                children: "Show all visible legends",
+                className: 'text-sm text-gray-700',
+                children: 'Show all visible legends',
               }),
               _jsx(Switch, {
                 checked: showAll,
                 onChange: () => setShowAll((prev) => !prev),
-                size: "small",
+                size: 'small',
               }),
             ],
           }),

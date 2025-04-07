@@ -1,17 +1,17 @@
-import { ThemeProvider, createTheme } from "@mui/material";
-import { useEffect, useState } from "react";
-import { hasAuthParams, useAuth } from "react-oidc-context";
-import { Provider } from "react-redux";
+import { ThemeProvider, createTheme } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { hasAuthParams, useAuth } from 'react-oidc-context';
+import { Provider } from 'react-redux';
 
-import { store } from "@ncsa/geo-explorer/store";
+import { store } from '@ncsa/geo-explorer/store';
 
-import { Explore } from "./explore";
+import { Explore } from './explore';
 
-import "./index.css";
+import './index.css';
 
 const theme = createTheme({
   typography: {
-    fontFamily: "Open Sans",
+    fontFamily: 'Open Sans',
   },
 });
 

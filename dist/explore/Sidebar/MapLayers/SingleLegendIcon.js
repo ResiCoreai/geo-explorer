@@ -1,7 +1,9 @@
-import { jsx as _jsx } from "react/jsx-runtime";
-import { useEffect, useState } from "react";
-import { getLegendJSON } from "../../../utils/geoserver";
-import { getImageBlobUrl } from "../../../utils/image";
+import { useEffect, useState } from 'react';
+import { jsx as _jsx } from 'react/jsx-runtime';
+
+import { getLegendJSON } from '../../../utils/geoserver';
+import { getImageBlobUrl } from '../../../utils/image';
+
 export function SingleLegendIcon({ layer }) {
   const [legend, setLegend] = useState(null);
   const [imageBlobUrl, setImageBlobUrl] = useState(null);
@@ -28,7 +30,7 @@ export function SingleLegendIcon({ layer }) {
         _d !== void 0
           ? _d
           : []) {
-          if ("Point" in symbolizer) {
+          if ('Point' in symbolizer) {
             const rawUrl =
               (_e =
                 symbolizer === null || symbolizer === void 0
@@ -39,13 +41,13 @@ export function SingleLegendIcon({ layer }) {
             if (rawUrl) {
               const decoded = decodeURIComponent(rawUrl);
               // TODO: make this pattern configurable
-              const cleaned = decoded.replace(/\/DAC:([^/?#]+)/, "/$1");
+              const cleaned = decoded.replace(/\/DAC:([^/?#]+)/, '/$1');
               try {
                 const objectUrl = await getImageBlobUrl({ url: cleaned });
                 setImageBlobUrl(objectUrl);
                 return;
               } catch (err) {
-                console.error("Failed to fetch icon with auth:", err);
+                console.error('Failed to fetch icon with auth:', err);
                 return;
               }
             }
@@ -58,11 +60,11 @@ export function SingleLegendIcon({ layer }) {
     }
   }, [legend]);
   if (!imageBlobUrl) return null;
-  return _jsx("img", {
+  return _jsx('img', {
     src: imageBlobUrl,
-    alt: "Legend Icon",
-    title: "Legend Icon",
+    alt: 'Legend Icon',
+    title: 'Legend Icon',
     className:
-      "inline-block object-contain w-[18px] h-[18px] translate-y-[-2px]",
+      'inline-block object-contain w-[18px] h-[18px] translate-y-[-2px]',
   });
 }
