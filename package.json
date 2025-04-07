@@ -1,6 +1,6 @@
 {
-  "name": "geo-explorer",
-  "version": "0.0.0",
+  "name": "@ncsa/geo-explorer",
+  "version": "0.0.2",
   "description": "",
   "exports": {
     "./*": "./dist/*.js"

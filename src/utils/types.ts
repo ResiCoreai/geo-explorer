@@ -1,24 +1,24 @@
-import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
+import { MapLayer } from "@ncsa/geo-explorer/store/explore/types";
 
-export type FeatureType = 'point' | 'line' | 'polygon';
+export type FeatureType = "point" | "line" | "polygon";
 
 export interface BaseDatasetInfo {
   timestamps: string[];
 }
 
 export interface VectorDatasetInfo extends BaseDatasetInfo {
-  dataset_type: 'vector';
+  dataset_type: "vector";
   dataset_category: string;
   feature_type: FeatureType;
 }
 
 export interface RasterDatasetInfo extends BaseDatasetInfo {
-  dataset_type: 'raster';
+  dataset_type: "raster";
   dataset_category: string;
 }
 
 export interface ClimateDatasetInfo extends RasterDatasetInfo {
-  dataset_category: 'climate';
+  dataset_category: "climate";
   climate_variable_desc: string;
   climate_variable: string;
   climate_scenario: string;
@@ -55,25 +55,25 @@ export interface Metadata {
 export function isClimateData(
   layer: MapLayer,
 ): layer is MapLayer & { data: { dataset_info: ClimateDatasetInfo } } {
-  return layer.data.dataset_info.dataset_category === 'climate';
+  return layer.data.dataset_info.dataset_category === "climate";
 }
 
 export function isCategoricalData(
   layer: MapLayer,
 ): layer is MapLayer & { data: { dataset_info: VectorDatasetInfo } } {
-  return layer.data.dataset_info.dataset_category !== 'storage';
+  return layer.data.dataset_info.dataset_category !== "storage";
 }
 
 export function isSingleCategoryData(
   layer: MapLayer,
 ): layer is MapLayer & { data: { dataset_info: VectorDatasetInfo } } {
-  return layer.data.dataset_info.dataset_category === 'storage';
+  return layer.data.dataset_info.dataset_category === "storage";
 }
 
 export function isVectorData(
   layer: MapLayer,
 ): layer is MapLayer & { data: { dataset_info: VectorDatasetInfo } } {
-  return layer.data.dataset_info.dataset_type === 'vector';
+  return layer.data.dataset_info.dataset_type === "vector";
 }
 
 export type Legend = RasterLegend;
@@ -124,7 +124,7 @@ export interface CategoricalPointLegend {
               graphics: Array<{
                 mark?: string;
                 fill: string;
-                'fill-opacity'?: string;
+                "fill-opacity"?: string;
               }>;
             };
           },
@@ -147,10 +147,10 @@ export interface CategoricalLineLegend {
           {
             Line: {
               stroke: string;
-              'stroke-width'?: string;
-              'stroke-opacity'?: string;
-              'stroke-linecap'?: string;
-              'stroke-linejoin'?: string;
+              "stroke-width"?: string;
+              "stroke-opacity"?: string;
+              "stroke-linecap"?: string;
+              "stroke-linejoin"?: string;
             };
           },
         ];
@@ -172,12 +172,12 @@ export interface CategoricalPolygonLegend {
           {
             Polygon: {
               stroke?: string;
-              'stroke-width'?: string;
-              'stroke-opacity'?: string;
-              'stroke-linecap'?: string;
-              'stroke-linejoin'?: string;
+              "stroke-width"?: string;
+              "stroke-opacity"?: string;
+              "stroke-linecap"?: string;
+              "stroke-linejoin"?: string;
               fill?: string;
-              'fill-opacity'?: string;
+              "fill-opacity"?: string;
             };
           },
         ];

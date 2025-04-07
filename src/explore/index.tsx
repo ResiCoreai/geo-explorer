@@ -1,20 +1,20 @@
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { Box, IconButton, Stack } from '@mui/material';
-import classNames from 'classnames';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { Box, IconButton, Stack } from "@mui/material";
+import classNames from "classnames";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import { AppHeader } from '@ncsa/geo-explorer/components/AppHeader';
-import { SIDEBAR_WIDTH } from '@ncsa/geo-explorer/config';
-import { DatasetPreview } from '@ncsa/geo-explorer/explore/DatasetPreview';
-import { MainMap } from '@ncsa/geo-explorer/explore/MainMap';
-import { MapLayerSettings } from '@ncsa/geo-explorer/explore/MapLayerSettings';
-import { Sidebar } from '@ncsa/geo-explorer/explore/Sidebar';
-import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
-import { initialize } from '@ncsa/geo-explorer/store/explore/slice';
+import { AppHeader } from "@ncsa/geo-explorer/components/AppHeader";
+import { SIDEBAR_WIDTH } from "@ncsa/geo-explorer/config";
+import { DatasetPreview } from "@ncsa/geo-explorer/explore/DatasetPreview";
+import { MainMap } from "@ncsa/geo-explorer/explore/MainMap";
+import { MapLayerSettings } from "@ncsa/geo-explorer/explore/MapLayerSettings";
+import { Sidebar } from "@ncsa/geo-explorer/explore/Sidebar";
+import { AppDispatch, RootState } from "@ncsa/geo-explorer/store";
+import { initialize } from "@ncsa/geo-explorer/store/explore/slice";
 
-import 'maplibre-gl/dist/maplibre-gl.css';
+import "maplibre-gl/dist/maplibre-gl.css";
 
 export function Explore() {
   const dispatch = useDispatch<AppDispatch>();
@@ -50,8 +50,8 @@ export function Explore() {
             <IconButton
               className={
                 sidebarOpen
-                  ? 'absolute -right-[15px] top-2 z-10 bg-white'
-                  : 'absolute -right-[40px] top-2 z-10 bg-white'
+                  ? "absolute -right-[15px] top-2 z-10 bg-white"
+                  : "absolute -right-[40px] top-2 z-10 bg-white"
               }
               onClick={() => setSidebarOpen(!sidebarOpen)}
               size="small"
@@ -60,7 +60,7 @@ export function Explore() {
                 <ChevronLeftIcon className="text-[#0000008A] text-[large]" />
               ) : (
                 <ChevronRightIcon className="text-[#0000008A] text-[large]" />
-              )}{' '}
+              )}{" "}
             </IconButton>
             <Sidebar />
           </Box>
@@ -72,8 +72,8 @@ export function Explore() {
             <Box className="flex-1" />
             <Box
               className={classNames(
-                'flex-none pointer-events-auto transition-transform flex flex-colum items-center',
-                !selectedMapLayer && 'translate-y-full',
+                "flex-none pointer-events-auto transition-transform flex flex-colum items-center",
+                !selectedMapLayer && "translate-y-full",
               )}
             >
               <MapLayerSettings />

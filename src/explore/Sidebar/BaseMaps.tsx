@@ -5,13 +5,13 @@ import {
   Select,
   SelectChangeEvent,
   Typography,
-} from '@mui/material';
-import React from 'react';
-import { useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+} from "@mui/material";
+import React from "react";
+import { useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
-import { selectBaseMap } from '@ncsa/geo-explorer/store/explore/slice';
+import { AppDispatch, RootState } from "@ncsa/geo-explorer/store";
+import { selectBaseMap } from "@ncsa/geo-explorer/store/explore/slice";
 
 export const BaseMaps: React.FC = () => {
   const { baseMaps, selectedBaseMap } = useSelector(
@@ -43,13 +43,13 @@ export const BaseMaps: React.FC = () => {
         </Typography>
       </Box>
       <Select
-        value={activeBaseMap || ''}
+        value={activeBaseMap || ""}
         onChange={handleChange}
         variant="standard"
         disableUnderline
         className="w-full bg-[#F4F5F7]"
         classes={{
-          select: 'flex items-center justify-between', // Equivalent of `.MuiSelect-select`
+          select: "flex items-center justify-between", // Equivalent of `.MuiSelect-select`
         }}
       >
         {baseMaps.map((basemap) => (
