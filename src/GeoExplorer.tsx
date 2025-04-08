@@ -1,69 +1,91 @@
-import { ThemeProvider, createTheme } from '@mui/material';
-import { useEffect, useState } from 'react';
-import { hasAuthParams, useAuth } from 'react-oidc-context';
-import { Provider } from 'react-redux';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { Box, IconButton, Stack } from '@mui/material';
+import classNames from 'classnames';
+import { useContext, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { store } from '@ncsa/geo-explorer/store';
+import { AppHeader } from '@ncsa/geo-explorer/components/AppHeader';
+import { SIDEBAR_WIDTH } from '@ncsa/geo-explorer/config';
+import { GeoExplorerContext } from '@ncsa/geo-explorer/context';
+import { DatasetPreview } from '@ncsa/geo-explorer/explore/DatasetPreview';
+import { MainMap } from '@ncsa/geo-explorer/explore/MainMap';
+import { MapLayerSettings } from '@ncsa/geo-explorer/explore/MapLayerSettings';
+import { Sidebar } from '@ncsa/geo-explorer/explore/Sidebar';
+import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
+import { initLayersFromConfig } from '@ncsa/geo-explorer/store/explore/actions';
 
-import { Explore } from './explore';
-
-import './index.css';
-
-const theme = createTheme({
-  typography: {
-    fontFamily: 'Open Sans',
-  },
-});
+import 'maplibre-gl/dist/maplibre-gl.css';
 
 export function GeoExplorer() {
-  const auth = useAuth();
-  const [hasTriedSignin, setHasTriedSignin] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
+  const { ogcClient } = useContext(GeoExplorerContext);
+
+  const selectedMapLayer = useSelector(
+    (state: RootState) => state.explore.selectedLayer,
+  );
+
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   useEffect(() => {
-    // the `return` is important - addAccessTokenExpiring() returns a cleanup function
-    return auth.events.addAccessTokenExpiring(() => {
-      if (
-        confirm(
-          "You're about to be signed out due to inactivity. Press continue to stay signed in.",
-        )
-      ) {
-        auth.signinSilent();
-      }
-    });
-  }, [auth.events, auth.signinSilent]);
-
-  // automatically sign-in
-  useEffect(() => {
-    if (
-      !hasAuthParams() &&
-      !auth.isAuthenticated &&
-      !auth.activeNavigator &&
-      !auth.isLoading &&
-      !hasTriedSignin
-    ) {
-      auth.signinRedirect();
-      setHasTriedSignin(true);
+    if (ogcClient) {
+      dispatch(initLayersFromConfig(ogcClient));
     }
-  }, [auth, hasTriedSignin]);
-
-  // This is necessary for GeoServer Web administration interface
-  useEffect(() => {
-    document.cookie = `Authorization=${auth.user?.access_token}`;
-  }, [auth.user?.access_token]);
-
-  if (auth.isLoading) {
-    return <div>Signing you in/out...</div>;
-  }
-
-  if (!auth.isAuthenticated) {
-    return <div>Unable to log in</div>;
-  }
+  }, [ogcClient]);
 
   return (
-    <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <Explore />
-      </ThemeProvider>
-    </Provider>
+    <Stack direction="column" className="fixed top-0 left-0 right-0 bottom-0">
+      <AppHeader />
+      <Box className="relative flex-1">
+        <Box className="z-0 relative">
+          <MainMap />
+        </Box>
+        <Stack
+          direction="row"
+          className="absolute left-0 right-0 top-0 bottom-0 min-h-0 pointer-events-none transition-all"
+          style={{
+            marginLeft: sidebarOpen ? 0 : -SIDEBAR_WIDTH,
+          }}
+        >
+          <Box
+            style={{ width: SIDEBAR_WIDTH }}
+            className="flex-none h-full relative z-[1] pointer-events-auto"
+          >
+            <IconButton
+              className={
+                sidebarOpen
+                  ? 'absolute -right-[15px] top-2 z-10 bg-white'
+                  : 'absolute -right-[40px] top-2 z-10 bg-white'
+              }
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              size="small"
+            >
+              {sidebarOpen ? (
+                <ChevronLeftIcon className="text-[#0000008A] text-[large]" />
+              ) : (
+                <ChevronRightIcon className="text-[#0000008A] text-[large]" />
+              )}{' '}
+            </IconButton>
+            <Sidebar />
+          </Box>
+
+          <Stack
+            direction="column"
+            className="flex-1 items-stretch min-w-0 relative"
+          >
+            <Box className="flex-1" />
+            <Box
+              className={classNames(
+                'flex-none pointer-events-auto transition-transform flex flex-colum items-center',
+                !selectedMapLayer && 'translate-y-full',
+              )}
+            >
+              <MapLayerSettings />
+            </Box>
+          </Stack>
+        </Stack>
+        <DatasetPreview />
+      </Box>
+    </Stack>
   );
 }

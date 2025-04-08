@@ -1,8 +1,8 @@
 import Box from '@mui/material/Box';
-import { useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 
+import { GeoExplorerContext } from '@ncsa/geo-explorer/context';
 import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
-import { getLegendJSON } from '@ncsa/geo-explorer/utils/geoserver';
 import {
   CategoricalLegend,
   VectorDatasetInfo,
@@ -18,11 +18,15 @@ type CategoricalColor = {
 };
 
 export function CategoricalLegendIcon({ layer }: Props) {
+  const { ogcClient } = useContext(GeoExplorerContext);
+
   const [legend, setLegend] = useState<CategoricalLegend | null>(null);
 
   useEffect(() => {
-    getLegendJSON<CategoricalLegend>(layer.data.layer_id).then(setLegend);
-  }, []);
+    ogcClient
+      ?.getLegendJSON<CategoricalLegend>(layer.data.layer_id)
+      .then(setLegend);
+  }, [ogcClient]);
 
   const colorMap = useMemo<CategoricalColor[]>(() => {
     const rules = legend?.Legend?.[0]?.rules ?? [];

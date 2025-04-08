@@ -1,18 +1,20 @@
 {
   "name": "@ncsa/geo-explorer",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "exports": {
-    "./*": "./dist/*.js"
+    ".": "./dist/index.js",
+    "./index.css": "./dist/index.css"
   },
   "scripts": {
+    "clean": "rm -rf dist",
     "tailwind": "tailwindcss -i ./src/input.css -o ./src/index.css",
-    "compile": "tsc && tsc-alias",
+    "compile": "npm run clean && tsc && tsc-alias",
+    "compile:watch": "npm run clean && tsc -w && tsc-alias -w",
     "copy-files": "cp ./src/index.css dist",
     "build": "run-s tailwind compile copy-files",
-    "typecheck": "tsc --noEmit",
     "lint": "eslint",
-    "format": "prettier --write src dist",
+    "format": "prettier --write src",
     "prepare": "husky"
   },
   "repository": {

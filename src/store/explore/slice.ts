@@ -1,4 +1,4 @@
-import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import {
   Feature,
   FeatureCollection,
@@ -14,7 +14,6 @@ import {
   MapLayer,
   MapLayerStyle,
 } from '@ncsa/geo-explorer/store/explore/types';
-import { getInitialSettings } from '@ncsa/geo-explorer/utils/geoserver';
 import { Basemap, Dataset } from '@ncsa/geo-explorer/utils/types';
 
 export type SimpleFeature = Feature<
@@ -48,11 +47,6 @@ export const defaultLayerStyle: MapLayerStyle = {
   fillOpacity: 0.2,
   layerOpacity: 1,
 };
-
-export const initialize = createAsyncThunk(
-  'explore/initialize',
-  getInitialSettings,
-);
 
 export const exploreSlice = createSlice({
   name: 'mapLayers',
@@ -243,13 +237,18 @@ export const exploreSlice = createSlice({
         layer.styleSLD = '';
       }
     },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(initialize.fulfilled, (state, action) => {
-      state.dataInventory = action.payload.tech_requirement_layers;
-      state.climateInventory = action.payload.climate_layers;
-      state.baseMaps = action.payload.basemaps;
-    });
+    initLayers(
+      state,
+      action: PayloadAction<{
+        dataInventory: Dataset[];
+        climateInventory: Dataset[];
+        baseMaps: Basemap[];
+      }>,
+    ) {
+      state.dataInventory = action.payload.dataInventory;
+      state.climateInventory = action.payload.climateInventory;
+      state.baseMaps = action.payload.baseMaps;
+    },
   },
 });
 
@@ -270,4 +269,5 @@ export const {
   setSelectedFeatures,
   setLayerStyle,
   resetLayerStyle,
+  initLayers,
 } = exploreSlice.actions;

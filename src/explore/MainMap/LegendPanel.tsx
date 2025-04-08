@@ -9,11 +9,11 @@ import {
   Typography,
 } from '@mui/material';
 import classNames from 'classnames';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useAuth } from 'react-oidc-context';
 
+import { GeoExplorerContext } from '@ncsa/geo-explorer/context';
 import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
-import { getLegendImageObjectUrl } from '@ncsa/geo-explorer/utils/geoserver';
 
 type Props = {
   layers: MapLayer[];
@@ -22,6 +22,7 @@ type Props = {
 
 export function LegendPanel({ layers, selectedLayer }: Props) {
   const auth = useAuth();
+  const { ogcClient } = useContext(GeoExplorerContext);
 
   const [showAll, setShowAll] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
@@ -34,11 +35,13 @@ export function LegendPanel({ layers, selectedLayer }: Props) {
       if (!layerId || !token) return;
 
       try {
-        const blobUrl = await getLegendImageObjectUrl(layerId);
-        setLegendUrls((prev) => ({
-          ...prev,
-          [layerId]: blobUrl,
-        }));
+        const blobUrl = await ogcClient?.getLegendImageObjectUrl(layerId);
+        if (blobUrl) {
+          setLegendUrls((prev) => ({
+            ...prev,
+            [layerId]: blobUrl,
+          }));
+        }
       } catch (err) {
         console.error(`Error loading legend for ${layerId}:`, err);
       }

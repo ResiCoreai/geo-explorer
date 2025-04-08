@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
+import { GeoExplorerContext } from '@ncsa/geo-explorer/context';
 import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
-import { getLegendJSON } from '@ncsa/geo-explorer/utils/geoserver';
-import { getImageBlobUrl } from '@ncsa/geo-explorer/utils/image';
 import {
   CategoricalLegend,
   VectorDatasetInfo,
@@ -13,12 +12,16 @@ type Props = {
 };
 
 export function SingleLegendIcon({ layer }: Props) {
+  const { ogcClient } = useContext(GeoExplorerContext);
+
   const [legend, setLegend] = useState<CategoricalLegend | null>(null);
   const [imageBlobUrl, setImageBlobUrl] = useState<string | null>(null);
 
   useEffect(() => {
-    getLegendJSON<CategoricalLegend>(layer.data.layer_id).then(setLegend);
-  }, []);
+    ogcClient
+      ?.getLegendJSON<CategoricalLegend>(layer.data.layer_id)
+      .then(setLegend);
+  }, [ogcClient]);
 
   useEffect(() => {
     const fetchIcon = async () => {
@@ -34,8 +37,12 @@ export function SingleLegendIcon({ layer }: Props) {
               const cleaned = decoded.replace(/\/DAC:([^/?#]+)/, '/$1');
 
               try {
-                const objectUrl = await getImageBlobUrl({ url: cleaned });
-                setImageBlobUrl(objectUrl);
+                const objectUrl = await ogcClient?.getImageBlobUrl({
+                  url: cleaned,
+                });
+                if (objectUrl) {
+                  setImageBlobUrl(objectUrl);
+                }
                 return;
               } catch (err) {
                 console.error('Failed to fetch icon with auth:', err);

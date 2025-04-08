@@ -1,4 +1,5 @@
 import { isAbortError } from 'maplibre-gl/src/util/abort_error';
+import { useContext } from 'react';
 import {
   FullscreenControl,
   Layer,
@@ -10,6 +11,7 @@ import { useAuth } from 'react-oidc-context';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { GEOSERVER_URL } from '@ncsa/geo-explorer/config';
+import { GeoExplorerContext } from '@ncsa/geo-explorer/context';
 import { LegendPanel } from '@ncsa/geo-explorer/explore/MainMap/LegendPanel';
 import { RippleOverlay } from '@ncsa/geo-explorer/explore/MainMap/RippleOverlay/RippleOverlay';
 import { WMSLayer } from '@ncsa/geo-explorer/explore/MainMap/WMSLayer';
@@ -21,6 +23,8 @@ import { identifyFeature } from '@ncsa/geo-explorer/store/explore/actions';
 export function MainMap() {
   const auth = useAuth();
   const dispatch = useDispatch<AppDispatch>();
+  const { ogcClient } = useContext(GeoExplorerContext);
+
   const mapLayers = useSelector((state: RootState) => state.explore.mapLayers);
   const selectedLayer = useSelector((state: RootState) =>
     state.explore.mapLayers.find(
@@ -90,13 +94,16 @@ export function MainMap() {
           selectedLayer &&
           selectedLayer.data.dataset_info.dataset_type === 'vector'
         ) {
-          dispatch(
-            identifyFeature(
-              selectedLayer.data.layer_id,
-              e.lngLat,
-              e.target.getZoom(),
-            ),
-          );
+          if (ogcClient) {
+            dispatch(
+              identifyFeature(
+                ogcClient,
+                selectedLayer.data.layer_id,
+                e.lngLat,
+                e.target.getZoom(),
+              ),
+            );
+          }
         }
       }}
       cursor={selectedLayer ? 'crosshair' : ''}

@@ -1,13 +1,14 @@
-import { useEffect, useMemo } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import { Layer, Source, useMap } from 'react-map-gl/maplibre';
 import { useDispatch } from 'react-redux';
 
 import { TILE_SIZE } from '@ncsa/geo-explorer/config';
+import { GeoExplorerContext } from '@ncsa/geo-explorer/context';
 import { AppDispatch } from '@ncsa/geo-explorer/store';
 import { setTimestampIdx } from '@ncsa/geo-explorer/store/explore/slice';
 import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
 import { nextCircular, prevCircular } from '@ncsa/geo-explorer/utils/array';
-import { makeWMSUrl } from '@ncsa/geo-explorer/utils/geoserver';
+import { OGCClient } from '@ncsa/geo-explorer/utils/ogcClient';
 
 type Props = {
   layer: MapLayer;
@@ -15,6 +16,8 @@ type Props = {
 };
 
 export function WMSLayerTemporal({ layer, prevLayer }: Props) {
+  const { ogcClient } = useContext(GeoExplorerContext);
+
   const numTimestamps = layer.data.dataset_info.timestamps.length;
 
   const curTimestamp =
@@ -27,36 +30,36 @@ export function WMSLayerTemporal({ layer, prevLayer }: Props) {
     nextCircular(layer.data.dataset_info.timestamps, layer.timestampIdx) ?? '';
 
   const tiles = useMemo(() => {
-    const params: Parameters<typeof makeWMSUrl>[0] = {
+    const params: Parameters<OGCClient['makeWMSUrl']>[0] = {
       layers: [layer.data.layer_id],
       __style_version__: layer.version,
     };
     if (curTimestamp) {
       params['time'] = curTimestamp;
     }
-    return [makeWMSUrl(params)];
+    return ogcClient ? [ogcClient.makeWMSUrl(params)] : [];
   }, [layer.timestampIdx, layer.version]);
 
   const prevTiles = useMemo(() => {
-    const params: Parameters<typeof makeWMSUrl>[0] = {
+    const params: Parameters<OGCClient['makeWMSUrl']>[0] = {
       layers: [layer.data.layer_id],
       __style_version__: layer.version,
     };
     if (prevTimestamp) {
       params['time'] = prevTimestamp;
     }
-    return [makeWMSUrl(params)];
+    return ogcClient ? [ogcClient.makeWMSUrl(params)] : [];
   }, [layer.timestampIdx, layer.version]);
 
   const nextTiles = useMemo(() => {
-    const params: Parameters<typeof makeWMSUrl>[0] = {
+    const params: Parameters<OGCClient['makeWMSUrl']>[0] = {
       layers: [layer.data.layer_id],
       __style_version__: layer.version,
     };
     if (nextTimestamp) {
       params['time'] = nextTimestamp;
     }
-    return [makeWMSUrl(params)];
+    return ogcClient ? [ogcClient.makeWMSUrl(params)] : [];
   }, [layer.timestampIdx, layer.version]);
 
   const dispatch = useDispatch<AppDispatch>();

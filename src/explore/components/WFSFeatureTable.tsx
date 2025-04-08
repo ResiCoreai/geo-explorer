@@ -1,15 +1,15 @@
 import { Box } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Feature, GeoJsonProperties } from 'geojson';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
+import { GeoExplorerContext } from '@ncsa/geo-explorer/context';
 import { AppDispatch } from '@ncsa/geo-explorer/store';
 import {
   SimpleFeature,
   setSelectedFeatures,
 } from '@ncsa/geo-explorer/store/explore/slice';
-import { sendWFSRequest } from '@ncsa/geo-explorer/utils/geoserver';
 import { Dataset } from '@ncsa/geo-explorer/utils/types';
 
 type Props = {
@@ -18,6 +18,7 @@ type Props = {
 
 export function WFSFeatureTable({ dataset }: Props) {
   const dispatch = useDispatch<AppDispatch>();
+  const { ogcClient } = useContext(GeoExplorerContext);
 
   const [features, setFeatures] = useState<SimpleFeature[]>([]);
   const [featureAttributes, setFeatureAttributes] = useState<
@@ -56,25 +57,27 @@ export function WFSFeatureTable({ dataset }: Props) {
       return;
     }
     setIsLoading(true);
-    sendWFSRequest<{
-      features: SimpleFeature[];
-      numberMatched: number;
-    }>({
-      version: '2.0.0',
-      typeNames: [dataset.layer_id],
-      count: paginationModel.pageSize,
-      startIndex: paginationModel.pageSize * paginationModel.page,
-    }).then(({ data }) => {
-      setIsLoading(false);
-      setRowCount(data.numberMatched);
-      setFeatures(data.features);
-      setFeatureAttributes(
-        data.features.map((feature) => ({
-          ...feature.properties,
-          id: feature.id,
-        })),
-      );
-    });
+    ogcClient
+      ?.sendWFSRequest<{
+        features: SimpleFeature[];
+        numberMatched: number;
+      }>({
+        version: '2.0.0',
+        typeNames: [dataset.layer_id],
+        count: paginationModel.pageSize,
+        startIndex: paginationModel.pageSize * paginationModel.page,
+      })
+      .then(({ data }) => {
+        setIsLoading(false);
+        setRowCount(data.numberMatched);
+        setFeatures(data.features);
+        setFeatureAttributes(
+          data.features.map((feature) => ({
+            ...feature.properties,
+            id: feature.id,
+          })),
+        );
+      });
   }, [dataset.layer_id, paginationModel]);
 
   const selectSingleFeature = useCallback(
