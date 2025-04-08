@@ -8,11 +8,13 @@
   },
   "scripts": {
     "clean": "rm -rf dist",
-    "tailwind": "tailwindcss -i ./src/input.css -o ./src/index.css",
+    "tailwind": "tailwindcss -i ./src/input.css -o ./dist/index.css",
+    "tailwind:watch": "npm run tailwind -- --watch",
     "compile": "npm run clean && tsc && tsc-alias",
     "compile:watch": "npm run clean && tsc -w && tsc-alias -w",
-    "copy-files": "cp ./src/index.css dist",
-    "build": "run-s tailwind compile copy-files",
+    "dev": "run-p tailwind:watch compile:watch",
+    "build": "run-p tailwind compile",
+    "typecheck": "tsc --noEmit",
     "lint": "eslint",
     "format": "prettier --write src",
     "prepare": "husky"
@@ -41,7 +43,6 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "tailwindcss": "^3.4.14",
-    "tsc-alias": "^1.8.13",
     "typescript": "^5.5.4",
     "typescript-eslint": "^7.17.0"
   },
