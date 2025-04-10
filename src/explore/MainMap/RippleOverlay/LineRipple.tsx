@@ -1,7 +1,7 @@
-import { Feature, LineString } from "geojson";
-import { Point } from "maplibre-gl";
-import { useEffect, useState } from "react";
-import { useMap } from "react-map-gl/maplibre";
+import { Feature, LineString } from 'geojson';
+import { Point } from 'maplibre-gl';
+import { useEffect, useState } from 'react';
+import { useMap } from 'react-map-gl/maplibre';
 
 import {
   DURATION,
@@ -9,7 +9,7 @@ import {
   RADIUS_MIN,
   RIPPLE_COLOR,
   RIPPLE_WIDTH,
-} from "@ncsa/geo-explorer/explore/MainMap/RippleOverlay/constants";
+} from '@ncsa/geo-explorer/explore/MainMap/RippleOverlay/constants';
 
 type Props = {
   feature: Feature<LineString>;
@@ -29,13 +29,13 @@ export function LineRipple({ feature }: Props) {
         ) ?? [],
       );
     };
-    map.on("zoom", update);
-    map.on("move", update);
+    map.on('zoom', update);
+    map.on('move', update);
     update();
 
     return () => {
-      map.off("zoom", update);
-      map.off("move", update);
+      map.off('zoom', update);
+      map.off('move', update);
     };
   }, []);
 
@@ -83,7 +83,7 @@ export function LineRipple({ feature }: Props) {
         </filter>
       </defs>
       <polyline
-        points={points.map((p) => `${p.x},${p.y}`).join(" ")}
+        points={points.map((p) => `${p.x},${p.y}`).join(' ')}
         stroke="black"
         fill="none"
         filter={`url(#${filterId})`}

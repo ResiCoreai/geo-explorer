@@ -1,7 +1,7 @@
 name: publish
 
 on:
-  pull_request:
+  push:
     branches:
       - main
 
@@ -30,6 +30,14 @@ jobs:
       # generate npmrc file to login to github package registry
       - name: Login to GitHub Package Registry
         run: echo "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}" > .npmrc
+
+      # Install dependencies
+      - name: build
+        run: npm ci
+
+      # build NPM package
+      - name: build
+        run: npm run build
 
       # push NPM package
       - name: publish

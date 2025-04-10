@@ -1,6 +1,6 @@
-import { Feature, MultiLineString } from "geojson";
+import { Feature, MultiLineString } from 'geojson';
 
-import { LineRipple } from "@ncsa/geo-explorer/explore/MainMap/RippleOverlay/LineRipple";
+import { LineRipple } from '@ncsa/geo-explorer/explore/MainMap/RippleOverlay/LineRipple';
 
 type Props = {
   feature: Feature<MultiLineString>;
@@ -12,9 +12,9 @@ export function MultiLineRipple({ feature }: Props) {
       key={i}
       feature={{
         id: `${feature.id}_${i}`,
-        type: "Feature",
+        type: 'Feature',
         geometry: {
-          type: "LineString",
+          type: 'LineString',
           coordinates: lineCoords,
         },
         properties: {},

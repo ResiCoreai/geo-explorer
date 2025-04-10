@@ -1,4 +1,4 @@
-import { CloseOutlined } from "@mui/icons-material";
+import { CloseOutlined } from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -8,20 +8,20 @@ import {
   Paper,
   Stack,
   Typography,
-} from "@mui/material";
-import { parseColor } from "@react-stately/color";
-import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+} from '@mui/material';
+import { parseColor } from '@react-stately/color';
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { ColorInput } from "@ncsa/geo-explorer/explore/MapLayerSettings/StyleSettings/ColorInput";
-import { NumberInput } from "@ncsa/geo-explorer/explore/MapLayerSettings/StyleSettings/NumberInput";
-import { AppDispatch, RootState } from "@ncsa/geo-explorer/store";
-import { setLayerStyleSLD } from "@ncsa/geo-explorer/store/explore/actions";
+import { ColorInput } from '@ncsa/geo-explorer/explore/MapLayerSettings/StyleSettings/ColorInput';
+import { NumberInput } from '@ncsa/geo-explorer/explore/MapLayerSettings/StyleSettings/NumberInput';
+import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
+import { setLayerStyleSLD } from '@ncsa/geo-explorer/store/explore/actions';
 import {
   defaultLayerStyle,
   resetLayerStyle,
-} from "@ncsa/geo-explorer/store/explore/slice";
-import { MapLayerStyle } from "@ncsa/geo-explorer/store/explore/types";
+} from '@ncsa/geo-explorer/store/explore/slice';
+import { MapLayerStyle } from '@ncsa/geo-explorer/store/explore/types';
 
 type Props = {
   open: boolean;
@@ -85,8 +85,8 @@ export function StyleSettings({ open, onClose }: Props) {
           </IconButton>
         </Stack>
         <Box className="pb-[24px] px-[32px]">
-          {selectedLayer.data.dataset_info.dataset_type === "vector" &&
-            selectedLayer.data.dataset_info.feature_type === "point" && (
+          {selectedLayer.data.dataset_info.dataset_type === 'vector' &&
+            selectedLayer.data.dataset_info.feature_type === 'point' && (
               <>
                 <Divider className="my-[20px]" />
                 <Typography className="font-bold text-[16px]">
@@ -106,9 +106,9 @@ export function StyleSettings({ open, onClose }: Props) {
               </>
             )}
 
-          {selectedLayer.data.dataset_info.dataset_type === "vector" &&
-            (selectedLayer.data.dataset_info.feature_type === "point" ||
-              selectedLayer.data.dataset_info.feature_type === "polygon") && (
+          {selectedLayer.data.dataset_info.dataset_type === 'vector' &&
+            (selectedLayer.data.dataset_info.feature_type === 'point' ||
+              selectedLayer.data.dataset_info.feature_type === 'polygon') && (
               <>
                 <Divider className="my-[20px]" />
                 <Typography className="font-bold text-[16px]">
@@ -116,20 +116,20 @@ export function StyleSettings({ open, onClose }: Props) {
                 </Typography>
                 <ColorInput
                   value={parseColor(style.fillColor).withChannelValue(
-                    "alpha",
+                    'alpha',
                     style.fillOpacity,
                   )}
                   onChange={(color) => {
                     updateStyleDebounced({
-                      fillColor: color.toString("hex"),
-                      fillOpacity: color.getChannelValue("alpha"),
+                      fillColor: color.toString('hex'),
+                      fillOpacity: color.getChannelValue('alpha'),
                     });
                   }}
                 />
               </>
             )}
 
-          {selectedLayer.data.dataset_info.dataset_type !== "raster" && (
+          {selectedLayer.data.dataset_info.dataset_type !== 'raster' && (
             <>
               <Divider className="my-[20px]" />
               <Typography className="font-bold text-[16px]">
@@ -152,13 +152,13 @@ export function StyleSettings({ open, onClose }: Props) {
               </Typography>
               <ColorInput
                 value={parseColor(style.strokeColor).withChannelValue(
-                  "alpha",
+                  'alpha',
                   style.strokeOpacity,
                 )}
                 onChange={(color) => {
                   updateStyleDebounced({
-                    strokeColor: color.toString("hex"),
-                    strokeOpacity: color.getChannelValue("alpha"),
+                    strokeColor: color.toString('hex'),
+                    strokeOpacity: color.getChannelValue('alpha'),
                   });
                 }}
               />
@@ -179,7 +179,7 @@ export function StyleSettings({ open, onClose }: Props) {
             min={0}
             max={1}
             step={0.1}
-            renderValue={(alpha) => alpha * 100 + "%"}
+            renderValue={(alpha) => alpha * 100 + '%'}
           />
           <Stack direction="row" className="mt-[64px] gap-[8px]">
             <Box className="flex-1" />

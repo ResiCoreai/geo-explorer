@@ -1,6 +1,6 @@
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
 import {
   Box,
   Button,
@@ -9,15 +9,15 @@ import {
   Divider,
   IconButton,
   Typography,
-} from "@mui/material";
-import { center } from "@turf/turf";
-import { Fragment, useEffect, useMemo, useRef, useState } from "react";
-import { useMap } from "react-map-gl/maplibre";
-import { useDispatch, useSelector } from "react-redux";
+} from '@mui/material';
+import { center } from '@turf/turf';
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
+import { useMap } from 'react-map-gl/maplibre';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { getLayerIconByCategory } from "@ncsa/geo-explorer/explore/Sidebar/utils/icons";
-import { AppDispatch, RootState } from "@ncsa/geo-explorer/store";
-import { setShowLayerSettings } from "@ncsa/geo-explorer/store/explore/slice";
+import { getLayerIconByCategory } from '@ncsa/geo-explorer/explore/Sidebar/utils/icons';
+import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
+import { setShowLayerSettings } from '@ncsa/geo-explorer/store/explore/slice';
 
 export function SelectedFeatures() {
   const { current: map } = useMap();
@@ -45,13 +45,13 @@ export function SelectedFeatures() {
       }
     };
 
-    map.on("zoom", update);
-    map.on("move", update);
+    map.on('zoom', update);
+    map.on('move', update);
     update();
 
     return () => {
-      map.off("zoom", update);
-      map.off("move", update);
+      map.off('zoom', update);
+      map.off('move', update);
     };
   }, [map, features]);
 
@@ -104,7 +104,7 @@ export function SelectedFeatures() {
           {selectedLayer && (
             <Box className="flex items-center gap-2 mb-3">
               {getLayerIconByCategory(selectedLayer)?.({
-                className: "w-[18px] h-[18px]",
+                className: 'w-[18px] h-[18px]',
               })}
               <Typography
                 variant="h6"
@@ -125,7 +125,7 @@ export function SelectedFeatures() {
                     variant="body2"
                     className="text-gray-500 font-normal text-[12px] tracking-[0.15px] leading-[100%] align-middle break-words"
                   >
-                    {key.replace(/_/g, " ")}
+                    {key.replace(/_/g, ' ')}
                   </Typography>
                 </Box>
                 <Box className="pl-2">
@@ -133,7 +133,7 @@ export function SelectedFeatures() {
                     variant="body2"
                     className="text-left font-normal text-[14px] tracking-[0.15px] leading-[100%] align-middle break-words"
                   >
-                    {current?.[key] != null ? String(current[key]) : ""}
+                    {current?.[key] != null ? String(current[key]) : ''}
                   </Typography>
                 </Box>
                 <Box className="col-span-2">

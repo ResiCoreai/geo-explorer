@@ -1,17 +1,17 @@
-import NavigateNextOutlinedIcon from "@mui/icons-material/NavigateNextOutlined";
-import { Box, Link } from "@mui/material";
-import classNames from "classnames";
-import { useState } from "react";
+import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined';
+import { Box, Link } from '@mui/material';
+import classNames from 'classnames';
+import { useState } from 'react';
 
-import { CLIMATE_MODEL_INFO_URL } from "@ncsa/geo-explorer/config";
+import { CLIMATE_MODEL_INFO_URL } from '@ncsa/geo-explorer/config';
 import {
   climateScenarioIcons,
   climateVariableIcons,
   typeDescription,
-} from "@ncsa/geo-explorer/explore/Sidebar/utils/icons";
-import { ClimateDatasetInfo, Dataset } from "@ncsa/geo-explorer/utils/types";
+} from '@ncsa/geo-explorer/explore/Sidebar/utils/icons';
+import { ClimateDatasetInfo, Dataset } from '@ncsa/geo-explorer/utils/types';
 
-import { ClimateItem } from "./ClimateItem";
+import { ClimateItem } from './ClimateItem';
 
 type Props = {
   climateDatasets: Dataset[];
@@ -20,7 +20,7 @@ type Props = {
 
 export function ClimateList({ climateDatasets, climateSelectedOption }: Props) {
   const iconList =
-    climateSelectedOption === "climate_variable"
+    climateSelectedOption === 'climate_variable'
       ? climateVariableIcons
       : climateScenarioIcons;
 
@@ -41,9 +41,9 @@ export function ClimateList({ climateDatasets, climateSelectedOption }: Props) {
       <Box className="flex justify-between text-[12px] text-[#13294B99] px-[32px] mt-4">
         <span>
           {/*TODO remove hard coded text*/}
-          {climateSelectedOption === "climate_scenario"
-            ? "5 scenario project"
-            : "9 variables"}
+          {climateSelectedOption === 'climate_scenario'
+            ? '5 scenario project'
+            : '9 variables'}
         </span>
         <span>
           Source: &nbsp;
@@ -74,10 +74,10 @@ export function ClimateList({ climateDatasets, climateSelectedOption }: Props) {
             {/* Section Header */}
             <Box
               className={classNames(
-                "flex items-center justify-between px-2 py-2 cursor-pointer transition-colors",
+                'flex items-center justify-between px-2 py-2 cursor-pointer transition-colors',
                 {
-                  "bg-[#F3F4F6] rounded-sm": isExpanded,
-                  "bg-white rounded-md border border-solid border-[#D1D5DB] hover:border-[#13294B] hover:text-[#13294B]":
+                  'bg-[#F3F4F6] rounded-sm': isExpanded,
+                  'bg-white rounded-md border border-solid border-[#D1D5DB] hover:border-[#13294B] hover:text-[#13294B]':
                     !isExpanded,
                 },
               )}
@@ -86,29 +86,29 @@ export function ClimateList({ climateDatasets, climateSelectedOption }: Props) {
               <Box className="flex items-start overflow-hidden">
                 <NavigateNextOutlinedIcon
                   className={classNames(
-                    "w-5 h-5 text-[#2C343C] transition-transform",
+                    'w-5 h-5 text-[#2C343C] transition-transform',
                     {
-                      "rotate-90": isExpanded,
+                      'rotate-90': isExpanded,
                     },
                   )}
                 />
-                {climateSelectedOption === "climate_variable" && (
+                {climateSelectedOption === 'climate_variable' && (
                   <div className="mt-0.5 mr-1">
-                    {icon({ className: "w-4 h-4" })}
+                    {icon({ className: 'w-4 h-4' })}
                   </div>
                 )}
                 <Box className="flex flex-col text-left">
                   <span
-                    className={classNames("text-sm text-[#2C343C]", {
-                      "font-semibold": isExpanded,
-                      "font-normal": !isExpanded,
+                    className={classNames('text-sm text-[#2C343C]', {
+                      'font-semibold': isExpanded,
+                      'font-normal': !isExpanded,
                     })}
                   >
                     {typeDescription[type]?.description ?? type}
                   </span>
-                  {climateSelectedOption === "climate_variable" && (
+                  {climateSelectedOption === 'climate_variable' && (
                     <span className="italic text-[11px] capitalize text-[#13294B8A]">
-                      {typeDescription[type]?.units ?? ""}
+                      {typeDescription[type]?.units ?? ''}
                     </span>
                   )}
                 </Box>

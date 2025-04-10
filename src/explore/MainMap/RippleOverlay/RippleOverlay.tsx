@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
-import { useMap } from "react-map-gl/maplibre";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from 'react';
+import { useMap } from 'react-map-gl/maplibre';
+import { useSelector } from 'react-redux';
 
-import { RippleEffects } from "@ncsa/geo-explorer/explore/MainMap/RippleOverlay/RippleEffects";
-import { RootState } from "@ncsa/geo-explorer/store";
+import { RippleEffects } from '@ncsa/geo-explorer/explore/MainMap/RippleOverlay/RippleEffects';
+import { RootState } from '@ncsa/geo-explorer/store';
 
 export function RippleOverlay() {
   const { current: map } = useMap();
@@ -23,11 +23,11 @@ export function RippleOverlay() {
       setHeight(map.getCanvas().getBoundingClientRect().height);
     };
 
-    map.on("resize", resize);
+    map.on('resize', resize);
     resize();
 
     return () => {
-      map.off("resize", resize);
+      map.off('resize', resize);
     };
   }, [map]);
 

@@ -1,13 +1,14 @@
-import { useEffect, useMemo } from "react";
-import { Layer, Source, useMap } from "react-map-gl/maplibre";
-import { useDispatch } from "react-redux";
+import { useContext, useEffect, useMemo } from 'react';
+import { Layer, Source, useMap } from 'react-map-gl/maplibre';
+import { useDispatch } from 'react-redux';
 
-import { TILE_SIZE } from "@ncsa/geo-explorer/config";
-import { AppDispatch } from "@ncsa/geo-explorer/store";
-import { setTimestampIdx } from "@ncsa/geo-explorer/store/explore/slice";
-import { MapLayer } from "@ncsa/geo-explorer/store/explore/types";
-import { nextCircular, prevCircular } from "@ncsa/geo-explorer/utils/array";
-import { makeWMSUrl } from "@ncsa/geo-explorer/utils/geoserver";
+import { TILE_SIZE } from '@ncsa/geo-explorer/config';
+import { GeoExplorerContext } from '@ncsa/geo-explorer/context';
+import { AppDispatch } from '@ncsa/geo-explorer/store';
+import { setTimestampIdx } from '@ncsa/geo-explorer/store/explore/slice';
+import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
+import { nextCircular, prevCircular } from '@ncsa/geo-explorer/utils/array';
+import { OGCClient } from '@ncsa/geo-explorer/utils/ogcClient';
 
 type Props = {
   layer: MapLayer;
@@ -15,48 +16,50 @@ type Props = {
 };
 
 export function WMSLayerTemporal({ layer, prevLayer }: Props) {
+  const { ogcClient } = useContext(GeoExplorerContext);
+
   const numTimestamps = layer.data.dataset_info.timestamps.length;
 
   const curTimestamp =
     numTimestamps > 0
       ? layer.data.dataset_info.timestamps[layer.timestampIdx]
-      : "";
+      : '';
   const prevTimestamp =
-    prevCircular(layer.data.dataset_info.timestamps, layer.timestampIdx) ?? "";
+    prevCircular(layer.data.dataset_info.timestamps, layer.timestampIdx) ?? '';
   const nextTimestamp =
-    nextCircular(layer.data.dataset_info.timestamps, layer.timestampIdx) ?? "";
+    nextCircular(layer.data.dataset_info.timestamps, layer.timestampIdx) ?? '';
 
   const tiles = useMemo(() => {
-    const params: Parameters<typeof makeWMSUrl>[0] = {
+    const params: Parameters<OGCClient['makeWMSUrl']>[0] = {
       layers: [layer.data.layer_id],
       __style_version__: layer.version,
     };
     if (curTimestamp) {
-      params["time"] = curTimestamp;
+      params['time'] = curTimestamp;
     }
-    return [makeWMSUrl(params)];
+    return ogcClient ? [ogcClient.makeWMSUrl(params)] : [];
   }, [layer.timestampIdx, layer.version]);
 
   const prevTiles = useMemo(() => {
-    const params: Parameters<typeof makeWMSUrl>[0] = {
+    const params: Parameters<OGCClient['makeWMSUrl']>[0] = {
       layers: [layer.data.layer_id],
       __style_version__: layer.version,
     };
     if (prevTimestamp) {
-      params["time"] = prevTimestamp;
+      params['time'] = prevTimestamp;
     }
-    return [makeWMSUrl(params)];
+    return ogcClient ? [ogcClient.makeWMSUrl(params)] : [];
   }, [layer.timestampIdx, layer.version]);
 
   const nextTiles = useMemo(() => {
-    const params: Parameters<typeof makeWMSUrl>[0] = {
+    const params: Parameters<OGCClient['makeWMSUrl']>[0] = {
       layers: [layer.data.layer_id],
       __style_version__: layer.version,
     };
     if (nextTimestamp) {
-      params["time"] = nextTimestamp;
+      params['time'] = nextTimestamp;
     }
-    return [makeWMSUrl(params)];
+    return ogcClient ? [ogcClient.makeWMSUrl(params)] : [];
   }, [layer.timestampIdx, layer.version]);
 
   const dispatch = useDispatch<AppDispatch>();
@@ -87,12 +90,12 @@ export function WMSLayerTemporal({ layer, prevLayer }: Props) {
       }
     };
 
-    map?.on("sourcedata", checkIfNextTimestampLoaded);
+    map?.on('sourcedata', checkIfNextTimestampLoaded);
     checkIfNextTimestampLoaded();
 
     return () => {
       clearTimeout(timeoutId);
-      map?.off("sourcedata", checkIfNextTimestampLoaded);
+      map?.off('sourcedata', checkIfNextTimestampLoaded);
     };
   }, [map, nextTimestamp, layer.playing]);
 
@@ -108,13 +111,13 @@ export function WMSLayerTemporal({ layer, prevLayer }: Props) {
       >
         <Layer
           id={layer.data.layer_id + prevTimestamp}
-          beforeId={prevLayer?.data.layer_id ?? ""}
+          beforeId={prevLayer?.data.layer_id ?? ''}
           type="raster"
           layout={{
-            visibility: layer.visible ? "visible" : "none",
+            visibility: layer.visible ? 'visible' : 'none',
           }}
           paint={{
-            "raster-opacity": 0,
+            'raster-opacity': 0,
           }}
         />
       </Source>
@@ -131,10 +134,10 @@ export function WMSLayerTemporal({ layer, prevLayer }: Props) {
           beforeId={layer.data.layer_id + prevTimestamp}
           type="raster"
           layout={{
-            visibility: layer.visible ? "visible" : "none",
+            visibility: layer.visible ? 'visible' : 'none',
           }}
           paint={{
-            "raster-opacity": layer.style.layerOpacity,
+            'raster-opacity': layer.style.layerOpacity,
           }}
         />
       </Source>
@@ -151,10 +154,10 @@ export function WMSLayerTemporal({ layer, prevLayer }: Props) {
           beforeId={layer.data.layer_id + curTimestamp}
           type="raster"
           layout={{
-            visibility: layer.visible ? "visible" : "none",
+            visibility: layer.visible ? 'visible' : 'none',
           }}
           paint={{
-            "raster-opacity": 0,
+            'raster-opacity': 0,
           }}
         />
       </Source>
@@ -163,7 +166,7 @@ export function WMSLayerTemporal({ layer, prevLayer }: Props) {
         beforeId={layer.data.layer_id + nextTimestamp}
         type="background"
         layout={{
-          visibility: "none",
+          visibility: 'none',
         }}
       />
     </>

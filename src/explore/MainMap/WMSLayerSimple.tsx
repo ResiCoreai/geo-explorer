@@ -1,9 +1,10 @@
-import { useMemo } from "react";
-import { Layer, Source } from "react-map-gl/maplibre";
+import { useContext, useMemo } from 'react';
+import { Layer, Source } from 'react-map-gl/maplibre';
 
-import { TILE_SIZE } from "@ncsa/geo-explorer/config";
-import { MapLayer } from "@ncsa/geo-explorer/store/explore/types";
-import { makeWMSUrl } from "@ncsa/geo-explorer/utils/geoserver";
+import { TILE_SIZE } from '@ncsa/geo-explorer/config';
+import { GeoExplorerContext } from '@ncsa/geo-explorer/context';
+import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
+import { OGCClient } from '@ncsa/geo-explorer/utils/ogcClient';
 
 type Props = {
   layer: MapLayer;
@@ -11,12 +12,14 @@ type Props = {
 };
 
 export function WMSLayerSimple({ layer, prevLayer }: Props) {
+  const { ogcClient } = useContext(GeoExplorerContext);
+
   const tiles = useMemo(() => {
-    const params: Parameters<typeof makeWMSUrl>[0] = {
+    const params: Parameters<OGCClient['makeWMSUrl']>[0] = {
       layers: [layer.data.layer_id],
       __style_version__: layer.version,
     };
-    return [makeWMSUrl(params)];
+    return ogcClient ? [ogcClient.makeWMSUrl(params)] : [];
   }, [layer.version]);
 
   return (
@@ -29,13 +32,13 @@ export function WMSLayerSimple({ layer, prevLayer }: Props) {
     >
       <Layer
         id={layer.data.layer_id}
-        beforeId={prevLayer?.data.layer_id ?? ""}
+        beforeId={prevLayer?.data.layer_id ?? ''}
         type="raster"
         layout={{
-          visibility: layer.visible ? "visible" : "none",
+          visibility: layer.visible ? 'visible' : 'none',
         }}
         paint={{
-          "raster-opacity": layer.style.layerOpacity,
+          'raster-opacity': layer.style.layerOpacity,
         }}
       />
     </Source>

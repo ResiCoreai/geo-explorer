@@ -1,4 +1,4 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import {
   Feature,
   FeatureCollection,
@@ -8,14 +8,13 @@ import {
   MultiPolygon,
   Point,
   Polygon,
-} from "geojson";
+} from 'geojson';
 
 import {
   MapLayer,
   MapLayerStyle,
-} from "@ncsa/geo-explorer/store/explore/types";
-import { getInitialSettings } from "@ncsa/geo-explorer/utils/geoserver";
-import { Basemap, Dataset } from "@ncsa/geo-explorer/utils/types";
+} from '@ncsa/geo-explorer/store/explore/types';
+import { Basemap, Dataset } from '@ncsa/geo-explorer/utils/types';
 
 export type SimpleFeature = Feature<
   Point | LineString | Polygon | MultiPoint | MultiLineString | MultiPolygon
@@ -42,20 +41,15 @@ type ExploreState = {
 export const defaultLayerStyle: MapLayerStyle = {
   radius: 8,
   strokeWidth: 2,
-  strokeColor: "#000000",
+  strokeColor: '#000000',
   strokeOpacity: 1,
-  fillColor: "#000000",
+  fillColor: '#000000',
   fillOpacity: 0.2,
   layerOpacity: 1,
 };
 
-export const initialize = createAsyncThunk(
-  "explore/initialize",
-  getInitialSettings,
-);
-
 export const exploreSlice = createSlice({
-  name: "mapLayers",
+  name: 'mapLayers',
   initialState: {
     prevIndex: -1,
     currentIndex: -1,
@@ -180,7 +174,7 @@ export const exploreSlice = createSlice({
         visible: true,
         version: 0,
         style: defaultLayerStyle,
-        styleSLD: "",
+        styleSLD: '',
       });
       state.selectedFeatures = [];
     },
@@ -240,16 +234,21 @@ export const exploreSlice = createSlice({
       if (layer) {
         layer.version = 0;
         layer.style = defaultLayerStyle;
-        layer.styleSLD = "";
+        layer.styleSLD = '';
       }
     },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(initialize.fulfilled, (state, action) => {
-      state.dataInventory = action.payload.tech_requirement_layers;
-      state.climateInventory = action.payload.climate_layers;
-      state.baseMaps = action.payload.basemaps;
-    });
+    initLayers(
+      state,
+      action: PayloadAction<{
+        dataInventory: Dataset[];
+        climateInventory: Dataset[];
+        baseMaps: Basemap[];
+      }>,
+    ) {
+      state.dataInventory = action.payload.dataInventory;
+      state.climateInventory = action.payload.climateInventory;
+      state.baseMaps = action.payload.baseMaps;
+    },
   },
 });
 
@@ -270,4 +269,5 @@ export const {
   setSelectedFeatures,
   setLayerStyle,
   resetLayerStyle,
+  initLayers,
 } = exploreSlice.actions;

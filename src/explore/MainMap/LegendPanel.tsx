@@ -1,5 +1,5 @@
-import CloseFullscreenOutlinedIcon from "@mui/icons-material/CloseFullscreenOutlined";
-import OpenInFullOutlinedIcon from "@mui/icons-material/OpenInFullOutlined";
+import CloseFullscreenOutlinedIcon from '@mui/icons-material/CloseFullscreenOutlined';
+import OpenInFullOutlinedIcon from '@mui/icons-material/OpenInFullOutlined';
 import {
   Box,
   Collapse,
@@ -7,13 +7,13 @@ import {
   IconButton,
   Switch,
   Typography,
-} from "@mui/material";
-import classNames from "classnames";
-import { useEffect, useState } from "react";
-import { useAuth } from "react-oidc-context";
+} from '@mui/material';
+import classNames from 'classnames';
+import { useContext, useEffect, useState } from 'react';
+import { useAuth } from 'react-oidc-context';
 
-import { MapLayer } from "@ncsa/geo-explorer/store/explore/types";
-import { getLegendImageObjectUrl } from "@ncsa/geo-explorer/utils/geoserver";
+import { GeoExplorerContext } from '@ncsa/geo-explorer/context';
+import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
 
 type Props = {
   layers: MapLayer[];
@@ -22,6 +22,7 @@ type Props = {
 
 export function LegendPanel({ layers, selectedLayer }: Props) {
   const auth = useAuth();
+  const { ogcClient } = useContext(GeoExplorerContext);
 
   const [showAll, setShowAll] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
@@ -34,11 +35,13 @@ export function LegendPanel({ layers, selectedLayer }: Props) {
       if (!layerId || !token) return;
 
       try {
-        const blobUrl = await getLegendImageObjectUrl(layerId);
-        setLegendUrls((prev) => ({
-          ...prev,
-          [layerId]: blobUrl,
-        }));
+        const blobUrl = await ogcClient?.getLegendImageObjectUrl(layerId);
+        if (blobUrl) {
+          setLegendUrls((prev) => ({
+            ...prev,
+            [layerId]: blobUrl,
+          }));
+        }
       } catch (err) {
         console.error(`Error loading legend for ${layerId}:`, err);
       }
@@ -62,7 +65,7 @@ export function LegendPanel({ layers, selectedLayer }: Props) {
         <IconButton
           size="small"
           onClick={() => setCollapsed((prev) => !prev)}
-          aria-label={collapsed ? "Expand legend" : "Collapse legend"}
+          aria-label={collapsed ? 'Expand legend' : 'Collapse legend'}
         >
           {collapsed ? (
             <OpenInFullOutlinedIcon fontSize="inherit" />
@@ -87,8 +90,8 @@ export function LegendPanel({ layers, selectedLayer }: Props) {
               <Box key={layer.data.layer_id}>
                 <Box
                   className={classNames(
-                    "px-4 pt-3 pb-2",
-                    showAll && isSelected && "bg-blue-50",
+                    'px-4 pt-3 pb-2',
+                    showAll && isSelected && 'bg-blue-50',
                   )}
                 >
                   <Typography className="text-[14px] font-[600] text-[#2C343C] leading-tight">
