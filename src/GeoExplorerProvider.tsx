@@ -38,8 +38,8 @@ export function GeoExplorerProvider({ config, accessToken, children }: Props) {
     if (config) {
       store.dispatch(
         initLayers({
-          dataInventory: config.tech_requirement_layers,
-          climateInventory: config.climate_layers,
+          simpleLayerInventory: config.simple_layers,
+          temporalLayerInventory: config.temporal_layers,
           baseMaps: config.basemaps,
         }),
       );

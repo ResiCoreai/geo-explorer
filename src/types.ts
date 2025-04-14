@@ -49,8 +49,8 @@ export interface Basemap {
 export interface GeoExplorerConfig {
   bearerToken?: string;
   basemaps: Basemap[];
-  tech_requirement_layers: Dataset[];
-  climate_layers: Dataset[];
+  simple_layers: Dataset[];
+  temporal_layers: Dataset[];
 }
 
 export function isClimateData(

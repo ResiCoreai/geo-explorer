@@ -15,10 +15,10 @@ import {
 export const DatasetInfo = () => {
   const dataset = useSelector(
     (state: RootState) =>
-      state.explore.dataInventory.find(
+      state.explore.simpleLayerInventory.find(
         (dataset) => dataset.layer_id === state.explore.selectedDataset,
       ) ||
-      state.explore.climateInventory.find(
+      state.explore.temporalLayerInventory.find(
         (dataset) => dataset.layer_id === state.explore.selectedDataset,
       ),
   );

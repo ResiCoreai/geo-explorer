@@ -16,7 +16,7 @@ type Props = {
   dataset: Dataset;
 };
 
-export function TechItem({ dataset }: Props) {
+export function SimpleLayerItem({ dataset }: Props) {
   const dispatch = useDispatch<AppDispatch>();
   const mapLayers = useSelector((state: RootState) => state.explore.mapLayers);
 

@@ -13,8 +13,8 @@ import {
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { ClimateList } from '@ncsa/geo-explorer/explore/Sidebar/DataInventory/ClimateList';
-import { TechItem } from '@ncsa/geo-explorer/explore/Sidebar/DataInventory/TechItem';
+import { SimpleLayerItem } from '@ncsa/geo-explorer/explore/Sidebar/DataInventory/SimpleLayerItem';
+import { TemporalLayerList } from '@ncsa/geo-explorer/explore/Sidebar/DataInventory/TemporalLayerList';
 import { Section } from '@ncsa/geo-explorer/explore/Sidebar/Section';
 import {
   categoryIcons,
@@ -27,13 +27,13 @@ import {
   VectorDatasetInfo,
 } from '@ncsa/geo-explorer/types';
 
-export function DataInventory() {
+export function SimpleLayerList() {
   const techDatasets = useSelector(
-    (state: RootState) => state.explore.dataInventory,
+    (state: RootState) => state.explore.simpleLayerInventory,
   );
 
   const climateDatasets = useSelector(
-    (state: RootState) => state.explore.climateInventory,
+    (state: RootState) => state.explore.temporalLayerInventory,
   );
 
   const [tabIndex, setTabIndex] = useState(0);
@@ -138,7 +138,7 @@ export function DataInventory() {
                             key={dataset.layer_id}
                             className="flex justify-center px-[32px]"
                           >
-                            <TechItem dataset={dataset} />
+                            <SimpleLayerItem dataset={dataset} />
                           </Box>
                         ))
                     ) : (
@@ -179,7 +179,7 @@ export function DataInventory() {
                 <MenuItem value="climate_variable">Climate Variables</MenuItem>
               </Select>
             </Box>
-            <ClimateList
+            <TemporalLayerList
               climateDatasets={climateDatasets}
               climateSelectedOption={climateSelectedOption}
             />
