@@ -12,11 +12,11 @@ import {
 } from '@ncsa/geo-explorer/store/explore/slice';
 import { Dataset } from '@ncsa/geo-explorer/types';
 
-type Props = {
+export type SimpleLayerItemProps = {
   dataset: Dataset;
 };
 
-export function SimpleLayerItem({ dataset }: Props) {
+export function SimpleLayerItem({ dataset }: SimpleLayerItemProps) {
   const dispatch = useDispatch<AppDispatch>();
   const mapLayers = useSelector((state: RootState) => state.explore.mapLayers);
 

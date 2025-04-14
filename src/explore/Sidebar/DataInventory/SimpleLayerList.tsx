@@ -10,10 +10,10 @@ import {
   Tab,
   Tabs,
 } from '@mui/material';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { SimpleLayerItem } from '@ncsa/geo-explorer/explore/Sidebar/DataInventory/SimpleLayerItem';
+import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import { TemporalLayerList } from '@ncsa/geo-explorer/explore/Sidebar/DataInventory/TemporalLayerList';
 import { Section } from '@ncsa/geo-explorer/explore/Sidebar/Section';
 import {
@@ -28,6 +28,8 @@ import {
 } from '@ncsa/geo-explorer/types';
 
 export function SimpleLayerList() {
+  const { SimpleLayerItem } = useContext(GeoExplorerContext).components;
+
   const techDatasets = useSelector(
     (state: RootState) => state.explore.simpleLayerInventory,
   );
