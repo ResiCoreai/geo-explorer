@@ -5,7 +5,6 @@ import classNames from 'classnames';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { AppHeader } from '@ncsa/geo-explorer/components/AppHeader';
 import { SIDEBAR_WIDTH } from '@ncsa/geo-explorer/config';
 import { GeoExplorerContext } from '@ncsa/geo-explorer/context';
 import { DatasetPreview } from '@ncsa/geo-explorer/explore/DatasetPreview';
@@ -34,58 +33,55 @@ export function GeoExplorer() {
   }, [ogcClient]);
 
   return (
-    <Stack direction="column" className="fixed top-0 left-0 right-0 bottom-0">
-      <AppHeader />
-      <Box className="relative flex-1">
-        <Box className="z-0 relative">
-          <MainMap />
-        </Box>
-        <Stack
-          direction="row"
-          className="absolute left-0 right-0 top-0 bottom-0 min-h-0 pointer-events-none transition-all"
-          style={{
-            marginLeft: sidebarOpen ? 0 : -SIDEBAR_WIDTH,
-          }}
-        >
-          <Box
-            style={{ width: SIDEBAR_WIDTH }}
-            className="flex-none h-full relative z-[1] pointer-events-auto"
-          >
-            <IconButton
-              className={
-                sidebarOpen
-                  ? 'absolute -right-[15px] top-2 z-10 bg-white'
-                  : 'absolute -right-[40px] top-2 z-10 bg-white'
-              }
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              size="small"
-            >
-              {sidebarOpen ? (
-                <ChevronLeftIcon className="text-[#0000008A] text-[large]" />
-              ) : (
-                <ChevronRightIcon className="text-[#0000008A] text-[large]" />
-              )}{' '}
-            </IconButton>
-            <Sidebar />
-          </Box>
-
-          <Stack
-            direction="column"
-            className="flex-1 items-stretch min-w-0 relative"
-          >
-            <Box className="flex-1" />
-            <Box
-              className={classNames(
-                'flex-none pointer-events-auto transition-transform flex flex-colum items-center',
-                !selectedMapLayer && 'translate-y-full',
-              )}
-            >
-              <MapLayerSettings />
-            </Box>
-          </Stack>
-        </Stack>
-        <DatasetPreview />
+    <Box className="relative flex-1">
+      <Box className="z-0 relative">
+        <MainMap />
       </Box>
-    </Stack>
+      <Stack
+        direction="row"
+        className="absolute left-0 right-0 top-0 bottom-0 min-h-0 pointer-events-none transition-all"
+        style={{
+          marginLeft: sidebarOpen ? 0 : -SIDEBAR_WIDTH,
+        }}
+      >
+        <Box
+          style={{ width: SIDEBAR_WIDTH }}
+          className="flex-none h-full relative z-[1] pointer-events-auto"
+        >
+          <IconButton
+            className={
+              sidebarOpen
+                ? 'absolute -right-[15px] top-2 z-10 bg-white'
+                : 'absolute -right-[40px] top-2 z-10 bg-white'
+            }
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            size="small"
+          >
+            {sidebarOpen ? (
+              <ChevronLeftIcon className="text-[#0000008A] text-[large]" />
+            ) : (
+              <ChevronRightIcon className="text-[#0000008A] text-[large]" />
+            )}{' '}
+          </IconButton>
+          <Sidebar />
+        </Box>
+
+        <Stack
+          direction="column"
+          className="flex-1 items-stretch min-w-0 relative"
+        >
+          <Box className="flex-1" />
+          <Box
+            className={classNames(
+              'flex-none pointer-events-auto transition-transform flex flex-colum items-center',
+              !selectedMapLayer && 'translate-y-full',
+            )}
+          >
+            <MapLayerSettings />
+          </Box>
+        </Stack>
+      </Stack>
+      <DatasetPreview />
+    </Box>
   );
 }
