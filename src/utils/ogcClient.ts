@@ -15,7 +15,7 @@ export class OGCClient {
   private request: AxiosInstance;
 
   constructor(
-    private ogcServiceUrl: string,
+    public serviceUrl: string,
     bearerToken?: string,
   ) {
     this.request = axios.create();
@@ -39,7 +39,7 @@ export class OGCClient {
 
   public makeWMSUrl(options: Params) {
     return (
-      this.makeUrl(`${this.ogcServiceUrl}/wms`, {
+      this.makeUrl(`${this.serviceUrl}/wms`, {
         format: 'image/png',
         service: 'WMS',
         version: '1.3.0',
@@ -63,7 +63,7 @@ export class OGCClient {
 
   public async getLegendImageObjectUrl(layerId: string): Promise<string> {
     return this.getImageBlobUrl({
-      url: `${this.ogcServiceUrl}/wms`,
+      url: `${this.serviceUrl}/wms`,
       params: {
         request: 'GetLegendGraphic',
         version: '1.0.0',
@@ -75,7 +75,7 @@ export class OGCClient {
 
   public async getLegendJSON<T>(layerId: string): Promise<T> {
     const { data } = await this.request<T>({
-      url: `${this.ogcServiceUrl}/wms`,
+      url: `${this.serviceUrl}/wms`,
       params: {
         version: '1.3.0',
         request: 'GetLegendGraphic',
@@ -91,7 +91,7 @@ export class OGCClient {
     config?: Partial<AxiosRequestConfig>,
   ): Promise<AxiosResponse<T>> {
     return this.request({
-      url: this.makeUrl(`${this.ogcServiceUrl}/wfs`, {
+      url: this.makeUrl(`${this.serviceUrl}/wfs`, {
         service: 'WFS',
         version: '2.0.0',
         request: 'GetFeature',

@@ -10,7 +10,6 @@ import {
 import { useAuth } from 'react-oidc-context';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { GEOSERVER_URL } from '@ncsa/geo-explorer/config';
 import { GeoExplorerContext } from '@ncsa/geo-explorer/context';
 import { LegendPanel } from '@ncsa/geo-explorer/explore/MainMap/LegendPanel';
 import { RippleOverlay } from '@ncsa/geo-explorer/explore/MainMap/RippleOverlay/RippleOverlay';
@@ -40,7 +39,7 @@ export function MainMap() {
     <Map
       id="map"
       transformRequest={(url) => {
-        if (url.startsWith(GEOSERVER_URL)) {
+        if (ogcClient && url.startsWith(ogcClient.serviceUrl)) {
           const layer_id = new URLSearchParams(url).get('layers')!;
           const mapLayers = store.getState().explore.mapLayers;
           const layer = mapLayers.find(
