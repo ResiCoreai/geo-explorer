@@ -1,4 +1,4 @@
-import { DatasetInfo } from '@ncsa/geo-explorer/utils/types';
+import { DatasetInfo } from '@ncsa/geo-explorer/types';
 
 export function isDatasetTypeMatch(
   datasetInfo: DatasetInfo,

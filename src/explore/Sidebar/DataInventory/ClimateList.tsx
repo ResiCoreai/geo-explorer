@@ -9,7 +9,7 @@ import {
   climateVariableIcons,
   typeDescription,
 } from '@ncsa/geo-explorer/explore/Sidebar/utils/icons';
-import { ClimateDatasetInfo, Dataset } from '@ncsa/geo-explorer/utils/types';
+import { ClimateDatasetInfo, Dataset } from '@ncsa/geo-explorer/types';
 
 import { ClimateItem } from './ClimateItem';
 

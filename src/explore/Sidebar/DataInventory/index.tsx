@@ -25,7 +25,7 @@ import { RootState } from '@ncsa/geo-explorer/store';
 import {
   ClimateDatasetInfo,
   VectorDatasetInfo,
-} from '@ncsa/geo-explorer/utils/types';
+} from '@ncsa/geo-explorer/types';
 
 export function DataInventory() {
   const techDatasets = useSelector(

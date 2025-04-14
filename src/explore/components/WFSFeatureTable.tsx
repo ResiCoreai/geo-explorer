@@ -4,13 +4,13 @@ import { Feature, GeoJsonProperties } from 'geojson';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { GeoExplorerContext } from '@ncsa/geo-explorer/context';
+import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import { AppDispatch } from '@ncsa/geo-explorer/store';
 import {
   SimpleFeature,
   setSelectedFeatures,
 } from '@ncsa/geo-explorer/store/explore/slice';
-import { Dataset } from '@ncsa/geo-explorer/utils/types';
+import { Dataset } from '@ncsa/geo-explorer/types';
 
 type Props = {
   dataset: Dataset;

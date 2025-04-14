@@ -1,8 +1,8 @@
 import { useContext, useMemo } from 'react';
 import { Layer, Source } from 'react-map-gl/maplibre';
 
+import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import { TILE_SIZE } from '@ncsa/geo-explorer/config';
-import { GeoExplorerContext } from '@ncsa/geo-explorer/context';
 import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
 import { OGCClient } from '@ncsa/geo-explorer/utils/ogcClient';
 

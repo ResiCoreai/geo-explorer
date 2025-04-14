@@ -19,7 +19,7 @@ import { TimeSelector } from '@ncsa/geo-explorer/explore/MapLayerSettings/TimeSe
 import { WFSFeatureTable } from '@ncsa/geo-explorer/explore/components/WFSFeatureTable';
 import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
 import { toggleLayerSettings } from '@ncsa/geo-explorer/store/explore/slice';
-import { isVectorData } from '@ncsa/geo-explorer/utils/types';
+import { isVectorData } from '@ncsa/geo-explorer/types';
 
 const TRANSITION_DURATION = 200;
 const WIDTH_DETACHED = 727;

@@ -2,35 +2,24 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { Box, IconButton, Stack } from '@mui/material';
 import classNames from 'classnames';
-import { useContext, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import { SIDEBAR_WIDTH } from '@ncsa/geo-explorer/config';
-import { GeoExplorerContext } from '@ncsa/geo-explorer/context';
 import { DatasetPreview } from '@ncsa/geo-explorer/explore/DatasetPreview';
 import { MainMap } from '@ncsa/geo-explorer/explore/MainMap';
 import { MapLayerSettings } from '@ncsa/geo-explorer/explore/MapLayerSettings';
 import { Sidebar } from '@ncsa/geo-explorer/explore/Sidebar';
-import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
-import { initLayersFromConfig } from '@ncsa/geo-explorer/store/explore/actions';
+import { RootState } from '@ncsa/geo-explorer/store';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 export function GeoExplorer() {
-  const dispatch = useDispatch<AppDispatch>();
-  const { ogcClient } = useContext(GeoExplorerContext);
-
   const selectedMapLayer = useSelector(
     (state: RootState) => state.explore.selectedLayer,
   );
 
   const [sidebarOpen, setSidebarOpen] = useState(true);
-
-  useEffect(() => {
-    if (ogcClient) {
-      dispatch(initLayersFromConfig(ogcClient));
-    }
-  }, [ogcClient]);
 
   return (
     <Box className="relative flex-1">

@@ -14,7 +14,7 @@ import {
   MapLayer,
   MapLayerStyle,
 } from '@ncsa/geo-explorer/store/explore/types';
-import { Basemap, Dataset } from '@ncsa/geo-explorer/utils/types';
+import { Basemap, Dataset } from '@ncsa/geo-explorer/types';
 
 export type SimpleFeature = Feature<
   Point | LineString | Polygon | MultiPoint | MultiLineString | MultiPolygon

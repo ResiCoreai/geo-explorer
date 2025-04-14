@@ -1,11 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
 
-import { GeoExplorerContext } from '@ncsa/geo-explorer/context';
+import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
-import {
-  CategoricalLegend,
-  VectorDatasetInfo,
-} from '@ncsa/geo-explorer/utils/types';
+import { CategoricalLegend, VectorDatasetInfo } from '@ncsa/geo-explorer/types';
 
 type Props = {
   layer: MapLayer & { data: { dataset_info: VectorDatasetInfo } };

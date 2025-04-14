@@ -11,11 +11,11 @@ import {
   removeLayer,
   selectDataset,
 } from '@ncsa/geo-explorer/store/explore/slice';
+import { ClimateDatasetInfo, Dataset } from '@ncsa/geo-explorer/types';
 import {
   truncateClimateDatasetPrefix,
   truncateClimateDatasetSuffix,
 } from '@ncsa/geo-explorer/utils/dataset';
-import { ClimateDatasetInfo, Dataset } from '@ncsa/geo-explorer/utils/types';
 
 type Props = {
   dataset: Dataset;

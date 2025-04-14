@@ -3,7 +3,7 @@ import { Rule, Style, Symbolizer } from 'geostyler-style';
 
 import { store } from '@ncsa/geo-explorer/store';
 import { MapLayerStyle } from '@ncsa/geo-explorer/store/explore/types';
-import { FeatureType } from '@ncsa/geo-explorer/utils/types';
+import { FeatureType } from '@ncsa/geo-explorer/types';
 
 function createPointSymbolizer(style: MapLayerStyle): Symbolizer {
   return {

@@ -10,7 +10,7 @@ import {
 import { useAuth } from 'react-oidc-context';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { GeoExplorerContext } from '@ncsa/geo-explorer/context';
+import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import { LegendPanel } from '@ncsa/geo-explorer/explore/MainMap/LegendPanel';
 import { RippleOverlay } from '@ncsa/geo-explorer/explore/MainMap/RippleOverlay/RippleOverlay';
 import { WMSLayer } from '@ncsa/geo-explorer/explore/MainMap/WMSLayer';

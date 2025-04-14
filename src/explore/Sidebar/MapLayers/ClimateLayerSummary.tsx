@@ -1,7 +1,7 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
 
 import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
-import { ClimateDatasetInfo } from '@ncsa/geo-explorer/utils/types';
+import { ClimateDatasetInfo } from '@ncsa/geo-explorer/types';
 
 type Props = {
   layer: MapLayer & { data: { dataset_info: ClimateDatasetInfo } };

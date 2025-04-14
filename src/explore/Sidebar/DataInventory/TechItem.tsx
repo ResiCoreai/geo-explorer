@@ -10,7 +10,7 @@ import {
   removeLayer,
   selectDataset,
 } from '@ncsa/geo-explorer/store/explore/slice';
-import { Dataset } from '@ncsa/geo-explorer/utils/types';
+import { Dataset } from '@ncsa/geo-explorer/types';
 
 type Props = {
   dataset: Dataset;

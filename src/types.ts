@@ -46,7 +46,8 @@ export interface Basemap {
   thumbnail_url: string;
 }
 
-export interface Metadata {
+export interface GeoExplorerConfig {
+  bearerToken?: string;
   basemaps: Basemap[];
   tech_requirement_layers: Dataset[];
   climate_layers: Dataset[];

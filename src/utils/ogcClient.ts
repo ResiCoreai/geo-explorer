@@ -7,7 +7,6 @@ import {
   SimpleFeatureCollection,
 } from '@ncsa/geo-explorer/store/explore/slice';
 import { getMetersPerPixelAtLatitude } from '@ncsa/geo-explorer/utils/maplibre-utils';
-import { Metadata } from '@ncsa/geo-explorer/utils/types';
 
 type Params = Record<string, string | string[] | number | number[] | boolean>;
 
@@ -16,12 +15,12 @@ export class OGCClient {
 
   constructor(
     public serviceUrl: string,
-    bearerToken?: string,
+    accessToken?: string,
   ) {
     this.request = axios.create();
-    if (bearerToken) {
+    if (accessToken) {
       this.request.interceptors.request.use((config) => {
-        config.headers['Authorization'] = `Bearer ${bearerToken}`;
+        config.headers['Authorization'] = `Bearer ${accessToken}`;
         return config;
       }, null);
     }
@@ -142,27 +141,5 @@ export class OGCClient {
     });
 
     return data.features;
-  }
-
-  public async getInitialSettings(): Promise<Metadata> {
-    const { data } = await this.request.get<Metadata>('/layers.json');
-
-    // Process climate layers to ensure timestamps are sorted and in ISO 8601 format
-    const processedLayers = data.climate_layers.map((layer) => ({
-      ...layer,
-      dataset_info: {
-        ...layer.dataset_info,
-        timestamps: layer.dataset_info.timestamps
-          .map((timestamp) => new Date(timestamp))
-          .sort((a, b) => a.getTime() - b.getTime()) // Sort ascending
-          .map((date) => date.toISOString()),
-      },
-    }));
-
-    // Return modified metadata with processed layers
-    return {
-      ...data,
-      climate_layers: processedLayers,
-    };
   }
 }

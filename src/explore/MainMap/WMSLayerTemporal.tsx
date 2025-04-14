@@ -2,8 +2,8 @@ import { useContext, useEffect, useMemo } from 'react';
 import { Layer, Source, useMap } from 'react-map-gl/maplibre';
 import { useDispatch } from 'react-redux';
 
+import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import { TILE_SIZE } from '@ncsa/geo-explorer/config';
-import { GeoExplorerContext } from '@ncsa/geo-explorer/context';
 import { AppDispatch } from '@ncsa/geo-explorer/store';
 import { setTimestampIdx } from '@ncsa/geo-explorer/store/explore/slice';
 import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
