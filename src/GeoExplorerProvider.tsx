@@ -19,7 +19,7 @@ export const GeoExplorerContext = createContext<{
 });
 
 type Props = {
-  config: GeoExplorerConfig;
+  config: GeoExplorerConfig | null;
   accessToken: string | undefined;
   children: ReactNode;
 };
