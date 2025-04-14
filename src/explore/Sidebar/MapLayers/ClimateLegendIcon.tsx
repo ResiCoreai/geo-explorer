@@ -3,10 +3,7 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 
 import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
-import {
-  ClimateDatasetInfo,
-  RasterLegend,
-} from '@ncsa/geo-explorer/types';
+import { ClimateDatasetInfo, RasterLegend } from '@ncsa/geo-explorer/types';
 
 type Props = {
   layer: MapLayer & { data: { dataset_info: ClimateDatasetInfo } };
