@@ -17,10 +17,12 @@ import { GeoExplorerConfig } from '@ncsa/geo-explorer/types';
 import { OGCClient } from '@ncsa/geo-explorer/utils/ogcClient';
 
 export const GeoExplorerContext = createContext<{
+  accessToken?: string | undefined;
   ogcClient: OGCClient | null;
   isProtectedResource?: ((url: string) => boolean) | undefined;
   components: ComponentRegistry;
 }>({
+  accessToken: undefined,
   ogcClient: null,
   isProtectedResource: () => false,
   components: defaultComponents,
@@ -43,6 +45,7 @@ export function GeoExplorerProvider({
 }: Props) {
   const contextValue: ContextType<typeof GeoExplorerContext> = useMemo(() => {
     return {
+      accessToken,
       ogcClient: config ? new OGCClient({ accessToken }) : null,
       isProtectedResource,
       components: {

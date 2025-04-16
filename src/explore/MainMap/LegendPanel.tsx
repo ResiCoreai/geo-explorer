@@ -10,7 +10,6 @@ import {
 } from '@mui/material';
 import classNames from 'classnames';
 import { useContext, useEffect, useState } from 'react';
-import { useAuth } from 'react-oidc-context';
 
 import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
@@ -21,7 +20,6 @@ type Props = {
 };
 
 export function LegendPanel({ layers, selectedLayer }: Props) {
-  const auth = useAuth();
   const { ogcClient } = useContext(GeoExplorerContext);
 
   const [showAll, setShowAll] = useState(false);
@@ -31,8 +29,7 @@ export function LegendPanel({ layers, selectedLayer }: Props) {
   useEffect(() => {
     const fetchLegend = async (layer: MapLayer) => {
       const layerId = layer.data?.layer_id;
-      const token = auth.user?.access_token;
-      if (!layerId || !token) return;
+      if (!layerId) return;
 
       try {
         const blobUrl = await ogcClient?.getLegendImageObjectUrl(layer.data);
@@ -51,7 +48,7 @@ export function LegendPanel({ layers, selectedLayer }: Props) {
 
     setLegendUrls({});
     targetLayers.forEach(fetchLegend);
-  }, [layers, selectedLayer, showAll, auth.user?.access_token]);
+  }, [layers, selectedLayer, showAll]);
 
   const visibleLayers = showAll ? layers : [selectedLayer];
 

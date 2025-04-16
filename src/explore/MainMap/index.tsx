@@ -6,7 +6,6 @@ import {
   NavigationControl,
   Source,
 } from 'react-map-gl/maplibre';
-import { useAuth } from 'react-oidc-context';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
@@ -20,9 +19,9 @@ import { identifyFeature } from '@ncsa/geo-explorer/store/explore/actions';
 import { isAbortError } from '@ncsa/geo-explorer/utils/maplibre-utils';
 
 export function MainMap() {
-  const auth = useAuth();
   const dispatch = useDispatch<AppDispatch>();
-  const { ogcClient, isProtectedResource } = useContext(GeoExplorerContext);
+  const { accessToken, ogcClient, isProtectedResource } =
+    useContext(GeoExplorerContext);
 
   const mapLayers = useSelector((state: RootState) => state.explore.mapLayers);
   const selectedLayer = useSelector((state: RootState) =>
@@ -54,7 +53,7 @@ export function MainMap() {
             return {
               url: url + '&sld_body=' + encodeURIComponent(layer.styleSLD!),
               headers: {
-                Authorization: `Bearer ${auth.user?.access_token}`,
+                Authorization: `Bearer ${accessToken}`,
               },
             };
 
@@ -70,13 +69,14 @@ export function MainMap() {
           return {
             url,
             headers: {
-              Authorization: `Bearer ${auth.user?.access_token}`,
+              Authorization: `Bearer ${accessToken}`,
             },
           };
         }
         return undefined;
       }}
       onError={(e) => {
+        console.error(e.error.stack);
         if (isAbortError(e.error)) {
           // do nothing
         }
