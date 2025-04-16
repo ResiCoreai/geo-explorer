@@ -61,7 +61,7 @@ export function WFSFeatureTable({ dataset }: Props) {
       ?.sendWFSRequest<{
         features: SimpleFeature[];
         numberMatched: number;
-      }>({
+      }>(dataset.ogc_service_url, {
         version: '2.0.0',
         typeNames: [dataset.layer_id],
         count: paginationModel.pageSize,

@@ -35,7 +35,7 @@ export function LegendPanel({ layers, selectedLayer }: Props) {
       if (!layerId || !token) return;
 
       try {
-        const blobUrl = await ogcClient?.getLegendImageObjectUrl(layerId);
+        const blobUrl = await ogcClient?.getLegendImageObjectUrl(layer.data);
         if (blobUrl) {
           setLegendUrls((prev) => ({
             ...prev,

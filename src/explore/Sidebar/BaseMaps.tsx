@@ -6,8 +6,7 @@ import {
   SelectChangeEvent,
   Typography,
 } from '@mui/material';
-import React from 'react';
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
@@ -64,7 +63,7 @@ export const BaseMaps: React.FC = () => {
                 component="img"
                 src={basemap.thumbnail_url}
                 alt={basemap.display_name}
-                className="w-[50] h-[40] rounded-[4px] mr-[1]"
+                className="w-[50px] h-[40px] rounded-[4px] mr-[1]"
               />
             </ListItemIcon>
           </MenuItem>

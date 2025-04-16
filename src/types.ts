@@ -36,7 +36,7 @@ export interface Dataset {
   description: string;
   dataset_info: DatasetInfo;
   default_style_name?: string;
-  ogc_service_url?: string;
+  ogc_service_url: string;
 }
 
 export interface Basemap {

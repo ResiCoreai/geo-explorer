@@ -22,10 +22,8 @@ export function GeoExplorer() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   return (
-    <Box className="relative flex-1">
-      <Box className="z-0 relative">
-        <MainMap />
-      </Box>
+    <Box className="w-full h-full">
+      <MainMap />
       <Stack
         direction="row"
         className="absolute left-0 right-0 top-0 bottom-0 min-h-0 pointer-events-none transition-all"

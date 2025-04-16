@@ -15,7 +15,7 @@ export function ClimateLegendIcon({ layer }: Props) {
   const [legend, setLegend] = useState<RasterLegend | null>(null);
 
   useEffect(() => {
-    ogcClient?.getLegendJSON<RasterLegend>(layer.data.layer_id).then(setLegend);
+    ogcClient?.getLegendJSON<RasterLegend>(layer.data).then(setLegend);
   }, [ogcClient]);
 
   const colorMap = useMemo(() => {

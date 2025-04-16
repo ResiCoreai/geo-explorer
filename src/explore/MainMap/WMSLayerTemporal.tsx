@@ -8,7 +8,7 @@ import { AppDispatch } from '@ncsa/geo-explorer/store';
 import { setTimestampIdx } from '@ncsa/geo-explorer/store/explore/slice';
 import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
 import { nextCircular, prevCircular } from '@ncsa/geo-explorer/utils/array';
-import { OGCClient } from '@ncsa/geo-explorer/utils/ogcClient';
+import { Params } from '@ncsa/geo-explorer/utils/ogcClient';
 
 type Props = {
   layer: MapLayer;
@@ -30,36 +30,42 @@ export function WMSLayerTemporal({ layer, prevLayer }: Props) {
     nextCircular(layer.data.dataset_info.timestamps, layer.timestampIdx) ?? '';
 
   const tiles = useMemo(() => {
-    const params: Parameters<OGCClient['makeWMSUrl']>[0] = {
+    const params: Params = {
       layers: [layer.data.layer_id],
       __style_version__: layer.version,
     };
     if (curTimestamp) {
       params['time'] = curTimestamp;
     }
-    return ogcClient ? [ogcClient.makeWMSUrl(params)] : [];
+    return ogcClient
+      ? [ogcClient.makeWMSUrl(layer.data.ogc_service_url, params)]
+      : [];
   }, [layer.timestampIdx, layer.version]);
 
   const prevTiles = useMemo(() => {
-    const params: Parameters<OGCClient['makeWMSUrl']>[0] = {
+    const params: Params = {
       layers: [layer.data.layer_id],
       __style_version__: layer.version,
     };
     if (prevTimestamp) {
       params['time'] = prevTimestamp;
     }
-    return ogcClient ? [ogcClient.makeWMSUrl(params)] : [];
+    return ogcClient
+      ? [ogcClient.makeWMSUrl(layer.data.ogc_service_url, params)]
+      : [];
   }, [layer.timestampIdx, layer.version]);
 
   const nextTiles = useMemo(() => {
-    const params: Parameters<OGCClient['makeWMSUrl']>[0] = {
+    const params: Params = {
       layers: [layer.data.layer_id],
       __style_version__: layer.version,
     };
     if (nextTimestamp) {
       params['time'] = nextTimestamp;
     }
-    return ogcClient ? [ogcClient.makeWMSUrl(params)] : [];
+    return ogcClient
+      ? [ogcClient.makeWMSUrl(layer.data.ogc_service_url, params)]
+      : [];
   }, [layer.timestampIdx, layer.version]);
 
   const dispatch = useDispatch<AppDispatch>();

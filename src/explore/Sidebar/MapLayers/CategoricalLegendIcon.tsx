@@ -20,9 +20,7 @@ export function CategoricalLegendIcon({ layer }: Props) {
   const [legend, setLegend] = useState<CategoricalLegend | null>(null);
 
   useEffect(() => {
-    ogcClient
-      ?.getLegendJSON<CategoricalLegend>(layer.data.layer_id)
-      .then(setLegend);
+    ogcClient?.getLegendJSON<CategoricalLegend>(layer.data).then(setLegend);
   }, [ogcClient]);
 
   const colorMap = useMemo<CategoricalColor[]>(() => {

@@ -6,21 +6,22 @@ import {
   SimpleFeature,
   SimpleFeatureCollection,
 } from '@ncsa/geo-explorer/store/explore/slice';
+import { Dataset } from '@ncsa/geo-explorer/types';
 import { getMetersPerPixelAtLatitude } from '@ncsa/geo-explorer/utils/maplibre-utils';
 
-type Params = Record<string, string | string[] | number | number[] | boolean>;
+export type Params = Record<
+  string,
+  string | string[] | number | number[] | boolean
+>;
 
 export class OGCClient {
   private request: AxiosInstance;
 
-  constructor(
-    public serviceUrl: string,
-    accessToken?: string,
-  ) {
+  constructor(options: { accessToken?: string | undefined }) {
     this.request = axios.create();
-    if (accessToken) {
+    if (options.accessToken) {
       this.request.interceptors.request.use((config) => {
-        config.headers['Authorization'] = `Bearer ${accessToken}`;
+        config.headers['Authorization'] = `Bearer ${options.accessToken}`;
         return config;
       }, null);
     }
@@ -36,9 +37,9 @@ export class OGCClient {
     );
   }
 
-  public makeWMSUrl(options: Params) {
+  public makeWMSUrl(serviceUrl: string, options: Params) {
     return (
-      this.makeUrl(`${this.serviceUrl}/wms`, {
+      this.makeUrl(`${serviceUrl}/wms`, {
         format: 'image/png',
         service: 'WMS',
         version: '1.3.0',
@@ -60,37 +61,38 @@ export class OGCClient {
     return URL.createObjectURL(blob);
   }
 
-  public async getLegendImageObjectUrl(layerId: string): Promise<string> {
+  public async getLegendImageObjectUrl(dataset: Dataset): Promise<string> {
     return this.getImageBlobUrl({
-      url: `${this.serviceUrl}/wms`,
+      url: `${dataset.ogc_service_url}/wms`,
       params: {
         request: 'GetLegendGraphic',
         version: '1.0.0',
         format: 'image/png',
-        layer: layerId,
+        layer: dataset.layer_id,
       },
     });
   }
 
-  public async getLegendJSON<T>(layerId: string): Promise<T> {
+  public async getLegendJSON<T>(dataset: Dataset): Promise<T> {
     const { data } = await this.request<T>({
-      url: `${this.serviceUrl}/wms`,
+      url: `${dataset.ogc_service_url}/wms`,
       params: {
         version: '1.3.0',
         request: 'GetLegendGraphic',
         format: 'application/json',
-        layer: layerId,
+        layer: dataset.layer_id,
       },
     });
     return data;
   }
 
   public sendWFSRequest<T>(
+    serviceUrl: string,
     options: Params,
     config?: Partial<AxiosRequestConfig>,
   ): Promise<AxiosResponse<T>> {
     return this.request({
-      url: this.makeUrl(`${this.serviceUrl}/wfs`, {
+      url: this.makeUrl(`${serviceUrl}/wfs`, {
         service: 'WFS',
         version: '2.0.0',
         request: 'GetFeature',
@@ -102,11 +104,12 @@ export class OGCClient {
     });
   }
 
-  public async downloadDataset(name: string) {
+  public async downloadDataset(dataset: Dataset) {
     try {
       const { data } = await this.sendWFSRequest<Blob>(
+        dataset.ogc_service_url,
         {
-          typeNames: name,
+          typeNames: dataset.layer_id,
           outputFormat: 'csv',
         },
         {
@@ -125,7 +128,7 @@ export class OGCClient {
   }
 
   public async identifyFeature(
-    layer_id: string,
+    dataset: Dataset,
     lngLat: LngLat,
     zoom: number,
   ): Promise<SimpleFeature[]> {
@@ -135,10 +138,13 @@ export class OGCClient {
     const radiusInPixels = 10; // detect hits within 10 pixels of the cursor
     const radiusInMeters = radiusInPixels * metersPerPixel;
 
-    const { data } = await this.sendWFSRequest<SimpleFeatureCollection>({
-      typeName: layer_id,
-      cql_filter: `DWITHIN(geom, SRID=4326;POINT(${lng} ${lat}), ${radiusInMeters}, meters)`,
-    });
+    const { data } = await this.sendWFSRequest<SimpleFeatureCollection>(
+      dataset.ogc_service_url,
+      {
+        typeName: dataset.layer_id,
+        cql_filter: `DWITHIN(geom, SRID=4326;POINT(${lng} ${lat}), ${radiusInMeters}, meters)`,
+      },
+    );
 
     return data.features;
   }

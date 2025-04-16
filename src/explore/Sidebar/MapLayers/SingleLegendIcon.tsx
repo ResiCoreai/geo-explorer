@@ -15,9 +15,7 @@ export function SingleLegendIcon({ layer }: Props) {
   const [imageBlobUrl, setImageBlobUrl] = useState<string | null>(null);
 
   useEffect(() => {
-    ogcClient
-      ?.getLegendJSON<CategoricalLegend>(layer.data.layer_id)
-      .then(setLegend);
+    ogcClient?.getLegendJSON<CategoricalLegend>(layer.data).then(setLegend);
   }, [ogcClient]);
 
   useEffect(() => {

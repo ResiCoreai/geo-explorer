@@ -22,7 +22,7 @@ import { isAbortError } from '@ncsa/geo-explorer/utils/maplibre-utils';
 export function MainMap() {
   const auth = useAuth();
   const dispatch = useDispatch<AppDispatch>();
-  const { ogcClient } = useContext(GeoExplorerContext);
+  const { ogcClient, isProtectedResource } = useContext(GeoExplorerContext);
 
   const mapLayers = useSelector((state: RootState) => state.explore.mapLayers);
   const selectedLayer = useSelector((state: RootState) =>
@@ -39,7 +39,7 @@ export function MainMap() {
     <Map
       id="map"
       transformRequest={(url) => {
-        if (ogcClient && url.startsWith(ogcClient.serviceUrl)) {
+        if (isProtectedResource?.(url)) {
           const layer_id = new URLSearchParams(url).get('layers')!;
           const mapLayers = store.getState().explore.mapLayers;
           const layer = mapLayers.find(
@@ -97,7 +97,7 @@ export function MainMap() {
             dispatch(
               identifyFeature(
                 ogcClient,
-                selectedLayer.data.layer_id,
+                selectedLayer.data,
                 e.lngLat,
                 e.target.getZoom(),
               ),

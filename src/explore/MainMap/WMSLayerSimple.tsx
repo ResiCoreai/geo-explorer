@@ -4,7 +4,7 @@ import { Layer, Source } from 'react-map-gl/maplibre';
 import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import { TILE_SIZE } from '@ncsa/geo-explorer/config';
 import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
-import { OGCClient } from '@ncsa/geo-explorer/utils/ogcClient';
+import { Params } from '@ncsa/geo-explorer/utils/ogcClient';
 
 type Props = {
   layer: MapLayer;
@@ -15,11 +15,13 @@ export function WMSLayerSimple({ layer, prevLayer }: Props) {
   const { ogcClient } = useContext(GeoExplorerContext);
 
   const tiles = useMemo(() => {
-    const params: Parameters<OGCClient['makeWMSUrl']>[0] = {
+    const params: Params = {
       layers: [layer.data.layer_id],
       __style_version__: layer.version,
     };
-    return ogcClient ? [ogcClient.makeWMSUrl(params)] : [];
+    return ogcClient
+      ? [ogcClient.makeWMSUrl(layer.data.ogc_service_url, params)]
+      : [];
   }, [layer.version]);
 
   return (

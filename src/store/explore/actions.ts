@@ -7,14 +7,15 @@ import {
   setSelectedFeatures,
 } from '@ncsa/geo-explorer/store/explore/slice';
 import { MapLayerStyle } from '@ncsa/geo-explorer/store/explore/types';
+import { Dataset } from '@ncsa/geo-explorer/types';
 import { OGCClient } from '@ncsa/geo-explorer/utils/ogcClient';
 
 export const identifyFeature =
-  (ogcClient: OGCClient, layer_id: string, lngLat: LngLat, zoom: number) =>
+  (ogcClient: OGCClient, dataset: Dataset, lngLat: LngLat, zoom: number) =>
   async (dispatch: AppDispatch) => {
     dispatch(
       setSelectedFeatures(
-        await ogcClient.identifyFeature(layer_id, lngLat, zoom),
+        await ogcClient.identifyFeature(dataset, lngLat, zoom),
       ),
     );
   };

@@ -18,15 +18,18 @@ import { OGCClient } from '@ncsa/geo-explorer/utils/ogcClient';
 
 export const GeoExplorerContext = createContext<{
   ogcClient: OGCClient | null;
+  isProtectedResource?: ((url: string) => boolean) | undefined;
   components: ComponentRegistry;
 }>({
   ogcClient: null,
+  isProtectedResource: () => false,
   components: defaultComponents,
 });
 
 type Props = {
   config: GeoExplorerConfig | null;
   accessToken: string | undefined;
+  isProtectedResource?: (url: string) => boolean;
   children: ReactNode;
   components?: Partial<ComponentRegistry>;
 };
@@ -34,15 +37,14 @@ type Props = {
 export function GeoExplorerProvider({
   config,
   accessToken,
+  isProtectedResource,
   children,
   components,
 }: Props) {
   const contextValue: ContextType<typeof GeoExplorerContext> = useMemo(() => {
     return {
-      ogcClient: new OGCClient(
-        'https://dachub.ncsa.illinois.edu/geoserver',
-        accessToken,
-      ),
+      ogcClient: config ? new OGCClient({ accessToken }) : null,
+      isProtectedResource,
       components: {
         ...defaultComponents,
         ...components,
