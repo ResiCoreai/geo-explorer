@@ -1,4 +1,3 @@
-import { isAbortError } from 'maplibre-gl/src/util/abort_error';
 import { useContext } from 'react';
 import {
   FullscreenControl,
@@ -18,6 +17,7 @@ import { FitBounds } from '@ncsa/geo-explorer/explore/MainMap/controls/FitBounds
 import { SelectedFeatures } from '@ncsa/geo-explorer/explore/SelectedFeatures';
 import { AppDispatch, RootState, store } from '@ncsa/geo-explorer/store';
 import { identifyFeature } from '@ncsa/geo-explorer/store/explore/actions';
+import { isAbortError } from '@ncsa/geo-explorer/utils/maplibre-utils';
 
 export function MainMap() {
   const auth = useAuth();

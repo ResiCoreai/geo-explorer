@@ -9,3 +9,8 @@ export * from './store/explore/slice';
 export * from './store/explore/actions';
 
 export { GeoExplorerConfig } from './types';
+
+export {
+  SimpleLayerItemProps,
+  SimpleLayerItem,
+} from './explore/Sidebar/DataInventory/SimpleLayerItem';
