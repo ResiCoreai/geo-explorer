@@ -145,6 +145,7 @@ export class OGCClient {
       {
         typeName: dataset.layer_id,
         cql_filter: `DWITHIN(${geomColumn}, SRID=4326;POINT(${lng} ${lat}), ${radiusInMeters}, meters)`,
+        count: 10,
       },
     );
 
