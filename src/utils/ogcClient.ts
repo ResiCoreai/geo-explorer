@@ -138,11 +138,13 @@ export class OGCClient {
     const radiusInPixels = 10; // detect hits within 10 pixels of the cursor
     const radiusInMeters = radiusInPixels * metersPerPixel;
 
+    const geomColumn = dataset.geometry_column ?? 'geom';
+
     const { data } = await this.sendWFSRequest<SimpleFeatureCollection>(
       dataset.ogc_service_url,
       {
         typeName: dataset.layer_id,
-        cql_filter: `DWITHIN(geom, SRID=4326;POINT(${lng} ${lat}), ${radiusInMeters}, meters)`,
+        cql_filter: `DWITHIN(${geomColumn}, SRID=4326;POINT(${lng} ${lat}), ${radiusInMeters}, meters)`,
       },
     );
 
