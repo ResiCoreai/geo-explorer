@@ -104,3 +104,70 @@ Here’s a growing list of customizable components you can override:
 |------------------|------------------------|----------------------------------------------|
 | `SimpleLayerItem` | `SimpleLayerItemProps` | Renders an layer in the inventory layer list |
 
+
+### Advanced: Redux Store Overview
+
+Geo-Explorer uses Redux internally to manage state for layer rendering, selection, basemaps, temporal control, and styles. You can access or extend the state by connecting to the Redux store exposed through `GeoExplorerProvider`.
+
+#### Store State
+
+| State Key           | Type                         | Description                                                   |
+|---------------------|------------------------------|---------------------------------------------------------------|
+| `prevIndex`         | `number`                     | Used for layer reordering                                     |
+| `currentIndex`      | `number`                     | Used for layer reordering                                     |
+| `dataInventory`     | `Dataset[]`                  | List of static vector/raster datasets                         |
+| `climateInventory`  | `Dataset[]`                  | List of temporal datasets                                     |
+| `baseMaps`          | `Basemap[]`                  | Available base layers                                         |
+| `selectedDataset`   | `string \| null`             | Currently selected dataset                                    |
+| `mapLayers`         | `MapLayer[]`                 | Active layers on the map                                      |
+| `selectedLayer`     | `string \| null`             | Layer currently shown in style/settings panel                 |
+| `showLayerSettings` | `boolean`                    | Toggle for layer style editor                                 |
+| `selectedBaseMap`   | `string \| null`             | Currently selected basemap                                    |
+| `selectedFeatures`  | `SimpleFeature[]`            | Currently selected features from the map                      |
+
+
+#### Redux Actions
+
+| Action                 | Purpose                                                           |
+|------------------------|-------------------------------------------------------------------|
+| `selectDataset`        | Set or reset the currently selected dataset                       |
+| `selectMapLayer`       | Select a layer and show its settings panel                        |
+| `toggleLayerSettings`  | Toggle visibility of the layer settings panel                     |
+| `setShowLayerSettings` | Explicitly show/hide the layer settings panel                     |
+| `selectBaseMap`        | Set the currently selected basemap                                |
+| `addLayer`             | Add a dataset to the active map layers                            |
+| `removeLayer`          | Remove a layer from the map                                       |
+| `toggleVisibility`     | Show/hide a specific map layer                                    |
+| `togglePlaying`        | Toggle animation for a temporal layer                             |
+| `setTimestampIdx`      | Update time index for a temporal layer                            |
+| `setSelectedFeatures`  | Set selected features (e.g. from WFS identify)                    |
+| `setLayerStyle`        | Update layer style (style object + SLD string)                    |
+| `resetLayerStyle`      | Reset a layer’s style to default                                  |
+| `reorderStart`         | Record the initial index when starting a drag/reorder operation   |
+| `reorderEnd`           | Apply reordering of layers                                        |
+| `setCurrentIndex`      | Update the current drag index                                     |
+| `initLayers`           | Initialize layers from config (data, climate, basemaps)           |
+
+Great! Here's an additional section for your `README.md` documenting the **async thunks** available in the Geo-Explorer Redux store:
+
+---
+
+#### Async Thunks
+
+These are useful for integrating with remote OGC services or performing side effects like styling conversion or feature queries.
+
+| Thunk Name              | Purpose                                                                 |
+|-------------------------|-------------------------------------------------------------------------|
+| `initLayersFromConfig`  | Fetches initial layer settings (data, climate, basemaps) from the OGC client and dispatches `initLayers` |
+| `identifyFeature`       | Performs a WFS `GetFeature` request at a given location and dispatches `setSelectedFeatures` |
+| `setLayerStyleSLD`      | Converts a layer style to SLD and dispatches `setLayerStyle` with both style object and SLD string |
+
+#### Example Usage
+
+```ts
+dispatch(initLayersFromConfig(ogcClient));
+dispatch(identifyFeature(ogcClient, layerId, lngLat, zoom));
+dispatch(setLayerStyleSLD(layerId, style));
+```
+
+> These thunks require access to an `OGCClient` instance for interacting with WMS/WFS endpoints.
