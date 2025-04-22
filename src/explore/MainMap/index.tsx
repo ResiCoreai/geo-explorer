@@ -50,21 +50,21 @@ export function MainMap() {
           );
 
           if (shouldUseClientStyle) {
+            // return {
+            //   url: url + '&sld_body=' + encodeURIComponent(layer.styleSLD!),
+            //   headers: {
+            //     Authorization: `Bearer ${accessToken}`,
+            //   },
+            // };
+
             return {
-              url: url + '&sld_body=' + encodeURIComponent(layer.styleSLD!),
+              url,
+              method: 'POST',
+              body: layer.styleSLD,
               headers: {
                 Authorization: `Bearer ${accessToken}`,
               },
             };
-
-            // return {
-            //   url,
-            //   method: 'POST',
-            //   body: layer.styleSLD,
-            //   headers: {
-            //     Authorization: `Bearer ${auth.user?.access_token}`,
-            //   },
-            // };
           }
           return {
             url,
