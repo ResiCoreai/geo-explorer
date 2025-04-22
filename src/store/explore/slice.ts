@@ -248,6 +248,7 @@ export const exploreSlice = createSlice({
       state.simpleLayerInventory = action.payload.simpleLayerInventory;
       state.temporalLayerInventory = action.payload.temporalLayerInventory;
       state.baseMaps = action.payload.baseMaps;
+      state.mapLayers = [];
     },
   },
 });
