@@ -6,7 +6,7 @@ import {
   SimpleFeature,
   SimpleFeatureCollection,
 } from '@ncsa/geo-explorer/store/explore/slice';
-import { Dataset } from '@ncsa/geo-explorer/types';
+import { Dataset, FeatureTypeInfo } from '@ncsa/geo-explorer/types';
 
 export type Params = Record<
   string,
@@ -124,6 +124,17 @@ export class OGCClient {
     } catch {
       // TODO: show error message
     }
+  }
+
+  public async describeFeatureType(dataset: Dataset): Promise<FeatureTypeInfo> {
+    const { data } = await this.sendWFSRequest<FeatureTypeInfo>(
+      dataset.ogc_service_url,
+      {
+        typeName: dataset.layer_id,
+        request: 'DescribeFeatureType',
+      },
+    );
+    return data;
   }
 
   public async identifyFeature(

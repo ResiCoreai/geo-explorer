@@ -12,8 +12,9 @@ import {
   defaultComponents,
 } from '@ncsa/geo-explorer/ComponentRegistry';
 import { store } from '@ncsa/geo-explorer/store';
-import { initLayers } from '@ncsa/geo-explorer/store/explore/slice';
+import { setLayers } from '@ncsa/geo-explorer/store/explore/slice';
 import { GeoExplorerConfig } from '@ncsa/geo-explorer/types';
+import { resolveFeatureType } from '@ncsa/geo-explorer/utils/dataset';
 import { OGCClient } from '@ncsa/geo-explorer/utils/ogcClient';
 
 export const GeoExplorerContext = createContext<{
@@ -56,16 +57,26 @@ export function GeoExplorerProvider({
   }, [config, components]);
 
   useEffect(() => {
-    if (config) {
+    (async function init() {
+      const { ogcClient } = contextValue;
+      if (!config || !ogcClient) return;
       store.dispatch(
-        initLayers({
-          simpleLayerInventory: config.simple_layers,
-          temporalLayerInventory: config.temporal_layers,
+        setLayers({
+          simpleLayerInventory: await Promise.all(
+            config.simple_layers.map((dataset) =>
+              resolveFeatureType(dataset, ogcClient),
+            ),
+          ),
+          temporalLayerInventory: await Promise.all(
+            config.temporal_layers.map((dataset) =>
+              resolveFeatureType(dataset, ogcClient),
+            ),
+          ),
           baseMaps: config.basemaps,
         }),
       );
-    }
-  }, [config]);
+    })();
+  }, [config, contextValue]);
 
   return (
     <GeoExplorerContext.Provider value={contextValue}>

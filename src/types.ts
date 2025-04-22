@@ -9,7 +9,7 @@ export interface BaseDatasetInfo {
 export interface VectorDatasetInfo extends BaseDatasetInfo {
   dataset_type: 'vector';
   dataset_category: string;
-  feature_type: FeatureType;
+  feature_type?: FeatureType;
 }
 
 export interface RasterDatasetInfo extends BaseDatasetInfo {
@@ -77,7 +77,30 @@ export function isVectorData(
   return layer.data.dataset_info.dataset_type === 'vector';
 }
 
-export type Legend = RasterLegend;
+export interface FeatureTypeInfo {
+  elementFormDefault: string;
+  targetNamespace: string;
+  targetPrefix: string;
+  featureTypes: [
+    {
+      typeName: string;
+      properties: Array<{
+        name: string;
+        maxOccurs: number;
+        minOccurs: number;
+        nillable: boolean;
+        type: string;
+        localType:
+          | 'Point'
+          | 'MultiPoint'
+          | 'LineString'
+          | 'MultiLineString'
+          | 'Polygon'
+          | 'MultiPolygon';
+      }>;
+    },
+  ];
+}
 
 export interface RasterLegend {
   Legend: [

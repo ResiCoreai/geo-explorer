@@ -237,7 +237,7 @@ export const exploreSlice = createSlice({
         layer.styleSLD = '';
       }
     },
-    initLayers(
+    setLayers(
       state,
       action: PayloadAction<{
         simpleLayerInventory: Dataset[];
@@ -269,5 +269,5 @@ export const {
   setSelectedFeatures,
   setLayerStyle,
   resetLayerStyle,
-  initLayers,
+  setLayers,
 } = exploreSlice.actions;

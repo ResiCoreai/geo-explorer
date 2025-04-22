@@ -79,7 +79,7 @@ export async function formatSLD(
 
   const geoStylerStyle: Style = {
     name: layer_id,
-    rules: createStyleRules(layer.data.dataset_info.feature_type, style),
+    rules: createStyleRules(layer.data.dataset_info.feature_type!, style),
   };
   const { output: styleSLD } = await new SLDParser().writeStyle(geoStylerStyle);
 
