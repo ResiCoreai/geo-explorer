@@ -9,7 +9,7 @@ export interface BaseDatasetInfo {
 export interface VectorDatasetInfo extends BaseDatasetInfo {
   dataset_type: 'vector';
   dataset_category: string;
-  feature_type: FeatureType;
+  feature_type?: FeatureType;
 }
 
 export interface RasterDatasetInfo extends BaseDatasetInfo {
@@ -36,7 +36,7 @@ export interface Dataset {
   description: string;
   dataset_info: DatasetInfo;
   default_style_name?: string;
-  ogc_service_url?: string;
+  ogc_service_url: string;
 }
 
 export interface Basemap {
@@ -46,10 +46,11 @@ export interface Basemap {
   thumbnail_url: string;
 }
 
-export interface Metadata {
+export interface GeoExplorerConfig {
+  bearerToken?: string;
   basemaps: Basemap[];
-  tech_requirement_layers: Dataset[];
-  climate_layers: Dataset[];
+  simple_layers: Dataset[];
+  temporal_layers: Dataset[];
 }
 
 export function isClimateData(
@@ -76,7 +77,30 @@ export function isVectorData(
   return layer.data.dataset_info.dataset_type === 'vector';
 }
 
-export type Legend = RasterLegend;
+export interface FeatureTypeInfo {
+  elementFormDefault: string;
+  targetNamespace: string;
+  targetPrefix: string;
+  featureTypes: [
+    {
+      typeName: string;
+      properties: Array<{
+        name: string;
+        maxOccurs: number;
+        minOccurs: number;
+        nillable: boolean;
+        type: string;
+        localType:
+          | 'Point'
+          | 'MultiPoint'
+          | 'LineString'
+          | 'MultiLineString'
+          | 'Polygon'
+          | 'MultiPolygon';
+      }>;
+    },
+  ];
+}
 
 export interface RasterLegend {
   Legend: [

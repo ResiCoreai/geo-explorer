@@ -11,18 +11,18 @@ import {
   removeLayer,
   selectDataset,
 } from '@ncsa/geo-explorer/store/explore/slice';
+import { ClimateDatasetInfo, Dataset } from '@ncsa/geo-explorer/types';
 import {
   truncateClimateDatasetPrefix,
   truncateClimateDatasetSuffix,
 } from '@ncsa/geo-explorer/utils/dataset';
-import { ClimateDatasetInfo, Dataset } from '@ncsa/geo-explorer/utils/types';
 
 type Props = {
   dataset: Dataset;
   climateSelectedOption: keyof ClimateDatasetInfo;
 };
 
-export function ClimateItem({ dataset, climateSelectedOption }: Props) {
+export function TemporalLayerItem({ dataset, climateSelectedOption }: Props) {
   const dispatch = useDispatch<AppDispatch>();
   const mapLayers = useSelector((state: RootState) => state.explore.mapLayers);
 

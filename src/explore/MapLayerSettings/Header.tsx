@@ -15,7 +15,7 @@ import {
 import { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { GeoExplorerContext } from '@ncsa/geo-explorer/context';
+import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import { DatasetDescriptionTooltip } from '@ncsa/geo-explorer/icons/DatasetDescriptionTooltip';
 import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
 import { removeLayer } from '@ncsa/geo-explorer/store/explore/slice';
@@ -66,7 +66,7 @@ export function Header({ onOpenStyleSettings, onClose }: Props) {
       <IconButton
         disabled={selectedLayer.data.dataset_info.dataset_type === 'raster'}
         onClick={() => {
-          ogcClient?.downloadDataset(selectedLayer.data.layer_id);
+          ogcClient?.downloadDataset(selectedLayer.data);
         }}
       >
         <FileDownloadOutlined />

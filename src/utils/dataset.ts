@@ -1,4 +1,5 @@
-import { DatasetInfo } from '@ncsa/geo-explorer/utils/types';
+import { Dataset, DatasetInfo } from '@ncsa/geo-explorer/types';
+import { OGCClient } from '@ncsa/geo-explorer/utils/ogcClient';
 
 export function isDatasetTypeMatch(
   datasetInfo: DatasetInfo,
@@ -21,4 +22,53 @@ export function truncateClimateDatasetSuffix(input: string): string {
 export function truncateClimateDatasetPrefix(input: string): string {
   const match = input.match(/^(.*?\bProjection)/i);
   return match?.[1]?.trim() ?? input;
+}
+
+export async function resolveFeatureType(
+  dataset: Dataset,
+  ogcClient: OGCClient,
+): Promise<Dataset> {
+  if (dataset.dataset_info.dataset_type === 'raster') {
+    return dataset;
+  }
+
+  const featureType = await ogcClient.describeFeatureType(dataset);
+
+  const geometryProperty = featureType?.featureTypes[0].properties.find(
+    (prop) => prop.name === 'geom' || prop.name === 'the_geom',
+  );
+
+  if (!geometryProperty) {
+    return dataset;
+  }
+
+  switch (geometryProperty.localType) {
+    case 'Point':
+    case 'MultiPoint':
+      return {
+        ...dataset,
+        dataset_info: {
+          ...dataset.dataset_info,
+          feature_type: 'point',
+        },
+      };
+    case 'LineString':
+    case 'MultiLineString':
+      return {
+        ...dataset,
+        dataset_info: {
+          ...dataset.dataset_info,
+          feature_type: 'line',
+        },
+      };
+    case 'Polygon':
+    case 'MultiPolygon':
+      return {
+        ...dataset,
+        dataset_info: {
+          ...dataset.dataset_info,
+          feature_type: 'polygon',
+        },
+      };
+  }
 }

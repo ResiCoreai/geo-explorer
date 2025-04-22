@@ -1,12 +1,9 @@
 import Box from '@mui/material/Box';
 import { useContext, useEffect, useMemo, useState } from 'react';
 
-import { GeoExplorerContext } from '@ncsa/geo-explorer/context';
+import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
-import {
-  ClimateDatasetInfo,
-  RasterLegend,
-} from '@ncsa/geo-explorer/utils/types';
+import { ClimateDatasetInfo, RasterLegend } from '@ncsa/geo-explorer/types';
 
 type Props = {
   layer: MapLayer & { data: { dataset_info: ClimateDatasetInfo } };
@@ -18,7 +15,7 @@ export function ClimateLegendIcon({ layer }: Props) {
   const [legend, setLegend] = useState<RasterLegend | null>(null);
 
   useEffect(() => {
-    ogcClient?.getLegendJSON<RasterLegend>(layer.data.layer_id).then(setLegend);
+    ogcClient?.getLegendJSON<RasterLegend>(layer.data).then(setLegend);
   }, [ogcClient]);
 
   const colorMap = useMemo(() => {

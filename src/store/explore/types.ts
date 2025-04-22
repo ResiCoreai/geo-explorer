@@ -1,4 +1,4 @@
-import { Dataset } from '@ncsa/geo-explorer/utils/types';
+import { Dataset } from '@ncsa/geo-explorer/types';
 
 export type MapLayer = {
   data: Dataset;

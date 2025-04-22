@@ -14,7 +14,7 @@ import {
   MapLayer,
   MapLayerStyle,
 } from '@ncsa/geo-explorer/store/explore/types';
-import { Basemap, Dataset } from '@ncsa/geo-explorer/utils/types';
+import { Basemap, Dataset } from '@ncsa/geo-explorer/types';
 
 export type SimpleFeature = Feature<
   Point | LineString | Polygon | MultiPoint | MultiLineString | MultiPolygon
@@ -27,8 +27,8 @@ export type SimpleFeatureCollection = FeatureCollection<
 type ExploreState = {
   prevIndex: number;
   currentIndex: number;
-  dataInventory: Dataset[];
-  climateInventory: Dataset[];
+  simpleLayerInventory: Dataset[];
+  temporalLayerInventory: Dataset[];
   baseMaps: Basemap[];
   selectedDataset: string | null;
   mapLayers: MapLayer[];
@@ -53,8 +53,8 @@ export const exploreSlice = createSlice({
   initialState: {
     prevIndex: -1,
     currentIndex: -1,
-    dataInventory: [],
-    climateInventory: [],
+    simpleLayerInventory: [],
+    temporalLayerInventory: [],
     baseMaps: [],
     selectedDataset: null,
     mapLayers: [],
@@ -69,10 +69,10 @@ export const exploreSlice = createSlice({
         state.selectedDataset = null;
       } else {
         const dataset =
-          state.dataInventory.find(
+          state.simpleLayerInventory.find(
             (l) => l.layer_id === action.payload.layer_id,
           ) ||
-          state.climateInventory.find(
+          state.temporalLayerInventory.find(
             (l) => l.layer_id === action.payload.layer_id,
           );
 
@@ -153,10 +153,10 @@ export const exploreSlice = createSlice({
     },
     addLayer(state, action: PayloadAction<{ layer_id: string }>) {
       const dataset =
-        state.dataInventory.find(
+        state.simpleLayerInventory.find(
           (l) => l.layer_id === action.payload.layer_id,
         ) ||
-        state.climateInventory.find(
+        state.temporalLayerInventory.find(
           (l) => l.layer_id === action.payload.layer_id,
         );
 
@@ -237,16 +237,16 @@ export const exploreSlice = createSlice({
         layer.styleSLD = '';
       }
     },
-    initLayers(
+    setLayers(
       state,
       action: PayloadAction<{
-        dataInventory: Dataset[];
-        climateInventory: Dataset[];
+        simpleLayerInventory: Dataset[];
+        temporalLayerInventory: Dataset[];
         baseMaps: Basemap[];
       }>,
     ) {
-      state.dataInventory = action.payload.dataInventory;
-      state.climateInventory = action.payload.climateInventory;
+      state.simpleLayerInventory = action.payload.simpleLayerInventory;
+      state.temporalLayerInventory = action.payload.temporalLayerInventory;
       state.baseMaps = action.payload.baseMaps;
     },
   },
@@ -269,5 +269,5 @@ export const {
   setSelectedFeatures,
   setLayerStyle,
   resetLayerStyle,
-  initLayers,
+  setLayers,
 } = exploreSlice.actions;
