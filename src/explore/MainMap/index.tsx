@@ -15,7 +15,7 @@ import { WMSLayer } from '@ncsa/geo-explorer/explore/MainMap/WMSLayer';
 import { FitBounds } from '@ncsa/geo-explorer/explore/MainMap/controls/FitBounds';
 import { SelectedFeatures } from '@ncsa/geo-explorer/explore/SelectedFeatures';
 import { AppDispatch, RootState, store } from '@ncsa/geo-explorer/store';
-import { identifyFeature } from '@ncsa/geo-explorer/store/explore/actions';
+import { setSelectedFeatures } from '@ncsa/geo-explorer/store/explore/slice';
 import { isAbortError } from '@ncsa/geo-explorer/utils/maplibre-utils';
 
 export function MainMap() {
@@ -93,16 +93,9 @@ export function MainMap() {
           selectedLayer &&
           selectedLayer.data.dataset_info.dataset_type === 'vector'
         ) {
-          if (ogcClient) {
-            dispatch(
-              identifyFeature(
-                ogcClient,
-                selectedLayer.data,
-                e.lngLat,
-                e.target.getZoom(),
-              ),
-            );
-          }
+          ogcClient?.identifyFeature(e, selectedLayer.data).then((features) => {
+            dispatch(setSelectedFeatures(features));
+          });
         }
       }}
       cursor={selectedLayer ? 'crosshair' : ''}

@@ -37,7 +37,6 @@ export interface Dataset {
   dataset_info: DatasetInfo;
   default_style_name?: string;
   ogc_service_url: string;
-  geometry_column?: string;
 }
 
 export interface Basemap {

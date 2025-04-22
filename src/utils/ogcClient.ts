@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { LngLat } from 'maplibre-gl';
+import maplibregl from 'maplibre-gl';
 
 import { TILE_SIZE } from '@ncsa/geo-explorer/config';
 import {
@@ -7,11 +7,10 @@ import {
   SimpleFeatureCollection,
 } from '@ncsa/geo-explorer/store/explore/slice';
 import { Dataset } from '@ncsa/geo-explorer/types';
-import { getMetersPerPixelAtLatitude } from '@ncsa/geo-explorer/utils/maplibre-utils';
 
 export type Params = Record<
   string,
-  string | string[] | number | number[] | boolean
+  string | number | boolean | Array<string | number>
 >;
 
 export class OGCClient {
@@ -128,27 +127,28 @@ export class OGCClient {
   }
 
   public async identifyFeature(
+    e: maplibregl.MapMouseEvent,
     dataset: Dataset,
-    lngLat: LngLat,
-    zoom: number,
   ): Promise<SimpleFeature[]> {
-    const { lng, lat } = lngLat;
-
-    const metersPerPixel = getMetersPerPixelAtLatitude(lat, zoom);
-    const radiusInPixels = 10; // detect hits within 10 pixels of the cursor
-    const radiusInMeters = radiusInPixels * metersPerPixel;
-
-    const geomColumn = dataset.geometry_column ?? 'geom';
-
+    const map = e.target;
+    const mousePosition = map.project(e.lngLat);
+    const margin = 5;
+    const sw = map.unproject([
+      mousePosition.x - margin,
+      mousePosition.y + margin,
+    ]);
+    const ne = map.unproject([
+      mousePosition.x + margin,
+      mousePosition.y - margin,
+    ]);
     const { data } = await this.sendWFSRequest<SimpleFeatureCollection>(
       dataset.ogc_service_url,
       {
         typeName: dataset.layer_id,
-        cql_filter: `DWITHIN(${geomColumn}, SRID=4326;POINT(${lng} ${lat}), ${radiusInMeters}, meters)`,
+        bbox: [sw.lat, sw.lng, ne.lat, ne.lng],
         count: 10,
       },
     );
-
     return data.features;
   }
 }
