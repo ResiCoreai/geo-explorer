@@ -14,12 +14,12 @@ import { useContext, useEffect, useState } from 'react';
 import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
 
-type Props = {
+export type LegendPanelProps = {
   layers: MapLayer[];
   selectedLayer: MapLayer;
 };
 
-export function LegendPanel({ layers, selectedLayer }: Props) {
+export function LegendPanel({ layers, selectedLayer }: LegendPanelProps) {
   const { ogcClient } = useContext(GeoExplorerContext);
 
   const [showAll, setShowAll] = useState(false);

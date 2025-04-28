@@ -10,12 +10,12 @@ import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
 import { nextCircular, prevCircular } from '@ncsa/geo-explorer/utils/array';
 import { Params } from '@ncsa/geo-explorer/utils/ogcClient';
 
-type Props = {
+export type WMSLayerTemporalProps = {
   layer: MapLayer;
   prevLayer: MapLayer | null;
 };
 
-export function WMSLayerTemporal({ layer, prevLayer }: Props) {
+export function WMSLayerTemporal({ layer, prevLayer }: WMSLayerTemporalProps) {
   const { ogcClient } = useContext(GeoExplorerContext);
 
   const numTimestamps = layer.data.dataset_info.timestamps.length;

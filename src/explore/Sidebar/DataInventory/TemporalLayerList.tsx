@@ -13,7 +13,7 @@ import { ClimateDatasetInfo, Dataset } from '@ncsa/geo-explorer/types';
 
 import { TemporalLayerItem } from './TemporalLayerItem';
 
-type Props = {
+export type TemporalLayerListProps = {
   climateDatasets: Dataset[];
   climateSelectedOption: keyof ClimateDatasetInfo;
 };
@@ -21,7 +21,7 @@ type Props = {
 export function TemporalLayerList({
   climateDatasets,
   climateSelectedOption,
-}: Props) {
+}: TemporalLayerListProps) {
   const iconList =
     climateSelectedOption === 'climate_variable'
       ? climateVariableIcons

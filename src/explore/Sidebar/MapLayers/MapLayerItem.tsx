@@ -29,12 +29,12 @@ import {
   isSingleCategoryData,
 } from '@ncsa/geo-explorer/types';
 
-type Props = {
+export type MapLayerItemProps = {
   index: number;
   layer: MapLayer;
 };
 
-export function Item({ index, layer }: Props) {
+export function MapLayerItem({ index, layer }: MapLayerItemProps) {
   const dispatch = useDispatch<AppDispatch>();
 
   const selectedLayer = useSelector((state: RootState) =>

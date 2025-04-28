@@ -15,11 +15,11 @@ import { MultiPolygonRipple } from '@ncsa/geo-explorer/explore/MainMap/RippleOve
 import { PointRipple } from '@ncsa/geo-explorer/explore/MainMap/RippleOverlay/PointRipple';
 import { PolygonRipple } from '@ncsa/geo-explorer/explore/MainMap/RippleOverlay/PolygonRipple';
 
-type Props = {
+export type RippleEffectsProps = {
   feature: Feature;
 };
 
-export function RippleEffects({ feature }: Props) {
+export function RippleEffects({ feature }: RippleEffectsProps) {
   switch (feature.geometry.type) {
     case 'Point':
       return <PointRipple feature={feature as Feature<Point>} />;

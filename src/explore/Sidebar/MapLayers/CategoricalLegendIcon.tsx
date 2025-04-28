@@ -5,7 +5,7 @@ import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
 import { CategoricalLegend, VectorDatasetInfo } from '@ncsa/geo-explorer/types';
 
-type Props = {
+export type CategoricalLegendIconProps = {
   layer: MapLayer & { data: { dataset_info: VectorDatasetInfo } };
 };
 
@@ -14,7 +14,7 @@ type CategoricalColor = {
   label?: string;
 };
 
-export function CategoricalLegendIcon({ layer }: Props) {
+export function CategoricalLegendIcon({ layer }: CategoricalLegendIconProps) {
   const { ogcClient } = useContext(GeoExplorerContext);
 
   const [legend, setLegend] = useState<CategoricalLegend | null>(null);

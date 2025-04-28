@@ -2,8 +2,8 @@ import LayersOutlinedIcon from '@mui/icons-material/LayersOutlined';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 
-import { Item } from '@ncsa/geo-explorer/explore/Sidebar/MapLayers/Item';
-import { Section } from '@ncsa/geo-explorer/explore/Sidebar/Section';
+import { MapLayerItem } from '@ncsa/geo-explorer/explore/Sidebar/MapLayers/MapLayerItem';
+import { SidebarSection } from '@ncsa/geo-explorer/explore/Sidebar/SidebarSection';
 import { RootState } from '@ncsa/geo-explorer/store';
 
 export function MapLayers() {
@@ -16,7 +16,7 @@ export function MapLayers() {
   );
 
   return (
-    <Section
+    <SidebarSection
       icon={<LayersOutlinedIcon className="text-[20px]" />}
       title="Map layers"
     >
@@ -28,7 +28,7 @@ export function MapLayers() {
                 'bg-[#1976D2]': currentIndex === i,
               })}
             />
-            <Item key={layer.data.layer_id} index={i} layer={layer} />
+            <MapLayerItem key={layer.data.layer_id} index={i} layer={layer} />
           </div>
         ))}
         <div
@@ -38,6 +38,6 @@ export function MapLayers() {
           })}
         />
       </div>
-    </Section>
+    </SidebarSection>
   );
 }

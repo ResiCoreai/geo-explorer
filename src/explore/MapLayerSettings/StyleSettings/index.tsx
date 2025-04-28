@@ -23,12 +23,12 @@ import {
 } from '@ncsa/geo-explorer/store/explore/slice';
 import { MapLayerStyle } from '@ncsa/geo-explorer/store/explore/types';
 
-type Props = {
+export type StyleSettingsProps = {
   open: boolean;
   onClose: () => void;
 };
 
-export function StyleSettings({ open, onClose }: Props) {
+export function StyleSettings({ open, onClose }: StyleSettingsProps) {
   const dispatch = useDispatch<AppDispatch>();
   const selectedLayer = useSelector((state: RootState) =>
     state.explore.mapLayers.find(
