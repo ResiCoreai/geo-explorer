@@ -5,11 +5,11 @@ import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
 import { ClimateDatasetInfo, RasterLegend } from '@ncsa/geo-explorer/types';
 
-type Props = {
+export type ClimateLegendIconProps = {
   layer: MapLayer & { data: { dataset_info: ClimateDatasetInfo } };
 };
 
-export function ClimateLegendIcon({ layer }: Props) {
+export function ClimateLegendIcon({ layer }: ClimateLegendIconProps) {
   const { ogcClient } = useContext(GeoExplorerContext);
 
   const [legend, setLegend] = useState<RasterLegend | null>(null);

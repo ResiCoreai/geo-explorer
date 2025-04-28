@@ -4,13 +4,10 @@ import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { Box, IconButton, Stack, Typography } from '@mui/material';
 import classNames from 'classnames';
-import { useCallback, useRef } from 'react';
+import { useCallback, useContext, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { CategoricalLegendIcon } from '@ncsa/geo-explorer/explore/Sidebar/MapLayers/CategoricalLegendIcon';
-import { ClimateLayerSummary } from '@ncsa/geo-explorer/explore/Sidebar/MapLayers/ClimateLayerSummary';
-import { ClimateLegendIcon } from '@ncsa/geo-explorer/explore/Sidebar/MapLayers/ClimateLegendIcon';
-import { SingleLegendIcon } from '@ncsa/geo-explorer/explore/Sidebar/MapLayers/SingleLegendIcon';
+import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import { getLayerIconByCategory } from '@ncsa/geo-explorer/explore/Sidebar/utils/icons';
 import { LayerControlIcon } from '@ncsa/geo-explorer/icons/LayerControl';
 import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
@@ -29,12 +26,18 @@ import {
   isSingleCategoryData,
 } from '@ncsa/geo-explorer/types';
 
-type Props = {
+export type MapLayerItemProps = {
   index: number;
   layer: MapLayer;
 };
 
-export function Item({ index, layer }: Props) {
+export function MapLayerItem({ index, layer }: MapLayerItemProps) {
+  const {
+    CategoricalLegendIcon,
+    ClimateLayerSummary,
+    ClimateLegendIcon,
+    SingleLegendIcon,
+  } = useContext(GeoExplorerContext).components;
   const dispatch = useDispatch<AppDispatch>();
 
   const selectedLayer = useSelector((state: RootState) =>

@@ -6,12 +6,12 @@ import { TILE_SIZE } from '@ncsa/geo-explorer/config';
 import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
 import { Params } from '@ncsa/geo-explorer/utils/ogcClient';
 
-type Props = {
+export type WMSLayerSimpleProps = {
   layer: MapLayer;
   prevLayer: MapLayer | null;
 };
 
-export function WMSLayerSimple({ layer, prevLayer }: Props) {
+export function WMSLayerSimple({ layer, prevLayer }: WMSLayerSimpleProps) {
   const { ogcClient } = useContext(GeoExplorerContext);
 
   const tiles = useMemo(() => {

@@ -1,8 +1,10 @@
-import { BaseMaps } from '@ncsa/geo-explorer/explore/Sidebar/BaseMaps';
-import { SimpleLayerList } from '@ncsa/geo-explorer/explore/Sidebar/DataInventory/SimpleLayerList';
-import { MapLayers } from '@ncsa/geo-explorer/explore/Sidebar/MapLayers';
+import { useContext } from 'react';
+
+import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 
 export function Sidebar() {
+  const { BaseMaps, SimpleLayerList, MapLayers } =
+    useContext(GeoExplorerContext).components;
   return (
     <div className="w-full h-full relative">
       <div className="bg-white h-full flex flex-col">

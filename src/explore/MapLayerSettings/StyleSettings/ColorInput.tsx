@@ -22,12 +22,12 @@ const colorPalette = [
   '#8D43EB',
 ];
 
-type Props = {
+export type ColorInputProps = {
   value: Color;
   onChange: (color: Color) => void;
 };
 
-export function ColorInput({ value, onChange }: Props) {
+export function ColorInput({ value, onChange }: ColorInputProps) {
   return (
     <Box className="pl-[12px]">
       <Typography className="mt-[16px] text-[14px]">Standard Colors</Typography>

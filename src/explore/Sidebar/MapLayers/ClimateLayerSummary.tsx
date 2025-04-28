@@ -3,11 +3,11 @@ import { Box, Divider, Stack, Typography } from '@mui/material';
 import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
 import { ClimateDatasetInfo } from '@ncsa/geo-explorer/types';
 
-type Props = {
+export type ClimateLayerSummaryProps = {
   layer: MapLayer & { data: { dataset_info: ClimateDatasetInfo } };
 };
 
-export function ClimateLayerSummary({ layer }: Props) {
+export function ClimateLayerSummary({ layer }: ClimateLayerSummaryProps) {
   const timestamp = layer.data.dataset_info.timestamps[layer.timestampIdx];
 
   return (

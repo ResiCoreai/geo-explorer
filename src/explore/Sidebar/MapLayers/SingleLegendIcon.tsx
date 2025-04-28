@@ -4,11 +4,11 @@ import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
 import { CategoricalLegend, VectorDatasetInfo } from '@ncsa/geo-explorer/types';
 
-type Props = {
+export type SingleLegendIconProps = {
   layer: MapLayer & { data: { dataset_info: VectorDatasetInfo } };
 };
 
-export function SingleLegendIcon({ layer }: Props) {
+export function SingleLegendIcon({ layer }: SingleLegendIconProps) {
   const { ogcClient } = useContext(GeoExplorerContext);
 
   const [legend, setLegend] = useState<CategoricalLegend | null>(null);

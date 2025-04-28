@@ -17,12 +17,15 @@ import {
   truncateClimateDatasetSuffix,
 } from '@ncsa/geo-explorer/utils/dataset';
 
-type Props = {
+export type TemporalLayerItemProps = {
   dataset: Dataset;
   climateSelectedOption: keyof ClimateDatasetInfo;
 };
 
-export function TemporalLayerItem({ dataset, climateSelectedOption }: Props) {
+export function TemporalLayerItem({
+  dataset,
+  climateSelectedOption,
+}: TemporalLayerItemProps) {
   const dispatch = useDispatch<AppDispatch>();
   const mapLayers = useSelector((state: RootState) => state.explore.mapLayers);
 
