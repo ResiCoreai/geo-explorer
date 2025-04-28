@@ -25,6 +25,35 @@ To use Geo-Explorer effectively:
     - **WMS 1.3.0** for rendering layers
     - **WFS 2.0.0** for enabling feature selection (optional but recommended)
 
+## Installation
+
+Because `@ncsa/geo-explorer` is hosted in a **private GitHub Packages** registry, you must configure a valid `~/.npmrc` file with a GitHub token to install it:
+
+```
+//npm.pkg.github.com/:_authToken=ghp_{your_github_token}
+@ncsa:registry=https://npm.pkg.github.com/
+```
+
+> 🔒 A GitHub personal access token (PAT) is required because the repository is private.
+
+Once your `~/.npmrc` is set up:
+
+1. Add `@ncsa/geo-explorer` to your app’s `package.json` dependencies:
+   ```json
+   {
+     "dependencies": {
+       "@ncsa/geo-explorer": "^x.y.z"
+     }
+   }
+   ```
+
+2. Then run:
+   ```bash
+   npm install
+   ```
+
+This will download `@ncsa/geo-explorer` from GitHub Packages into your project.
+
 ## Example Usage
 
 ### Basic Configuration
@@ -222,7 +251,7 @@ dispatch(setLayerStyleSLD(layerId, style));
 
 ---
 
-## Developer Local Setup
+## Local Setup (Contributors Only)
 
 To develop against a local version of `@ncsa/geo-explorer`, follow these steps:
 
@@ -237,14 +266,17 @@ To develop against a local version of `@ncsa/geo-explorer`, follow these steps:
    npm link @ncsa/geo-explorer
    ```
 
-3. To avoid peer dependency issues (e.g., `react`, `react-oidc-context`), run the `link-deps.sh` script:
+3. To avoid duplicated copies of dependency libraries (e.g., `react`, `react-oidc-context`), run the below 
+   command under the **root directory of Geo-Explorer**:
    ```bash
-   sh link-deps.sh /path/to/your/project
+   npm link PATH_TO_YOUR_APP/node_modules/react
    ```
    Example:
    ```bash
-   sh link-deps.sh /Users/{username}/Documents/Projects/DACHUB/dachub/frontend
+   sh link /Users/{username}/Documents/Projects/DACHUB/dachub/frontend/node_modules/react
    ```
+   For more information, see the [React documentation on duplicate React instances](https://legacy.reactjs.org/warnings/invalid-hook-call-warning.html#duplicate-react).
+
 
 4. Finally, start the watcher to reflect changes made in `geo-explorer` immediately:
    ```bash
@@ -258,18 +290,15 @@ To develop against a local version of `@ncsa/geo-explorer`, follow these steps:
 
 ---
 
-## Publish
+## Publish (Admins Only)
 
-There are two ways to publish `@ncsa/geo-explorer`:
+> ⚠️ **Important:**  
+> Manual publishing is currently restricted to project admins. Contributors should **not** attempt to publish.  
+> CI-based publishing is disabled until we automate proper versioning.
 
-### 1. Automatic Publish
+### Manual Publish Workflow
 
-- A pull request (PR) merged into `main` will trigger a GitHub Action that automatically builds and publishes the
-  package to GitHub Packages.
-
-### 2. Manual Publish
-
-If you need to manually publish, make sure you check the latest version to avoid conflict.
+Before you publish, make sure you have checked and updated the [package version](https://github.com/ncsa/geo-explorer/pkgs/npm/geo-explorer) to avoid conflicts.
 
 1. Build the project:
    ```bash
@@ -281,7 +310,7 @@ If you need to manually publish, make sure you check the latest version to avoid
    npm publish
    ```
 
-3. **Important**: Make sure your `~/.npmrc` is properly configured with your GitHub token:
+3. Ensure your `~/.npmrc` is properly configured with your GitHub token to allow publishing to GitHub Packages:
 
    Example `~/.npmrc`:
    ```
