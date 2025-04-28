@@ -10,15 +10,15 @@ import { RootState } from '@ncsa/geo-explorer/store';
 import {
   ClimateDatasetInfo,
   VectorDatasetInfo,
-} from '@ncsa/geo-explorer/utils/types';
+} from '@ncsa/geo-explorer/types';
 
 export const DatasetInfo = () => {
   const dataset = useSelector(
     (state: RootState) =>
-      state.explore.dataInventory.find(
+      state.explore.simpleLayerInventory.find(
         (dataset) => dataset.layer_id === state.explore.selectedDataset,
       ) ||
-      state.explore.climateInventory.find(
+      state.explore.temporalLayerInventory.find(
         (dataset) => dataset.layer_id === state.explore.selectedDataset,
       ),
   );

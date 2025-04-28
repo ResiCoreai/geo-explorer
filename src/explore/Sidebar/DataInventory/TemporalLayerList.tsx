@@ -9,16 +9,19 @@ import {
   climateVariableIcons,
   typeDescription,
 } from '@ncsa/geo-explorer/explore/Sidebar/utils/icons';
-import { ClimateDatasetInfo, Dataset } from '@ncsa/geo-explorer/utils/types';
+import { ClimateDatasetInfo, Dataset } from '@ncsa/geo-explorer/types';
 
-import { ClimateItem } from './ClimateItem';
+import { TemporalLayerItem } from './TemporalLayerItem';
 
 type Props = {
   climateDatasets: Dataset[];
   climateSelectedOption: keyof ClimateDatasetInfo;
 };
 
-export function ClimateList({ climateDatasets, climateSelectedOption }: Props) {
+export function TemporalLayerList({
+  climateDatasets,
+  climateSelectedOption,
+}: Props) {
   const iconList =
     climateSelectedOption === 'climate_variable'
       ? climateVariableIcons
@@ -125,7 +128,7 @@ export function ClimateList({ climateDatasets, climateSelectedOption }: Props) {
               <Box className="flex flex-col px-4 bg-[#F3F4F6] rounded-sm">
                 {filteredDatasets.length > 0 ? (
                   filteredDatasets.map((climateDataset) => (
-                    <ClimateItem
+                    <TemporalLayerItem
                       key={climateDataset.layer_id}
                       dataset={climateDataset}
                       climateSelectedOption={climateSelectedOption}

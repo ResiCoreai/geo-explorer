@@ -27,7 +27,7 @@ import {
   isCategoricalData,
   isClimateData,
   isSingleCategoryData,
-} from '@ncsa/geo-explorer/utils/types';
+} from '@ncsa/geo-explorer/types';
 
 type Props = {
   index: number;

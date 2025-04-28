@@ -1,4 +1,3 @@
-import { isAbortError } from 'maplibre-gl/src/util/abort_error';
 import { useContext } from 'react';
 import {
   FullscreenControl,
@@ -7,23 +6,22 @@ import {
   NavigationControl,
   Source,
 } from 'react-map-gl/maplibre';
-import { useAuth } from 'react-oidc-context';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { GEOSERVER_URL } from '@ncsa/geo-explorer/config';
-import { GeoExplorerContext } from '@ncsa/geo-explorer/context';
+import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import { LegendPanel } from '@ncsa/geo-explorer/explore/MainMap/LegendPanel';
 import { RippleOverlay } from '@ncsa/geo-explorer/explore/MainMap/RippleOverlay/RippleOverlay';
 import { WMSLayer } from '@ncsa/geo-explorer/explore/MainMap/WMSLayer';
 import { FitBounds } from '@ncsa/geo-explorer/explore/MainMap/controls/FitBounds';
 import { SelectedFeatures } from '@ncsa/geo-explorer/explore/SelectedFeatures';
 import { AppDispatch, RootState, store } from '@ncsa/geo-explorer/store';
-import { identifyFeature } from '@ncsa/geo-explorer/store/explore/actions';
+import { setSelectedFeatures } from '@ncsa/geo-explorer/store/explore/slice';
+import { isAbortError } from '@ncsa/geo-explorer/utils/maplibre-utils';
 
 export function MainMap() {
-  const auth = useAuth();
   const dispatch = useDispatch<AppDispatch>();
-  const { ogcClient } = useContext(GeoExplorerContext);
+  const { accessToken, ogcClient, isProtectedResource } =
+    useContext(GeoExplorerContext);
 
   const mapLayers = useSelector((state: RootState) => state.explore.mapLayers);
   const selectedLayer = useSelector((state: RootState) =>
@@ -40,7 +38,7 @@ export function MainMap() {
     <Map
       id="map"
       transformRequest={(url) => {
-        if (url.startsWith(GEOSERVER_URL)) {
+        if (isProtectedResource?.(url)) {
           const layer_id = new URLSearchParams(url).get('layers')!;
           const mapLayers = store.getState().explore.mapLayers;
           const layer = mapLayers.find(
@@ -52,32 +50,33 @@ export function MainMap() {
           );
 
           if (shouldUseClientStyle) {
-            return {
-              url: url + '&sld_body=' + encodeURIComponent(layer.styleSLD!),
-              headers: {
-                Authorization: `Bearer ${auth.user?.access_token}`,
-              },
-            };
-
             // return {
-            //   url,
-            //   method: 'POST',
-            //   body: layer.styleSLD,
+            //   url: url + '&sld_body=' + encodeURIComponent(layer.styleSLD!),
             //   headers: {
-            //     Authorization: `Bearer ${auth.user?.access_token}`,
+            //     Authorization: `Bearer ${accessToken}`,
             //   },
             // };
+
+            return {
+              url,
+              method: 'POST',
+              body: layer.styleSLD,
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            };
           }
           return {
             url,
             headers: {
-              Authorization: `Bearer ${auth.user?.access_token}`,
+              Authorization: `Bearer ${accessToken}`,
             },
           };
         }
         return undefined;
       }}
       onError={(e) => {
+        console.error(e.error.stack);
         if (isAbortError(e.error)) {
           // do nothing
         }
@@ -94,16 +93,9 @@ export function MainMap() {
           selectedLayer &&
           selectedLayer.data.dataset_info.dataset_type === 'vector'
         ) {
-          if (ogcClient) {
-            dispatch(
-              identifyFeature(
-                ogcClient,
-                selectedLayer.data.layer_id,
-                e.lngLat,
-                e.target.getZoom(),
-              ),
-            );
-          }
+          ogcClient?.identifyFeature(e, selectedLayer.data).then((features) => {
+            dispatch(setSelectedFeatures(features));
+          });
         }
       }}
       cursor={selectedLayer ? 'crosshair' : ''}

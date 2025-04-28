@@ -16,7 +16,7 @@ ln -s "$lib_dir" "$lib_link"
 ls -l "$lib_link"
 echo
 
-peer_deps=(react react-oidc-context)
+peer_deps=( react @emotion/react )
 
 for dep in "${peer_deps[@]}"; do
   echo "Linking peer dependency: ${dep}"

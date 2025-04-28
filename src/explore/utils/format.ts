@@ -3,7 +3,7 @@ import { Rule, Style, Symbolizer } from 'geostyler-style';
 
 import { store } from '@ncsa/geo-explorer/store';
 import { MapLayerStyle } from '@ncsa/geo-explorer/store/explore/types';
-import { FeatureType } from '@ncsa/geo-explorer/utils/types';
+import { FeatureType } from '@ncsa/geo-explorer/types';
 
 function createPointSymbolizer(style: MapLayerStyle): Symbolizer {
   return {
@@ -79,7 +79,7 @@ export async function formatSLD(
 
   const geoStylerStyle: Style = {
     name: layer_id,
-    rules: createStyleRules(layer.data.dataset_info.feature_type, style),
+    rules: createStyleRules(layer.data.dataset_info.feature_type!, style),
   };
   const { output: styleSLD } = await new SLDParser().writeStyle(geoStylerStyle);
 
