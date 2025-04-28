@@ -15,7 +15,8 @@ import { setSelectedFeatures } from '@ncsa/geo-explorer/store/explore/slice';
 import { isAbortError } from '@ncsa/geo-explorer/utils/maplibre-utils';
 
 export function MainMap() {
-  const {LegendPanel, RippleOverlay, WMSLayer, SelectedFeatures} = useContext(GeoExplorerContext).components;
+  const { LegendPanel, RippleOverlay, WMSLayer, SelectedFeatures } =
+    useContext(GeoExplorerContext).components;
   const dispatch = useDispatch<AppDispatch>();
   const { accessToken, ogcClient, isProtectedResource } =
     useContext(GeoExplorerContext);

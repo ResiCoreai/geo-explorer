@@ -4,9 +4,10 @@ import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { Box, IconButton, Stack, Typography } from '@mui/material';
 import classNames from 'classnames';
-import {useCallback, useContext, useRef} from 'react';
+import { useCallback, useContext, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import { getLayerIconByCategory } from '@ncsa/geo-explorer/explore/Sidebar/utils/icons';
 import { LayerControlIcon } from '@ncsa/geo-explorer/icons/LayerControl';
 import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
@@ -24,7 +25,6 @@ import {
   isClimateData,
   isSingleCategoryData,
 } from '@ncsa/geo-explorer/types';
-import {GeoExplorerContext} from "@ncsa/geo-explorer/GeoExplorerProvider";
 
 export type MapLayerItemProps = {
   index: number;
@@ -32,8 +32,12 @@ export type MapLayerItemProps = {
 };
 
 export function MapLayerItem({ index, layer }: MapLayerItemProps) {
-
-  const { CategoricalLegendIcon, ClimateLayerSummary, ClimateLegendIcon, SingleLegendIcon } = useContext(GeoExplorerContext).components;
+  const {
+    CategoricalLegendIcon,
+    ClimateLayerSummary,
+    ClimateLegendIcon,
+    SingleLegendIcon,
+  } = useContext(GeoExplorerContext).components;
   const dispatch = useDispatch<AppDispatch>();
 
   const selectedLayer = useSelector((state: RootState) =>

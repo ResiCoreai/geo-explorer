@@ -1,14 +1,14 @@
 import LayersOutlinedIcon from '@mui/icons-material/LayersOutlined';
 import classNames from 'classnames';
+import { useContext } from 'react';
 import { useSelector } from 'react-redux';
 
+import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import { RootState } from '@ncsa/geo-explorer/store';
-import {useContext} from "react";
-import {GeoExplorerContext} from "@ncsa/geo-explorer/GeoExplorerProvider";
 
 export function MapLayers() {
-
-  const { MapLayerItem, SidebarSection} = useContext(GeoExplorerContext).components;
+  const { MapLayerItem, SidebarSection } =
+    useContext(GeoExplorerContext).components;
 
   const currentIndex = useSelector(
     (state: RootState) => state.explore.currentIndex,

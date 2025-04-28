@@ -26,7 +26,8 @@ import {
 } from '@ncsa/geo-explorer/types';
 
 export function SimpleLayerList() {
-  const { SimpleLayerItem, SidebarSection, TemporalLayerList } = useContext(GeoExplorerContext).components;
+  const { SimpleLayerItem, SidebarSection, TemporalLayerList } =
+    useContext(GeoExplorerContext).components;
 
   const techDatasets = useSelector(
     (state: RootState) => state.explore.simpleLayerInventory,
