@@ -11,7 +11,13 @@ export type SidebarSectionProps = {
   children?: ReactNode;
 };
 
-export function SidebarSection({ icon, title, extras, weight = 1, children }: SidebarSectionProps) {
+export function SidebarSection({
+  icon,
+  title,
+  extras,
+  weight = 1,
+  children,
+}: SidebarSectionProps) {
   const [expanded, setExpanded] = useState(true);
 
   return (

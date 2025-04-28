@@ -12,18 +12,19 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { useCallback, useMemo } from 'react';
+import {useCallback, useContext, useMemo} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { DatasetInfo } from '@ncsa/geo-explorer/explore/DatasetPreview/DatasetInfo';
 import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
 import {
   addLayer,
   removeLayer,
   selectDataset,
 } from '@ncsa/geo-explorer/store/explore/slice';
+import {GeoExplorerContext} from "@ncsa/geo-explorer/GeoExplorerProvider";
 
 export function DatasetPreview() {
+  const {DatasetInfo} = useContext(GeoExplorerContext).components;
   const dispatch = useDispatch<AppDispatch>();
   const mapLayers = useSelector((state: RootState) => state.explore.mapLayers);
 

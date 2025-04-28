@@ -22,7 +22,10 @@ export type TemporalLayerItemProps = {
   climateSelectedOption: keyof ClimateDatasetInfo;
 };
 
-export function TemporalLayerItem({ dataset, climateSelectedOption }: TemporalLayerItemProps) {
+export function TemporalLayerItem({
+  dataset,
+  climateSelectedOption,
+}: TemporalLayerItemProps) {
   const dispatch = useDispatch<AppDispatch>();
   const mapLayers = useSelector((state: RootState) => state.explore.mapLayers);
 

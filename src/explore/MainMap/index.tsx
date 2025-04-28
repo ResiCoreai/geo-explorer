@@ -9,16 +9,13 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 
 import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
-import { LegendPanel } from '@ncsa/geo-explorer/explore/MainMap/LegendPanel';
-import { RippleOverlay } from '@ncsa/geo-explorer/explore/MainMap/RippleOverlay/RippleOverlay';
-import { WMSLayer } from '@ncsa/geo-explorer/explore/MainMap/WMSLayer';
 import { FitBounds } from '@ncsa/geo-explorer/explore/MainMap/controls/FitBounds';
-import { SelectedFeatures } from '@ncsa/geo-explorer/explore/SelectedFeatures';
 import { AppDispatch, RootState, store } from '@ncsa/geo-explorer/store';
 import { setSelectedFeatures } from '@ncsa/geo-explorer/store/explore/slice';
 import { isAbortError } from '@ncsa/geo-explorer/utils/maplibre-utils';
 
 export function MainMap() {
+  const {LegendPanel, RippleOverlay, WMSLayer, SelectedFeatures} = useContext(GeoExplorerContext).components;
   const dispatch = useDispatch<AppDispatch>();
   const { accessToken, ogcClient, isProtectedResource } =
     useContext(GeoExplorerContext);

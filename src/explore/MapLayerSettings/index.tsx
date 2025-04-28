@@ -1,18 +1,17 @@
 import { Box, Stack } from '@mui/material';
 import classNames from 'classnames';
-import { useState } from 'react';
+import {useContext, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { LAYER_SETTINGS_HEIGHT } from '@ncsa/geo-explorer/config';
-import { Header } from '@ncsa/geo-explorer/explore/MapLayerSettings/Header';
-import { StyleSettings } from '@ncsa/geo-explorer/explore/MapLayerSettings/StyleSettings';
-import { TimeSelector } from '@ncsa/geo-explorer/explore/MapLayerSettings/TimeSelector';
-import { WFSFeatureTable } from '@ncsa/geo-explorer/explore/components/WFSFeatureTable';
 import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
 import { toggleLayerSettings } from '@ncsa/geo-explorer/store/explore/slice';
 import { isVectorData } from '@ncsa/geo-explorer/types';
+import {GeoExplorerContext} from "@ncsa/geo-explorer/GeoExplorerProvider";
 
 export function MapLayerSettings() {
+  const {Header, StyleSettings, TimeSelector, WFSFeatureTable} = useContext(GeoExplorerContext).components;
+
   const dispatch = useDispatch<AppDispatch>();
   const selectedLayer = useSelector((state: RootState) =>
     state.explore.mapLayers.find(
