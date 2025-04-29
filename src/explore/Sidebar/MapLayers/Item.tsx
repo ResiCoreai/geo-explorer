@@ -129,14 +129,6 @@ export function Item({ index, layer }: Props) {
         </Stack>
         <Stack className="items-center justify-center mx-[6px]">
           <LegendIcon layer={layer} />
-          {/*/!*FIXME*!/*/}
-          {/*{layer.data.default_style_type === 'interpolated' ? (*/}
-          {/*  <RasterLegendIcon layer={layer} />*/}
-          {/*) : layer.data.default_style_type === 'categorized' ? (*/}
-          {/*  <CategoricalLegendIcon layer={layer} />*/}
-          {/*) : (*/}
-          {/*  <MarkerLegendIcon layer={layer} />*/}
-          {/*)}*/}
         </Stack>
 
         <Typography className="flex-auto min-w-0 whitespace-nowrap overflow-hidden text-ellipsis text-[14px] font-semibold">
