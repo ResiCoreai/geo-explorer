@@ -20,12 +20,12 @@ import { DatasetDescriptionTooltip } from '@ncsa/geo-explorer/icons/DatasetDescr
 import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
 import { removeLayer } from '@ncsa/geo-explorer/store/explore/slice';
 
-type Props = {
+export type HeaderProps = {
   onOpenStyleSettings: () => void;
   onClose: () => void;
 };
 
-export function Header({ onOpenStyleSettings, onClose }: Props) {
+export function Header({ onOpenStyleSettings, onClose }: HeaderProps) {
   const dispatch = useDispatch<AppDispatch>();
   const { ogcClient } = useContext(GeoExplorerContext);
 

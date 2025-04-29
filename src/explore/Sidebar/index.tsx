@@ -1,8 +1,12 @@
 import { BaseMaps } from '@ncsa/geo-explorer/explore/Sidebar/BaseMaps';
-import { DataInventory } from '@ncsa/geo-explorer/explore/Sidebar/DataInventory';
 import { MapLayers } from '@ncsa/geo-explorer/explore/Sidebar/MapLayers';
+import { useContext } from 'react';
+
+import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 
 export function Sidebar() {
+  const { BaseMaps, DataInventory, MapLayers } =
+    useContext(GeoExplorerContext).components;
   return (
     <div className="w-full h-full relative">
       <div className="bg-white h-full flex flex-col">

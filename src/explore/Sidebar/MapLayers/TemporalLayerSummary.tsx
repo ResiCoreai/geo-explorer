@@ -2,11 +2,11 @@ import { Box, Divider, Stack, Typography } from '@mui/material';
 
 import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
 
-type Props = {
+export type TemporalLayerSummaryProps = {
   layer: MapLayer;
 };
 
-export function TemporalLayerSummary({ layer }: Props) {
+export function TemporalLayerSummary({ layer }: TemporalLayerSummaryProps) {
   const timestamp = layer.data.timestamps[layer.timestampIdx];
 
   return (

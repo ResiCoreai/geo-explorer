@@ -6,7 +6,7 @@ import { MarkerLegendIcon } from '@ncsa/geo-explorer/explore/Sidebar/MapLayers/L
 import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
 import { Legend, VectorSymbolizer } from '@ncsa/geo-explorer/types';
 
-type Props = {
+type VectorLegendIconProps = {
   layer: MapLayer;
 };
 
@@ -15,7 +15,7 @@ type CategoricalColor = {
   label?: string;
 };
 
-export function VectorLegendIcon({ layer }: Props) {
+export function VectorLegendIcon({ layer }: VectorLegendIconProps) {
   const { ogcClient } = useContext(GeoExplorerContext);
 
   const [legend, setLegend] = useState<Legend<VectorSymbolizer> | null>(null);

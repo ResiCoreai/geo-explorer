@@ -12,11 +12,11 @@ import {
 } from '@ncsa/geo-explorer/store/explore/slice';
 import { Dataset } from '@ncsa/geo-explorer/types';
 
-type Props = {
+export type TemporalLayerItemProps = {
   dataset: Dataset;
 };
 
-export function TemporalLayerItem({ dataset }: Props) {
+export function TemporalLayerItem({ dataset }: TemporalLayerItemProps) {
   const dispatch = useDispatch<AppDispatch>();
   const mapLayers = useSelector((state: RootState) => state.explore.mapLayers);
 

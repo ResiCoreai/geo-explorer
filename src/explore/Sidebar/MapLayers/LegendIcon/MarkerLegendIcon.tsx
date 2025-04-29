@@ -4,11 +4,11 @@ import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
 import { Legend, PointSymbolizer } from '@ncsa/geo-explorer/types';
 
-type Props = {
+type SingleLegendIconProps = {
   layer: MapLayer;
 };
 
-export function MarkerLegendIcon({ layer }: Props) {
+export function MarkerLegendIcon({ layer }: SingleLegendIconProps) {
   const { ogcClient } = useContext(GeoExplorerContext);
 
   const [legend, setLegend] = useState<Legend<PointSymbolizer> | null>(null);

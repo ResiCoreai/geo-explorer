@@ -1,6 +1,6 @@
 import { Box, Slider, Stack, Typography } from '@mui/material';
 
-type Props = {
+export type NumberInputProps = {
   value: number;
   onChange: (value: number) => void;
   min: number;
@@ -16,7 +16,7 @@ export function NumberInput({
   max,
   step = 1,
   renderValue,
-}: Props) {
+}: NumberInputProps) {
   return (
     <Stack direction="row" className="my-[20px]">
       <Stack spacing={2} direction="row" className="items-center gap-[8px]">

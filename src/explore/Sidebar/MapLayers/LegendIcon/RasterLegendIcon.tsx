@@ -5,11 +5,11 @@ import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
 import { Legend, RasterSymbolizer } from '@ncsa/geo-explorer/types';
 
-type Props = {
+export type RasterLegendIconProps = {
   layer: MapLayer;
 };
 
-export function RasterLegendIcon({ layer }: Props) {
+export function RasterLegendIcon({ layer }: RasterLegendIconProps) {
   const { ogcClient } = useContext(GeoExplorerContext);
 
   const [legend, setLegend] = useState<Legend<RasterSymbolizer> | null>(null);

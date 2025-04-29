@@ -12,11 +12,11 @@ import {
 } from '@ncsa/geo-explorer/store/explore/slice';
 import { Dataset } from '@ncsa/geo-explorer/types';
 
-type Props = {
+export type WFSFeatureTableProps = {
   dataset: Dataset;
 };
 
-export function WFSFeatureTable({ dataset }: Props) {
+export function WFSFeatureTable({ dataset }: WFSFeatureTableProps) {
   const dispatch = useDispatch<AppDispatch>();
   const { ogcClient } = useContext(GeoExplorerContext);
 

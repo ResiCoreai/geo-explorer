@@ -3,7 +3,7 @@ import { ReactNode, useState } from 'react';
 
 import { ArrowForward } from '@ncsa/geo-explorer/icons/ArrowForward';
 
-type Props = {
+export type SidebarSectionProps = {
   title: string;
   icon?: ReactNode;
   weight?: number;
@@ -11,7 +11,13 @@ type Props = {
   children?: ReactNode;
 };
 
-export function Section({ icon, title, extras, weight = 1, children }: Props) {
+export function SidebarSection({
+  icon,
+  title,
+  extras,
+  weight = 1,
+  children,
+}: SidebarSectionProps) {
   const [expanded, setExpanded] = useState(true);
 
   return (
