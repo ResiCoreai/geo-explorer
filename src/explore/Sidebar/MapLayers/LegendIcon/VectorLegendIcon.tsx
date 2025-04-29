@@ -6,7 +6,7 @@ import { MarkerLegendIcon } from '@ncsa/geo-explorer/explore/Sidebar/MapLayers/L
 import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
 import { Legend, VectorSymbolizer } from '@ncsa/geo-explorer/types';
 
-type VectorLegendIconProps = {
+export type VectorLegendIconProps = {
   layer: MapLayer;
 };
 

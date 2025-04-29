@@ -1,126 +1,34 @@
 import { DatasetPreview } from '@ncsa/geo-explorer/explore/DatasetPreview';
 import { DatasetInfo } from '@ncsa/geo-explorer/explore/DatasetPreview/DatasetInfo';
 import { MainMap } from '@ncsa/geo-explorer/explore/MainMap';
-import {
-  LegendPanel,
-  LegendPanelProps,
-} from '@ncsa/geo-explorer/explore/MainMap/LegendPanel';
-import {
-  RippleEffects,
-  RippleEffectsProps,
-} from '@ncsa/geo-explorer/explore/MainMap/RippleOverlay/RippleEffects';
+import { LegendPanel } from '@ncsa/geo-explorer/explore/MainMap/LegendPanel';
+import { RippleEffects } from '@ncsa/geo-explorer/explore/MainMap/RippleOverlay/RippleEffects';
 import { RippleOverlay } from '@ncsa/geo-explorer/explore/MainMap/RippleOverlay/RippleOverlay';
-import {
-  WMSLayer,
-  WMSLayerProps,
-} from '@ncsa/geo-explorer/explore/MainMap/WMSLayer';
-import {
-  WMSLayerSimple,
-  WMSLayerSimpleProps,
-} from '@ncsa/geo-explorer/explore/MainMap/WMSLayerSimple';
-import {
-  WMSLayerTemporal,
-  WMSLayerTemporalProps,
-} from '@ncsa/geo-explorer/explore/MainMap/WMSLayerTemporal';
+import { WMSLayer } from '@ncsa/geo-explorer/explore/MainMap/WMSLayer';
+import { WMSLayerSimple } from '@ncsa/geo-explorer/explore/MainMap/WMSLayerSimple';
+import { WMSLayerTemporal } from '@ncsa/geo-explorer/explore/MainMap/WMSLayerTemporal';
 import { MapLayerSettings } from '@ncsa/geo-explorer/explore/MapLayerSettings';
-import {
-  Header,
-  HeaderProps,
-} from '@ncsa/geo-explorer/explore/MapLayerSettings/Header';
-import {
-  StyleSettings,
-  StyleSettingsProps,
-} from '@ncsa/geo-explorer/explore/MapLayerSettings/StyleSettings';
-import {
-  ColorInput,
-  ColorInputProps,
-} from '@ncsa/geo-explorer/explore/MapLayerSettings/StyleSettings/ColorInput';
-import {
-  NumberInput,
-  NumberInputProps,
-} from '@ncsa/geo-explorer/explore/MapLayerSettings/StyleSettings/NumberInput';
+import { Header } from '@ncsa/geo-explorer/explore/MapLayerSettings/Header';
+import { StyleSettings } from '@ncsa/geo-explorer/explore/MapLayerSettings/StyleSettings';
+import { ColorInput } from '@ncsa/geo-explorer/explore/MapLayerSettings/StyleSettings/ColorInput';
+import { NumberInput } from '@ncsa/geo-explorer/explore/MapLayerSettings/StyleSettings/NumberInput';
 import { TimeSelector } from '@ncsa/geo-explorer/explore/MapLayerSettings/TimeSelector';
 import { SelectedFeatures } from '@ncsa/geo-explorer/explore/SelectedFeatures';
 import { Sidebar } from '@ncsa/geo-explorer/explore/Sidebar';
 import { BaseMaps } from '@ncsa/geo-explorer/explore/Sidebar/BaseMaps';
-import {
-  SimpleLayerItem,
-  SimpleLayerItemProps,
-} from '@ncsa/geo-explorer/explore/Sidebar/DataInventory/SimpleLayerItem';
+import { DataInventory } from '@ncsa/geo-explorer/explore/Sidebar/DataInventory';
+import { SimpleLayerItem } from '@ncsa/geo-explorer/explore/Sidebar/DataInventory/SimpleLayerItem';
 import { SimpleLayerList } from '@ncsa/geo-explorer/explore/Sidebar/DataInventory/SimpleLayerList';
-import {
-  TemporalLayerItem,
-  TemporalLayerItemProps,
-} from '@ncsa/geo-explorer/explore/Sidebar/DataInventory/TemporalLayerItem';
-import {
-  TemporalLayerList,
-  TemporalLayerListProps,
-} from '@ncsa/geo-explorer/explore/Sidebar/DataInventory/TemporalLayerList';
+import { TemporalLayerItem } from '@ncsa/geo-explorer/explore/Sidebar/DataInventory/TemporalLayerItem';
+import { TemporalLayerList } from '@ncsa/geo-explorer/explore/Sidebar/DataInventory/TemporalLayerList';
 import { MapLayers } from '@ncsa/geo-explorer/explore/Sidebar/MapLayers';
-import {
-  CategoricalLegendIcon,
-  CategoricalLegendIconProps,
-} from '@ncsa/geo-explorer/explore/Sidebar/MapLayers/CategoricalLegendIcon';
-import {
-  ClimateLayerSummary,
-  ClimateLayerSummaryProps,
-} from '@ncsa/geo-explorer/explore/Sidebar/MapLayers/ClimateLayerSummary';
-import {
-  ClimateLegendIcon,
-  ClimateLegendIconProps,
-} from '@ncsa/geo-explorer/explore/Sidebar/MapLayers/ClimateLegendIcon';
-import {
-  MapLayerItem,
-  MapLayerItemProps,
-} from '@ncsa/geo-explorer/explore/Sidebar/MapLayers/MapLayerItem';
-import {
-  SingleLegendIcon,
-  SingleLegendIconProps,
-} from '@ncsa/geo-explorer/explore/Sidebar/MapLayers/SingleLegendIcon';
-import {
-  SidebarSection,
-  SidebarSectionProps,
-} from '@ncsa/geo-explorer/explore/Sidebar/SidebarSection';
-import {
-  WFSFeatureTable,
-  WFSFeatureTableProps,
-} from '@ncsa/geo-explorer/explore/components/WFSFeatureTable';
+import { LegendIcon } from '@ncsa/geo-explorer/explore/Sidebar/MapLayers/LegendIcon';
+import { MapLayerItem } from '@ncsa/geo-explorer/explore/Sidebar/MapLayers/MapLayerItem';
+import { TemporalLayerSummary } from '@ncsa/geo-explorer/explore/Sidebar/MapLayers/TemporalLayerSummary';
+import { SidebarSection } from '@ncsa/geo-explorer/explore/Sidebar/SidebarSection';
+import { WFSFeatureTable } from '@ncsa/geo-explorer/explore/components/WFSFeatureTable';
 
-// TODO: need to add more
-export interface ComponentRegistry {
-  SimpleLayerItem: React.ComponentType<SimpleLayerItemProps>;
-  WFSFeatureTable: React.ComponentType<WFSFeatureTableProps>;
-  DatasetInfo: React.ComponentType;
-  DatasetPreview: React.ComponentType;
-  RippleOverlay: React.ComponentType;
-  RippleEffects: React.ComponentType<RippleEffectsProps>;
-  MainMap: React.ComponentType;
-  LegendPanel: React.ComponentType<LegendPanelProps>;
-  WMSLayer: React.ComponentType<WMSLayerProps>;
-  WMSLayerSimple: React.ComponentType<WMSLayerSimpleProps>;
-  WMSLayerTemporal: React.ComponentType<WMSLayerTemporalProps>;
-  StyleSettings: React.ComponentType<StyleSettingsProps>;
-  ColorInput: React.ComponentType<ColorInputProps>;
-  NumberInput: React.ComponentType<NumberInputProps>;
-  Header: React.ComponentType<HeaderProps>;
-  MapLayerSettings: React.ComponentType;
-  TimeSelector: React.ComponentType;
-  SimpleLayerList: React.ComponentType;
-  TemporalLayerItem: React.ComponentType<TemporalLayerItemProps>;
-  TemporalLayerList: React.ComponentType<TemporalLayerListProps>;
-  CategoricalLegendIcon: React.ComponentType<CategoricalLegendIconProps>;
-  ClimateLayerSummary: React.ComponentType<ClimateLayerSummaryProps>;
-  ClimateLegendIcon: React.ComponentType<ClimateLegendIconProps>;
-  MapLayers: React.ComponentType;
-  MapLayerItem: React.ComponentType<MapLayerItemProps>;
-  SingleLegendIcon: React.ComponentType<SingleLegendIconProps>;
-  BaseMaps: React.ComponentType;
-  Sidebar: React.ComponentType;
-  SidebarSection: React.ComponentType<SidebarSectionProps>;
-  SelectedFeatures: React.ComponentType;
-}
-
-export const defaultComponents: ComponentRegistry = {
+export const defaultComponents = {
   SimpleLayerItem,
   WFSFeatureTable,
   DatasetInfo,
@@ -129,6 +37,7 @@ export const defaultComponents: ComponentRegistry = {
   RippleEffects,
   MainMap,
   LegendPanel,
+  DataInventory,
   WMSLayer,
   WMSLayerSimple,
   WMSLayerTemporal,
@@ -141,14 +50,14 @@ export const defaultComponents: ComponentRegistry = {
   SimpleLayerList,
   TemporalLayerItem,
   TemporalLayerList,
-  CategoricalLegendIcon,
-  ClimateLayerSummary,
-  ClimateLegendIcon,
+  TemporalLayerSummary,
+  LegendIcon,
   MapLayers,
   MapLayerItem,
-  SingleLegendIcon,
   BaseMaps,
   Sidebar,
   SidebarSection,
   SelectedFeatures,
 };
+
+export type ComponentRegistry = typeof defaultComponents;

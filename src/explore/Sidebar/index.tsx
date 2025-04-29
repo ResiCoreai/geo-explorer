@@ -1,5 +1,3 @@
-import { BaseMaps } from '@ncsa/geo-explorer/explore/Sidebar/BaseMaps';
-import { MapLayers } from '@ncsa/geo-explorer/explore/Sidebar/MapLayers';
 import { useContext } from 'react';
 
 import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';

@@ -2,19 +2,20 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { Box, IconButton, Stack } from '@mui/material';
 import classNames from 'classnames';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
 
+import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import { SIDEBAR_WIDTH } from '@ncsa/geo-explorer/config';
-import { DatasetPreview } from '@ncsa/geo-explorer/explore/DatasetPreview';
 import { MainMap } from '@ncsa/geo-explorer/explore/MainMap';
-import { MapLayerSettings } from '@ncsa/geo-explorer/explore/MapLayerSettings';
-import { Sidebar } from '@ncsa/geo-explorer/explore/Sidebar';
 import { RootState } from '@ncsa/geo-explorer/store';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 export function GeoExplorer() {
+  const { DatasetPreview, MapLayerSettings, Sidebar } =
+    useContext(GeoExplorerContext).components;
+
   const selectedMapLayer = useSelector(
     (state: RootState) => state.explore.selectedLayer,
   );

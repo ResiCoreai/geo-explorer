@@ -7,8 +7,6 @@ import classNames from 'classnames';
 import { useCallback, useContext, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { LegendIcon } from '@ncsa/geo-explorer/explore/Sidebar/MapLayers/LegendIcon';
-import { TemporalLayerSummary } from '@ncsa/geo-explorer/explore/Sidebar/MapLayers/TemporalLayerSummary';
 import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import { LayerControlIcon } from '@ncsa/geo-explorer/icons/LayerControl';
 import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
@@ -28,10 +26,8 @@ export type MapLayerItemProps = {
 };
 
 export function MapLayerItem({ index, layer }: MapLayerItemProps) {
-  const {
-    LegendIcon,
-    ClimateLayerSummary,
-  } = useContext(GeoExplorerContext).components;
+  const { LegendIcon, TemporalLayerSummary } =
+    useContext(GeoExplorerContext).components;
   const dispatch = useDispatch<AppDispatch>();
 
   const selectedLayer = useSelector((state: RootState) =>

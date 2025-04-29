@@ -1,17 +1,17 @@
 import { FilterAltOutlined, Search } from '@mui/icons-material';
 import { Box, IconButton, Tab, Tabs } from '@mui/material';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 
-import { SimpleLayerList } from '@ncsa/geo-explorer/explore/Sidebar/DataInventory/SimpleLayerList';
-import { TemporalLayerList } from '@ncsa/geo-explorer/explore/Sidebar/DataInventory/TemporalLayerList';
-import { Section } from '@ncsa/geo-explorer/explore/Sidebar/Section';
+import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import { DatabaseHeavy } from '@ncsa/geo-explorer/icons/DatabaseHeavy';
 
 export function DataInventory() {
+  const { SimpleLayerList, TemporalLayerList, SidebarSection } =
+    useContext(GeoExplorerContext).components;
   const [tabIndex, setTabIndex] = useState(0);
 
   return (
-    <Section
+    <SidebarSection
       icon={<DatabaseHeavy size={16} />}
       weight={2}
       title="Data Inventory"
@@ -47,6 +47,6 @@ export function DataInventory() {
         {tabIndex === 0 && <SimpleLayerList />}
         {tabIndex === 1 && <TemporalLayerList />}
       </Box>
-    </Section>
+    </SidebarSection>
   );
 }
