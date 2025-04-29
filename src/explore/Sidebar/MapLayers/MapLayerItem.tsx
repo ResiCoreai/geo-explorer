@@ -4,10 +4,10 @@ import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { Box, IconButton, Stack, Typography } from '@mui/material';
 import classNames from 'classnames';
-import { useCallback, useContext, useRef } from 'react';
+import { useCallback, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
+import { useImplementation } from '@ncsa/geo-explorer/hooks/useImplementation';
 import { LayerControlIcon } from '@ncsa/geo-explorer/icons/LayerControl';
 import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
 import {
@@ -26,8 +26,8 @@ export type MapLayerItemProps = {
 };
 
 export function MapLayerItem({ index, layer }: MapLayerItemProps) {
-  const { LegendIcon, TemporalLayerSummary } =
-    useContext(GeoExplorerContext).components;
+  const { LegendIcon, TemporalLayerSummary } = useImplementation();
+
   const dispatch = useDispatch<AppDispatch>();
 
   const selectedLayer = useSelector((state: RootState) =>

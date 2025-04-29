@@ -1,10 +1,8 @@
-import { useContext } from 'react';
-
-import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
+import { useImplementation } from '@ncsa/geo-explorer/hooks/useImplementation';
 
 export function Sidebar() {
-  const { BaseMaps, DataInventory, MapLayers } =
-    useContext(GeoExplorerContext).components;
+  const { BaseMaps, DataInventory, MapLayers } = useImplementation();
+
   return (
     <div className="w-full h-full relative">
       <div className="bg-white h-full flex flex-col">

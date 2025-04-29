@@ -10,10 +10,10 @@ import {
   Typography,
 } from '@mui/material';
 import { parseColor } from '@react-stately/color';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
+import { useImplementation } from '@ncsa/geo-explorer/hooks/useImplementation';
 import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
 import { setLayerStyleSLD } from '@ncsa/geo-explorer/store/explore/actions';
 import {
@@ -28,7 +28,8 @@ export type StyleSettingsProps = {
 };
 
 export function StyleSettings({ open, onClose }: StyleSettingsProps) {
-  const { ColorInput, NumberInput } = useContext(GeoExplorerContext).components;
+  const { ColorInput, NumberInput } = useImplementation();
+
   const dispatch = useDispatch<AppDispatch>();
   const selectedLayer = useSelector((state: RootState) =>
     state.explore.mapLayers.find(

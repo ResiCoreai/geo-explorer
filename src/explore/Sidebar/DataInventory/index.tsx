@@ -1,13 +1,14 @@
 import { FilterAltOutlined, Search } from '@mui/icons-material';
 import { Box, IconButton, Tab, Tabs } from '@mui/material';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 
-import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
+import { useImplementation } from '@ncsa/geo-explorer/hooks/useImplementation';
 import { DatabaseHeavy } from '@ncsa/geo-explorer/icons/DatabaseHeavy';
 
 export function DataInventory() {
   const { SimpleLayerList, TemporalLayerList, SidebarSection } =
-    useContext(GeoExplorerContext).components;
+    useImplementation();
+
   const [tabIndex, setTabIndex] = useState(0);
 
   return (

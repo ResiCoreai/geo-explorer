@@ -1,12 +1,13 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMap } from 'react-map-gl/maplibre';
 import { useSelector } from 'react-redux';
 
-import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
+import { useImplementation } from '@ncsa/geo-explorer/hooks/useImplementation';
 import { RootState } from '@ncsa/geo-explorer/store';
 
 export function RippleOverlay() {
-  const { RippleEffects } = useContext(GeoExplorerContext).components;
+  const { RippleEffects } = useImplementation();
+
   const { current: map } = useMap();
 
   const features = useSelector(

@@ -2,15 +2,15 @@ import FolderOpenOutlinedIcon from '@mui/icons-material/FolderOpenOutlined';
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined';
 import { Box, InputAdornment, MenuItem, Select } from '@mui/material';
 import classNames from 'classnames';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
+import { useImplementation } from '@ncsa/geo-explorer/hooks/useImplementation';
 import { RootState } from '@ncsa/geo-explorer/store';
 import { Dataset } from '@ncsa/geo-explorer/types';
 
 export function TemporalLayerList() {
-  const { TemporalLayerItem } = useContext(GeoExplorerContext).components;
+  const { TemporalLayerItem } = useImplementation();
 
   const datasets = useSelector(
     (state: RootState) => state.explore.temporalLayerInventory,

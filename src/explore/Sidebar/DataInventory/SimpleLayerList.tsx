@@ -1,15 +1,15 @@
 import FolderOpenOutlinedIcon from '@mui/icons-material/FolderOpenOutlined';
 import { Box, InputAdornment, MenuItem, Select } from '@mui/material';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import { layerTypeIcons } from '@ncsa/geo-explorer/explore/Sidebar/utils/icons';
+import { useImplementation } from '@ncsa/geo-explorer/hooks/useImplementation';
 import { RootState } from '@ncsa/geo-explorer/store';
 import { Dataset } from '@ncsa/geo-explorer/types';
 
 export function SimpleLayerList() {
-  const { SimpleLayerItem } = useContext(GeoExplorerContext).components;
+  const { SimpleLayerItem } = useImplementation();
 
   const datasets = useSelector(
     (state: RootState) => state.explore.simpleLayerInventory,
