@@ -8,9 +8,9 @@ export interface Dataset {
   default_style_name?: string;
   ogc_service_url: string;
   timestamps: string[];
+  unit?: string;
   labels: {
     dataset_category: string;
-    unit?: string;
     [key: string]: string;
   };
 }
