@@ -1,27 +1,28 @@
 import { Box, Divider, Stack, Typography } from '@mui/material';
 
 import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
-import { ClimateDatasetInfo } from '@ncsa/geo-explorer/types';
 
 type Props = {
-  layer: MapLayer & { data: { dataset_info: ClimateDatasetInfo } };
+  layer: MapLayer;
 };
 
-export function ClimateLayerSummary({ layer }: Props) {
-  const timestamp = layer.data.dataset_info.timestamps[layer.timestampIdx];
+export function TemporalLayerSummary({ layer }: Props) {
+  const timestamp = layer.data.timestamps[layer.timestampIdx];
 
   return (
     <Box className="pb-[10px]">
       <Divider />
-      <Stack direction="row" className="my-[6px]">
-        <Typography className="text-[12px] text-[#2C343CCC]">
-          Scenario:{' '}
-        </Typography>
-        <Box className="flex-1" />
-        <Typography className="text-[12px] text-[#0455A4] font-semibold">
-          {layer.data.dataset_info.climate_scenario}
-        </Typography>
-      </Stack>
+      {Object.entries(layer.data.labels).map(([key, value]) => (
+        <Stack key={key} direction="row" className="my-[6px]">
+          <Typography className="text-[12px] text-[#2C343CCC] capitalize">
+            {key.replace(/_/g, ' ')}:{' '}
+          </Typography>
+          <Box className="flex-1" />
+          <Typography className="text-[12px] text-[#0455A4] font-semibold capitalize">
+            {value}
+          </Typography>
+        </Stack>
+      ))}
       {timestamp && (
         <Stack direction="row" className="my-[6px] text-[#2C343CCC]">
           <Typography className="text-[12px] text-[#2C343CCC]">

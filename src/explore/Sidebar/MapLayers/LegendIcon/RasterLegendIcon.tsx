@@ -3,19 +3,19 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 
 import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
-import { ClimateDatasetInfo, RasterLegend } from '@ncsa/geo-explorer/types';
+import { Legend, RasterSymbolizer } from '@ncsa/geo-explorer/types';
 
 type Props = {
-  layer: MapLayer & { data: { dataset_info: ClimateDatasetInfo } };
+  layer: MapLayer;
 };
 
-export function ClimateLegendIcon({ layer }: Props) {
+export function RasterLegendIcon({ layer }: Props) {
   const { ogcClient } = useContext(GeoExplorerContext);
 
-  const [legend, setLegend] = useState<RasterLegend | null>(null);
+  const [legend, setLegend] = useState<Legend<RasterSymbolizer> | null>(null);
 
   useEffect(() => {
-    ogcClient?.getLegendJSON<RasterLegend>(layer.data).then(setLegend);
+    ogcClient?.getLegendJSON<RasterSymbolizer>(layer.data).then(setLegend);
   }, [ogcClient]);
 
   const colorMap = useMemo(() => {

@@ -8,8 +8,8 @@ type Props = {
 };
 
 export function WMSLayer({ layer, prevLayer }: Props) {
-  return layer.data.dataset_info.dataset_type === 'raster' &&
-    layer.data.dataset_info.timestamps.length > 0 ? (
+  return layer.data.layer_type === 'raster' &&
+    layer.data.timestamps.length > 0 ? (
     <WMSLayerTemporal layer={layer} prevLayer={prevLayer} />
   ) : (
     <WMSLayerSimple layer={layer} prevLayer={prevLayer} />

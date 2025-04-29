@@ -3,7 +3,7 @@ import { Rule, Style, Symbolizer } from 'geostyler-style';
 
 import { store } from '@ncsa/geo-explorer/store';
 import { MapLayerStyle } from '@ncsa/geo-explorer/store/explore/types';
-import { FeatureType } from '@ncsa/geo-explorer/types';
+import { LayerType } from '@ncsa/geo-explorer/types';
 
 function createPointSymbolizer(style: MapLayerStyle): Symbolizer {
   return {
@@ -39,7 +39,7 @@ function createPolygonSymbolizer(style: MapLayerStyle): Symbolizer {
 }
 
 function createSymbolizer(
-  type: FeatureType,
+  type: LayerType,
   style: MapLayerStyle,
 ): Symbolizer | null {
   switch (type) {
@@ -49,10 +49,12 @@ function createSymbolizer(
       return createLineSymbolizer(style);
     case 'polygon':
       return createPolygonSymbolizer(style);
+    case 'raster':
+      return null;
   }
 }
 
-function createStyleRules(type: FeatureType, style: MapLayerStyle): Rule[] {
+function createStyleRules(type: LayerType, style: MapLayerStyle): Rule[] {
   const symbolizer = createSymbolizer(type, style);
   return symbolizer
     ? [
@@ -73,13 +75,13 @@ export async function formatSLD(
     (layer) => layer.data.layer_id === layer_id,
   )!;
 
-  if (layer.data.dataset_info.dataset_type === 'raster') {
+  if (layer.data.layer_type === 'raster') {
     return '';
   }
 
   const geoStylerStyle: Style = {
     name: layer_id,
-    rules: createStyleRules(layer.data.dataset_info.feature_type!, style),
+    rules: createStyleRules(layer.data.layer_type!, style),
   };
   const { output: styleSLD } = await new SLDParser().writeStyle(geoStylerStyle);
 

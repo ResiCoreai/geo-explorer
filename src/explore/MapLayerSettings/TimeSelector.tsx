@@ -30,10 +30,7 @@ export function TimeSelector() {
   const yearsAndQuarters = useMemo<YearAndQuarters[]>(() => {
     if (!selectedLayer) return [];
     const years: Record<string, YearAndQuarters> = {};
-    for (const [
-      index,
-      timestamp,
-    ] of selectedLayer.data.dataset_info.timestamps.entries()) {
+    for (const [index, timestamp] of selectedLayer.data.timestamps.entries()) {
       const year = new Date(timestamp).getUTCFullYear();
       const quarter = Math.floor(new Date(timestamp).getUTCMonth() / 3);
       if (!years[year]) {
@@ -50,7 +47,7 @@ export function TimeSelector() {
   if (!selectedLayer) return null;
 
   const curTimestamp =
-    selectedLayer.data.dataset_info.timestamps[selectedLayer.timestampIdx];
+    selectedLayer.data.timestamps[selectedLayer.timestampIdx];
   const curTime = curTimestamp ? new Date(curTimestamp) : new Date();
   const curYear = curTime.getUTCFullYear();
   const curQuarter = Math.floor(curTime.getUTCMonth() / 3);

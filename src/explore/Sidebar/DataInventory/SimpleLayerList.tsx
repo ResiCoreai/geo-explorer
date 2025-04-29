@@ -1,193 +1,100 @@
-import { FilterAltOutlined, Search } from '@mui/icons-material';
 import FolderOpenOutlinedIcon from '@mui/icons-material/FolderOpenOutlined';
-import {
-  Box,
-  IconButton,
-  InputAdornment,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  Tab,
-  Tabs,
-} from '@mui/material';
-import { useContext, useState } from 'react';
+import { Box, InputAdornment, MenuItem, Select } from '@mui/material';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
-import { TemporalLayerList } from '@ncsa/geo-explorer/explore/Sidebar/DataInventory/TemporalLayerList';
-import { Section } from '@ncsa/geo-explorer/explore/Sidebar/Section';
-import {
-  categoryIcons,
-  layerTypeIcons,
-} from '@ncsa/geo-explorer/explore/Sidebar/utils/icons';
-import { DatabaseHeavy } from '@ncsa/geo-explorer/icons/DatabaseHeavy';
+import { layerTypeIcons } from '@ncsa/geo-explorer/explore/Sidebar/utils/icons';
 import { RootState } from '@ncsa/geo-explorer/store';
-import {
-  ClimateDatasetInfo,
-  VectorDatasetInfo,
-} from '@ncsa/geo-explorer/types';
+import { Dataset } from '@ncsa/geo-explorer/types';
 
 export function SimpleLayerList() {
   const { SimpleLayerItem } = useContext(GeoExplorerContext).components;
 
-  const techDatasets = useSelector(
+  const datasets = useSelector(
     (state: RootState) => state.explore.simpleLayerInventory,
   );
 
-  const climateDatasets = useSelector(
-    (state: RootState) => state.explore.temporalLayerInventory,
-  );
+  const groupByOptions = useMemo(() => {
+    return Array.from(
+      new Set(datasets.flatMap((dataset) => Object.keys(dataset.labels))),
+    );
+  }, [datasets]);
 
-  const [tabIndex, setTabIndex] = useState(0);
-  const [techSelectedOption, setTechSelectedOption] =
-    useState<keyof VectorDatasetInfo>('dataset_category');
-  const [climateSelectedOption, setClimateSelectedOption] =
-    useState<keyof ClimateDatasetInfo>('climate_scenario');
+  const [groupBy, setGroupBy] = useState('');
+  useEffect(() => {
+    if (!groupBy && groupByOptions[0]) {
+      setGroupBy(groupByOptions[0]);
+    }
+  }, [groupByOptions]);
 
-  const handleTechSelectChange = (
-    event: SelectChangeEvent<keyof VectorDatasetInfo>,
-  ) => {
-    setTechSelectedOption(event.target.value as keyof VectorDatasetInfo);
-  };
-  const handleClimateSelectChange = (
-    event: SelectChangeEvent<keyof ClimateDatasetInfo>,
-  ) => {
-    setClimateSelectedOption(event.target.value as keyof ClimateDatasetInfo);
-  };
+  const datasetGroups: Record<string, Dataset[]> = useMemo(() => {
+    const groups: Record<string, Dataset[]> = {};
+    for (const dataset of datasets) {
+      const groupKey = dataset.labels[groupBy] ?? '';
+      if (!groups[groupKey]) {
+        groups[groupKey] = [];
+      }
+      groups[groupKey].push(dataset);
+    }
+    return groups;
+  }, [datasets, groupBy]);
 
   return (
-    <Section
-      icon={<DatabaseHeavy size={16} />}
-      weight={2}
-      title="Data Inventory"
-      extras={
-        <Box className="flex flex-row gap-[6px]">
-          <IconButton size="small" onClick={(e) => e.stopPropagation()}>
-            <Search className="text-[#0000008A]" />
-          </IconButton>
-          <IconButton size="small" onClick={(e) => e.stopPropagation()}>
-            <FilterAltOutlined className="text-[#0000008A]" />
-          </IconButton>
-        </Box>
-      }
-    >
-      <Box className="flex flex-col h-full">
-        {/* Tabs for DAC Tech & Climate Data */}
-        <Box className="flex-none px-[32px]">
-          <Tabs
-            centered
-            className="w-full"
-            value={tabIndex}
-            onChange={(_, newValue) => setTabIndex(newValue)}
-          >
-            <Tab label="DAC Tech" className="flex-1 min-w-0 capitalize" />
-            <Tab label="Climate Data" className="flex-1 min-w-0 capitalize" />
-          </Tabs>
-        </Box>
-
-        {/* Content for DAC Tech */}
-        {tabIndex === 0 && (
-          <>
-            <Box mt={2} className="flex-none px-[32px]">
-              <Select
-                value={techSelectedOption}
-                onChange={handleTechSelectChange}
-                fullWidth
-                variant="standard"
-                disableUnderline
-                className="bg-[#F3F4F6] text-[14px] h-[34px] px-4 py-2 rounded-sm shadow-sm focus:bg-[#F3F4F6] hover:bg-[#F3F4F6] flex items-center"
-                startAdornment={
-                  <InputAdornment
-                    className="text-gray-600 text-[14px]"
-                    position="start"
-                  >
-                    <FolderOpenOutlinedIcon />
-                  </InputAdornment>
-                }
-              >
-                <MenuItem value="dataset_category">Dataset Category</MenuItem>
-                <MenuItem value="feature_type">Feature Type</MenuItem>
-              </Select>
-            </Box>
-            <Box className="flex-auto overflow-scroll no-scrollbar">
-              {(techSelectedOption === 'feature_type'
-                ? layerTypeIcons
-                : categoryIcons
-              ).map(({ type, icon }) => (
-                <Box className="my-[20px]" key={type}>
-                  <Box className="flex flex-row items-center gap-[6px] text-[#13294B99] text-[11px] px-[32px] capitalize font-bold">
-                    {icon({ className: 'w-5 h-5' })}
-                    {type}{' '}
-                    {techSelectedOption === 'feature_type' ? 'Feature' : 'Data'}
-                  </Box>
-                  <Box className="mt-[5px]">
-                    {techDatasets.filter(
-                      (layer) =>
-                        (layer.dataset_info.dataset_type === 'raster'
-                          ? 'raster'
-                          : layer.dataset_info?.[techSelectedOption]) === type,
-                    ).length > 0 ? (
-                      techDatasets
-                        .filter(
-                          (layer) =>
-                            (layer.dataset_info.dataset_type === 'raster'
-                              ? 'raster'
-                              : layer.dataset_info?.[techSelectedOption]) ===
-                            type,
-                        )
-                        .map((dataset) => (
-                          <Box
-                            key={dataset.layer_id}
-                            className="flex justify-center px-[32px]"
-                          >
-                            <SimpleLayerItem dataset={dataset} />
-                          </Box>
-                        ))
-                    ) : (
-                      <Box className="text-gray-400 text-sm italic px-[32px]">
-                        Datasets will be available soon...
-                      </Box>
-                    )}
-                  </Box>
-                </Box>
-              ))}
-            </Box>
-          </>
-        )}
-
-        {/* Content for Climate Data */}
-        {tabIndex === 1 && (
-          <>
-            <Box mt={2} className="flex-none px-[32px]">
-              <Select
-                value={climateSelectedOption}
-                onChange={handleClimateSelectChange}
-                fullWidth
-                variant="standard"
-                disableUnderline
-                className="bg-[#F3F4F6] text-[14px] h-[34px] px-4 py-2 rounded-sm shadow-sm focus:bg-[#F3F4F6] hover:bg-[#F3F4F6] flex items-center"
-                startAdornment={
-                  <InputAdornment
-                    className="text-gray-600 text-[14px]"
-                    position="start"
-                  >
-                    <FolderOpenOutlinedIcon />
-                  </InputAdornment>
-                }
-              >
-                <MenuItem value="climate_scenario">
-                  Climate Model Scenarios
-                </MenuItem>
-                <MenuItem value="climate_variable">Climate Variables</MenuItem>
-              </Select>
-            </Box>
-            <TemporalLayerList
-              climateDatasets={climateDatasets}
-              climateSelectedOption={climateSelectedOption}
-            />
-          </>
-        )}
+    <>
+      <Box mt={2} className="flex-none px-[32px]">
+        <Select
+          value={groupBy}
+          onChange={(e) => setGroupBy(e.target.value)}
+          fullWidth
+          variant="standard"
+          disableUnderline
+          className="capitalize bg-[#F3F4F6] text-[14px] h-[34px] px-4 py-2 rounded-sm shadow-sm focus:bg-[#F3F4F6] hover:bg-[#F3F4F6] flex items-center"
+          startAdornment={
+            <InputAdornment
+              className="text-gray-600 text-[14px]"
+              position="start"
+            >
+              <FolderOpenOutlinedIcon />
+            </InputAdornment>
+          }
+        >
+          {groupByOptions.map((option) => (
+            <MenuItem key={option} value={option} className="capitalize">
+              {option.replace(/_/g, ' ')}
+            </MenuItem>
+          ))}
+        </Select>
       </Box>
-    </Section>
+      <Box className="flex-auto overflow-scroll no-scrollbar">
+        {Object.entries(datasetGroups).map(([groupKey, datasets]) => (
+          <Box className="my-[20px]" key={groupKey}>
+            <Box className="flex flex-row items-center gap-[6px] text-[#13294B99] text-[11px] px-[32px] capitalize font-bold">
+              {groupBy === 'feature_type' &&
+                layerTypeIcons[groupKey]?.({
+                  className: 'w-5 h-5',
+                })}
+              {groupKey}
+            </Box>
+            <Box className="mt-[5px]">
+              {datasets.length > 0 ? (
+                datasets.map((dataset) => (
+                  <Box
+                    key={dataset.layer_id}
+                    className="flex justify-center px-[32px]"
+                  >
+                    <SimpleLayerItem dataset={dataset} />
+                  </Box>
+                ))
+              ) : (
+                <Box className="text-gray-400 text-sm italic px-[32px]">
+                  Datasets will be available soon...
+                </Box>
+              )}
+            </Box>
+          </Box>
+        ))}
+      </Box>
+    </>
   );
 }

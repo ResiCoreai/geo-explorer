@@ -7,11 +7,8 @@ import classNames from 'classnames';
 import { useCallback, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { CategoricalLegendIcon } from '@ncsa/geo-explorer/explore/Sidebar/MapLayers/CategoricalLegendIcon';
-import { ClimateLayerSummary } from '@ncsa/geo-explorer/explore/Sidebar/MapLayers/ClimateLayerSummary';
-import { ClimateLegendIcon } from '@ncsa/geo-explorer/explore/Sidebar/MapLayers/ClimateLegendIcon';
-import { SingleLegendIcon } from '@ncsa/geo-explorer/explore/Sidebar/MapLayers/SingleLegendIcon';
-import { getLayerIconByCategory } from '@ncsa/geo-explorer/explore/Sidebar/utils/icons';
+import { LegendIcon } from '@ncsa/geo-explorer/explore/Sidebar/MapLayers/LegendIcon';
+import { TemporalLayerSummary } from '@ncsa/geo-explorer/explore/Sidebar/MapLayers/TemporalLayerSummary';
 import { LayerControlIcon } from '@ncsa/geo-explorer/icons/LayerControl';
 import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
 import {
@@ -23,11 +20,6 @@ import {
   toggleVisibility,
 } from '@ncsa/geo-explorer/store/explore/slice';
 import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
-import {
-  isCategoricalData,
-  isClimateData,
-  isSingleCategoryData,
-} from '@ncsa/geo-explorer/types';
 
 type Props = {
   index: number;
@@ -136,15 +128,15 @@ export function Item({ index, layer }: Props) {
           <LayerControlIcon />
         </Stack>
         <Stack className="items-center justify-center mx-[6px]">
-          {isClimateData(layer) ? (
-            <ClimateLegendIcon layer={layer} />
-          ) : isCategoricalData(layer) ? (
-            <CategoricalLegendIcon layer={layer} />
-          ) : isSingleCategoryData(layer) ? (
-            <SingleLegendIcon layer={layer} />
-          ) : (
-            getLayerIconByCategory(layer)?.({ className: 'w-[18px] h-[18px]' })
-          )}
+          <LegendIcon layer={layer} />
+          {/*/!*FIXME*!/*/}
+          {/*{layer.data.default_style_type === 'interpolated' ? (*/}
+          {/*  <RasterLegendIcon layer={layer} />*/}
+          {/*) : layer.data.default_style_type === 'categorized' ? (*/}
+          {/*  <CategoricalLegendIcon layer={layer} />*/}
+          {/*) : (*/}
+          {/*  <MarkerLegendIcon layer={layer} />*/}
+          {/*)}*/}
         </Stack>
 
         <Typography className="flex-auto min-w-0 whitespace-nowrap overflow-hidden text-ellipsis text-[14px] font-semibold">
@@ -181,8 +173,8 @@ export function Item({ index, layer }: Props) {
           </IconButton>
         </Stack>
       </Stack>
-      {selected && isClimateData(layer) && (
-        <ClimateLayerSummary layer={layer} />
+      {selected && layer.data.timestamps.length > 0 && (
+        <TemporalLayerSummary layer={layer} />
       )}
     </Box>
   );

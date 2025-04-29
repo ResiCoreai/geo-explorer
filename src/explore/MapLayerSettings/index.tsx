@@ -10,7 +10,6 @@ import { TimeSelector } from '@ncsa/geo-explorer/explore/MapLayerSettings/TimeSe
 import { WFSFeatureTable } from '@ncsa/geo-explorer/explore/components/WFSFeatureTable';
 import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
 import { toggleLayerSettings } from '@ncsa/geo-explorer/store/explore/slice';
-import { isVectorData } from '@ncsa/geo-explorer/types';
 
 export function MapLayerSettings() {
   const dispatch = useDispatch<AppDispatch>();
@@ -39,9 +38,10 @@ export function MapLayerSettings() {
           )}
           sx={{
             width: '100%',
-            height: !isVectorData(selectedLayer)
-              ? 'auto'
-              : LAYER_SETTINGS_HEIGHT,
+            height:
+              selectedLayer.data.layer_type === 'raster'
+                ? 'auto'
+                : LAYER_SETTINGS_HEIGHT,
           }}
         >
           <Header
@@ -50,10 +50,8 @@ export function MapLayerSettings() {
               dispatch(toggleLayerSettings());
             }}
           />
-          {selectedLayer.data.dataset_info.timestamps.length > 0 && (
-            <TimeSelector />
-          )}
-          {isVectorData(selectedLayer) ? (
+          {selectedLayer.data.timestamps.length > 0 && <TimeSelector />}
+          {selectedLayer.data.layer_type !== 'raster' ? (
             <Box className="flex-1 min-h-0 cursor-auto">
               <WFSFeatureTable dataset={selectedLayer.data} />
             </Box>

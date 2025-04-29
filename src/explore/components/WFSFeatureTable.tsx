@@ -51,7 +51,7 @@ export function WFSFeatureTable({ dataset }: Props) {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (dataset.dataset_info.dataset_type === 'raster') {
+    if (dataset.layer_type === 'raster') {
       setRowCount(0);
       setFeatureAttributes([]);
       return;

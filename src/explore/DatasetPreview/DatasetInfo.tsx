@@ -1,16 +1,8 @@
 import { Box, Divider, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 
-import {
-  climateVariableIcons,
-  layerTypeIcons,
-  typeDescription,
-} from '@ncsa/geo-explorer/explore/Sidebar/utils/icons';
+import { layerTypeIcons } from '@ncsa/geo-explorer/explore/Sidebar/utils/icons';
 import { RootState } from '@ncsa/geo-explorer/store';
-import {
-  ClimateDatasetInfo,
-  VectorDatasetInfo,
-} from '@ncsa/geo-explorer/types';
 
 export const DatasetInfo = () => {
   const dataset = useSelector(
@@ -49,25 +41,13 @@ export const DatasetInfo = () => {
             Attributes
           </Typography>
 
-          {/* Dataset Type */}
-          <Box className="mt-2 flex justify-between items-center">
-            <Typography variant="body2" color="gray">
-              Dataset Type
-            </Typography>
-            <Typography className="text-right capitalize">
-              {dataset.dataset_info?.dataset_category === 'climate'
-                ? 'Climate'
-                : 'DAC Tech'}
-            </Typography>
-          </Box>
-
           {/* Dataset Category */}
           <Box className="mt-2 flex justify-between items-center">
             <Typography variant="body2" color="gray">
               Dataset Category
             </Typography>
             <Typography className="text-right capitalize">
-              {dataset.dataset_info.dataset_category}
+              {dataset.labels.dataset_category}
             </Typography>
           </Box>
 
@@ -77,27 +57,14 @@ export const DatasetInfo = () => {
               Layer Type
             </Typography>
             <Box className="flex items-center">
-              {layerTypeIcons.map(({ type, icon }) =>
-                (dataset.dataset_info as VectorDatasetInfo)?.feature_type ===
-                type ? (
-                  <Box key={type} className="flex items-center">
-                    {icon({ className: 'text-red-500' })}
-                    <Typography className="ml-2 capitalize">{type}</Typography>
-                  </Box>
-                ) : null,
-              )}
-              {/* Climate Variable Icons */}
-              {climateVariableIcons.map(({ type, icon }) =>
-                (dataset.dataset_info as ClimateDatasetInfo)
-                  ?.climate_variable === type ? (
-                  <Box key={type} className="flex items-center">
-                    {icon({ className: 'text-red-500' })}
-                    <Typography className="ml-2 capitalize">
-                      {typeDescription[type]?.description ?? type}
-                    </Typography>
-                  </Box>
-                ) : null,
-              )}
+              <Box className="flex items-center">
+                {layerTypeIcons[dataset.layer_type]?.({
+                  className: 'text-red-500',
+                })}
+                <Typography className="ml-2 capitalize">
+                  {dataset.layer_type}
+                </Typography>
+              </Box>
             </Box>
           </Box>
 

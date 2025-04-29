@@ -2,11 +2,12 @@ import Box from '@mui/material/Box';
 import { useContext, useEffect, useMemo, useState } from 'react';
 
 import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
+import { MarkerLegendIcon } from '@ncsa/geo-explorer/explore/Sidebar/MapLayers/LegendIcon/MarkerLegendIcon';
 import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
-import { CategoricalLegend, VectorDatasetInfo } from '@ncsa/geo-explorer/types';
+import { Legend, VectorSymbolizer } from '@ncsa/geo-explorer/types';
 
 type Props = {
-  layer: MapLayer & { data: { dataset_info: VectorDatasetInfo } };
+  layer: MapLayer;
 };
 
 type CategoricalColor = {
@@ -14,13 +15,13 @@ type CategoricalColor = {
   label?: string;
 };
 
-export function CategoricalLegendIcon({ layer }: Props) {
+export function VectorLegendIcon({ layer }: Props) {
   const { ogcClient } = useContext(GeoExplorerContext);
 
-  const [legend, setLegend] = useState<CategoricalLegend | null>(null);
+  const [legend, setLegend] = useState<Legend<VectorSymbolizer> | null>(null);
 
   useEffect(() => {
-    ogcClient?.getLegendJSON<CategoricalLegend>(layer.data).then(setLegend);
+    ogcClient?.getLegendJSON<VectorSymbolizer>(layer.data).then(setLegend);
   }, [ogcClient]);
 
   const colorMap = useMemo<CategoricalColor[]>(() => {
@@ -70,7 +71,7 @@ export function CategoricalLegendIcon({ layer }: Props) {
   }, [legend]);
 
   const gradient = useMemo(() => {
-    if (!colorMap.length) return '';
+    if (colorMap.length == 0) return '';
 
     if (colorMap.length === 1) {
       return colorMap[0]?.color || '#fff'; // solid fill
@@ -78,6 +79,11 @@ export function CategoricalLegendIcon({ layer }: Props) {
 
     return `linear-gradient(180deg, ${colorMap.map((c) => c.color).join(', ')})`;
   }, [colorMap]);
+
+  // Special case
+  if (layer.data.layer_type === 'point' && colorMap.length === 1) {
+    return <MarkerLegendIcon layer={layer} />;
+  }
 
   return (
     <Box

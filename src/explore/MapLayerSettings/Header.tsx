@@ -64,7 +64,7 @@ export function Header({ onOpenStyleSettings, onClose }: Props) {
         Remove
       </Button>
       <IconButton
-        disabled={selectedLayer.data.dataset_info.dataset_type === 'raster'}
+        disabled={selectedLayer.data.layer_type === 'raster'}
         onClick={() => {
           ogcClient?.downloadDataset(selectedLayer.data);
         }}

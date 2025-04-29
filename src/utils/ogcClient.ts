@@ -6,7 +6,12 @@ import {
   SimpleFeature,
   SimpleFeatureCollection,
 } from '@ncsa/geo-explorer/store/explore/slice';
-import { Dataset, FeatureTypeInfo } from '@ncsa/geo-explorer/types';
+import {
+  Dataset,
+  FeatureTypeInfo,
+  Legend,
+  Symbolizer,
+} from '@ncsa/geo-explorer/types';
 
 export type Params = Record<
   string,
@@ -72,8 +77,10 @@ export class OGCClient {
     });
   }
 
-  public async getLegendJSON<T>(dataset: Dataset): Promise<T> {
-    const { data } = await this.request<T>({
+  public async getLegendJSON<T extends Symbolizer>(
+    dataset: Dataset,
+  ): Promise<Legend<T>> {
+    const { data } = await this.request<Legend<T>>({
       url: `${dataset.ogc_service_url}/wms`,
       params: {
         version: '1.3.0',

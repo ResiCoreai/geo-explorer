@@ -2,20 +2,20 @@ import { useContext, useEffect, useState } from 'react';
 
 import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
-import { CategoricalLegend, VectorDatasetInfo } from '@ncsa/geo-explorer/types';
+import { Legend, PointSymbolizer } from '@ncsa/geo-explorer/types';
 
 type Props = {
-  layer: MapLayer & { data: { dataset_info: VectorDatasetInfo } };
+  layer: MapLayer;
 };
 
-export function SingleLegendIcon({ layer }: Props) {
+export function MarkerLegendIcon({ layer }: Props) {
   const { ogcClient } = useContext(GeoExplorerContext);
 
-  const [legend, setLegend] = useState<CategoricalLegend | null>(null);
+  const [legend, setLegend] = useState<Legend<PointSymbolizer> | null>(null);
   const [imageBlobUrl, setImageBlobUrl] = useState<string | null>(null);
 
   useEffect(() => {
-    ogcClient?.getLegendJSON<CategoricalLegend>(layer.data).then(setLegend);
+    ogcClient?.getLegendJSON<PointSymbolizer>(layer.data).then(setLegend);
   }, [ogcClient]);
 
   useEffect(() => {

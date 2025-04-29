@@ -89,10 +89,7 @@ export function MainMap() {
       }}
       interactiveLayerIds={['storage']}
       onClick={(e) => {
-        if (
-          selectedLayer &&
-          selectedLayer.data.dataset_info.dataset_type === 'vector'
-        ) {
+        if (selectedLayer && selectedLayer.data.layer_type !== 'raster') {
           ogcClient?.identifyFeature(e, selectedLayer.data).then((features) => {
             dispatch(setSelectedFeatures(features));
           });
@@ -103,22 +100,20 @@ export function MainMap() {
     >
       <NavigationControl position="top-right" visualizePitch={true} />
       <FullscreenControl position="top-right" />
-      <Source
-        type="raster"
-        tiles={
-          baseMaps.length > 0
-            ? [
-                baseMaps.find((b) => b.layer_id === selectedBaseMap)
-                  ?.tile_url_template ??
-                  baseMaps[0]?.tile_url_template ??
-                  '',
-              ]
-            : []
-        }
-        tileSize={256}
-      >
-        <Layer type="raster" />
-      </Source>
+      {baseMaps.length > 0 && (
+        <Source
+          type="raster"
+          tiles={[
+            baseMaps.find((b) => b.layer_id === selectedBaseMap)
+              ?.tile_url_template ??
+              baseMaps[0]?.tile_url_template ??
+              '',
+          ]}
+          tileSize={256}
+        >
+          <Layer type="raster" />
+        </Source>
+      )}
 
       {mapLayers.map((layer, index) => (
         <WMSLayer

@@ -15,7 +15,6 @@ import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { useMap } from 'react-map-gl/maplibre';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getLayerIconByCategory } from '@ncsa/geo-explorer/explore/Sidebar/utils/icons';
 import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
 import { setShowLayerSettings } from '@ncsa/geo-explorer/store/explore/slice';
 
@@ -103,9 +102,6 @@ export function SelectedFeatures() {
           {/* Layer Title + Icon */}
           {selectedLayer && (
             <Box className="flex items-center gap-2 mb-3">
-              {getLayerIconByCategory(selectedLayer)?.({
-                className: 'w-[18px] h-[18px]',
-              })}
               <Typography
                 variant="h6"
                 className="font-semibold text-[14px] leading-[100%] tracking-[0.15px]"
