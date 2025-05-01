@@ -21,12 +21,12 @@ export const GeoExplorerContext = createContext<{
   accessToken?: string | undefined;
   ogcClient: OGCClient | null;
   isProtectedResource?: ((url: string) => boolean) | undefined;
-  components: ComponentRegistry;
+  __UNSTABLE_USE_AT_YOUR_OWN_RISK_components: ComponentRegistry;
 }>({
   accessToken: undefined,
   ogcClient: null,
   isProtectedResource: () => false,
-  components: defaultComponents,
+  __UNSTABLE_USE_AT_YOUR_OWN_RISK_components: defaultComponents,
 });
 
 type Props = {
@@ -49,7 +49,7 @@ export function GeoExplorerProvider({
       accessToken,
       ogcClient: config ? new OGCClient({ accessToken }) : null,
       isProtectedResource,
-      components: {
+      __UNSTABLE_USE_AT_YOUR_OWN_RISK_components: {
         ...defaultComponents,
         ...components,
       },

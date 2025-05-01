@@ -4,37 +4,25 @@ import { IconButton } from '@mui/material';
 import className from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { climateVariableIcons } from '@ncsa/geo-explorer/explore/Sidebar/utils/icons';
 import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
 import {
   addLayer,
   removeLayer,
   selectDataset,
 } from '@ncsa/geo-explorer/store/explore/slice';
-import { ClimateDatasetInfo, Dataset } from '@ncsa/geo-explorer/types';
-import {
-  truncateClimateDatasetPrefix,
-  truncateClimateDatasetSuffix,
-} from '@ncsa/geo-explorer/utils/dataset';
+import { Dataset } from '@ncsa/geo-explorer/types';
 
 export type TemporalLayerItemProps = {
   dataset: Dataset;
-  climateSelectedOption: keyof ClimateDatasetInfo;
 };
 
-export function TemporalLayerItem({
-  dataset,
-  climateSelectedOption,
-}: TemporalLayerItemProps) {
+export function TemporalLayerItem({ dataset }: TemporalLayerItemProps) {
   const dispatch = useDispatch<AppDispatch>();
   const mapLayers = useSelector((state: RootState) => state.explore.mapLayers);
 
   const isSelected = mapLayers.some(
     (l) => l.data.layer_id === dataset.layer_id,
   );
-
-  const unit =
-    'unit' in dataset.dataset_info ? dataset.dataset_info.unit : 'N/A';
 
   return (
     <div
@@ -46,25 +34,10 @@ export function TemporalLayerItem({
           'bg-[#FFF] text-[#2C343C] border-[#D1D5DB] hover:border-[#13294B] hover:text-[#13294B]':
             !isSelected,
         },
-        {
-          'py-1': climateSelectedOption === 'climate_scenario',
-        },
       )}
     >
       {/* Left section: Icon + Name + Info */}
       <div className="flex flex-row gap-1 w-full flex-1 items-start ml-2 overflow-hidden">
-        {/* Icon */}
-        {/*Only show icon when climate scenario is selected and listing climate variables*/}
-        {climateVariableIcons.map(({ type, icon }) =>
-          'climate_variable' in dataset.dataset_info &&
-          dataset.dataset_info?.climate_variable === type &&
-          climateSelectedOption === 'climate_scenario' ? (
-            <div key={type} className="mt-0.5">
-              {icon({ className: 'w-4 h-4' })}
-            </div>
-          ) : null,
-        )}
-
         {/* Text Content */}
         <div className="flex flex-col min-w-0 overflow-hidden">
           <div
@@ -74,25 +47,8 @@ export function TemporalLayerItem({
               'group-hover:whitespace-normal group-hover:overflow-visible',
             )}
           >
-            {climateSelectedOption === 'climate_variable'
-              ? truncateClimateDatasetPrefix(dataset.display_name)
-              : truncateClimateDatasetSuffix(dataset.display_name)}
+            {dataset.display_name}
           </div>
-          {/*Only show unit when climate scenario is selected and listing climate variables*/}
-          {climateSelectedOption === 'climate_scenario' ? (
-            <div
-              className={className(
-                'whitespace-nowrap italic overflow-hidden text-ellipsis capitalize text-[11px]',
-                {
-                  'text-[#2C343C8A]': isSelected,
-                  'text-[#13294B8A]': !isSelected,
-                },
-              )}
-            >
-              {/*TODO* {modelCount} models • {unit}*/}
-              {unit}
-            </div>
-          ) : null}
         </div>
       </div>
 

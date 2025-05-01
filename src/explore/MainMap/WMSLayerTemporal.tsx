@@ -18,16 +18,14 @@ export type WMSLayerTemporalProps = {
 export function WMSLayerTemporal({ layer, prevLayer }: WMSLayerTemporalProps) {
   const { ogcClient } = useContext(GeoExplorerContext);
 
-  const numTimestamps = layer.data.dataset_info.timestamps.length;
+  const numTimestamps = layer.data.timestamps.length;
 
   const curTimestamp =
-    numTimestamps > 0
-      ? layer.data.dataset_info.timestamps[layer.timestampIdx]
-      : '';
+    numTimestamps > 0 ? layer.data.timestamps[layer.timestampIdx] : '';
   const prevTimestamp =
-    prevCircular(layer.data.dataset_info.timestamps, layer.timestampIdx) ?? '';
+    prevCircular(layer.data.timestamps, layer.timestampIdx) ?? '';
   const nextTimestamp =
-    nextCircular(layer.data.dataset_info.timestamps, layer.timestampIdx) ?? '';
+    nextCircular(layer.data.timestamps, layer.timestampIdx) ?? '';
 
   const tiles = useMemo(() => {
     const params: Params = {
@@ -87,9 +85,7 @@ export function WMSLayerTemporal({ layer, prevLayer }: WMSLayerTemporalProps) {
           dispatch(
             setTimestampIdx({
               layer_id: layer.data.layer_id,
-              index:
-                (layer.timestampIdx + 1) %
-                layer.data.dataset_info.timestamps.length,
+              index: (layer.timestampIdx + 1) % layer.data.timestamps.length,
             }),
           );
         }, 1000);

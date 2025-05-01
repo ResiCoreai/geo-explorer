@@ -1,17 +1,16 @@
 import { Box, Stack } from '@mui/material';
 import classNames from 'classnames';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import { LAYER_SETTINGS_HEIGHT } from '@ncsa/geo-explorer/config';
+import { useImplementation } from '@ncsa/geo-explorer/hooks/useImplementation';
 import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
 import { toggleLayerSettings } from '@ncsa/geo-explorer/store/explore/slice';
-import { isVectorData } from '@ncsa/geo-explorer/types';
 
 export function MapLayerSettings() {
   const { Header, StyleSettings, TimeSelector, WFSFeatureTable } =
-    useContext(GeoExplorerContext).components;
+    useImplementation();
 
   const dispatch = useDispatch<AppDispatch>();
   const selectedLayer = useSelector((state: RootState) =>
@@ -39,9 +38,10 @@ export function MapLayerSettings() {
           )}
           sx={{
             width: '100%',
-            height: !isVectorData(selectedLayer)
-              ? 'auto'
-              : LAYER_SETTINGS_HEIGHT,
+            height:
+              selectedLayer.data.layer_type === 'raster'
+                ? 'auto'
+                : LAYER_SETTINGS_HEIGHT,
           }}
         >
           <Header
@@ -50,10 +50,8 @@ export function MapLayerSettings() {
               dispatch(toggleLayerSettings());
             }}
           />
-          {selectedLayer.data.dataset_info.timestamps.length > 0 && (
-            <TimeSelector />
-          )}
-          {isVectorData(selectedLayer) ? (
+          {selectedLayer.data.timestamps.length > 0 && <TimeSelector />}
+          {selectedLayer.data.layer_type !== 'raster' ? (
             <Box className="flex-1 min-h-0 cursor-auto">
               <WFSFeatureTable dataset={selectedLayer.data} />
             </Box>

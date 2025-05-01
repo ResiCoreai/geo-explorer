@@ -10,13 +10,15 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import { FitBounds } from '@ncsa/geo-explorer/explore/MainMap/controls/FitBounds';
+import { useImplementation } from '@ncsa/geo-explorer/hooks/useImplementation';
 import { AppDispatch, RootState, store } from '@ncsa/geo-explorer/store';
 import { setSelectedFeatures } from '@ncsa/geo-explorer/store/explore/slice';
 import { isAbortError } from '@ncsa/geo-explorer/utils/maplibre-utils';
 
 export function MainMap() {
   const { LegendPanel, RippleOverlay, WMSLayer, SelectedFeatures } =
-    useContext(GeoExplorerContext).components;
+    useImplementation();
+
   const dispatch = useDispatch<AppDispatch>();
   const { accessToken, ogcClient, isProtectedResource } =
     useContext(GeoExplorerContext);
@@ -87,10 +89,7 @@ export function MainMap() {
       }}
       interactiveLayerIds={['storage']}
       onClick={(e) => {
-        if (
-          selectedLayer &&
-          selectedLayer.data.dataset_info.dataset_type === 'vector'
-        ) {
+        if (selectedLayer && selectedLayer.data.layer_type !== 'raster') {
           ogcClient?.identifyFeature(e, selectedLayer.data).then((features) => {
             dispatch(setSelectedFeatures(features));
           });
@@ -101,22 +100,20 @@ export function MainMap() {
     >
       <NavigationControl position="top-right" visualizePitch={true} />
       <FullscreenControl position="top-right" />
-      <Source
-        type="raster"
-        tiles={
-          baseMaps.length > 0
-            ? [
-                baseMaps.find((b) => b.layer_id === selectedBaseMap)
-                  ?.tile_url_template ??
-                  baseMaps[0]?.tile_url_template ??
-                  '',
-              ]
-            : []
-        }
-        tileSize={256}
-      >
-        <Layer type="raster" />
-      </Source>
+      {baseMaps.length > 0 && (
+        <Source
+          type="raster"
+          tiles={[
+            baseMaps.find((b) => b.layer_id === selectedBaseMap)
+              ?.tile_url_template ??
+              baseMaps[0]?.tile_url_template ??
+              '',
+          ]}
+          tileSize={256}
+        >
+          <Layer type="raster" />
+        </Source>
+      )}
 
       {mapLayers.map((layer, index) => (
         <WMSLayer

@@ -10,10 +10,10 @@ import {
   Typography,
 } from '@mui/material';
 import { parseColor } from '@react-stately/color';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
+import { useImplementation } from '@ncsa/geo-explorer/hooks/useImplementation';
 import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
 import { setLayerStyleSLD } from '@ncsa/geo-explorer/store/explore/actions';
 import {
@@ -28,7 +28,8 @@ export type StyleSettingsProps = {
 };
 
 export function StyleSettings({ open, onClose }: StyleSettingsProps) {
-  const { ColorInput, NumberInput } = useContext(GeoExplorerContext).components;
+  const { ColorInput, NumberInput } = useImplementation();
+
   const dispatch = useDispatch<AppDispatch>();
   const selectedLayer = useSelector((state: RootState) =>
     state.explore.mapLayers.find(
@@ -85,51 +86,47 @@ export function StyleSettings({ open, onClose }: StyleSettingsProps) {
           </IconButton>
         </Stack>
         <Box className="pb-[24px] px-[32px]">
-          {selectedLayer.data.dataset_info.dataset_type === 'vector' &&
-            selectedLayer.data.dataset_info.feature_type === 'point' && (
-              <>
-                <Divider className="my-[20px]" />
-                <Typography className="font-bold text-[16px]">
-                  Radius
-                </Typography>
-                <NumberInput
-                  value={style.radius}
-                  onChange={(value) => {
-                    updateStyleDebounced({
-                      radius: value,
-                    });
-                  }}
-                  min={1}
-                  max={20}
-                  renderValue={String}
-                />
-              </>
-            )}
+          {selectedLayer.data.layer_type === 'point' && (
+            <>
+              <Divider className="my-[20px]" />
+              <Typography className="font-bold text-[16px]">Radius</Typography>
+              <NumberInput
+                value={style.radius}
+                onChange={(value) => {
+                  updateStyleDebounced({
+                    radius: value,
+                  });
+                }}
+                min={1}
+                max={20}
+                renderValue={String}
+              />
+            </>
+          )}
 
-          {selectedLayer.data.dataset_info.dataset_type === 'vector' &&
-            (selectedLayer.data.dataset_info.feature_type === 'point' ||
-              selectedLayer.data.dataset_info.feature_type === 'polygon') && (
-              <>
-                <Divider className="my-[20px]" />
-                <Typography className="font-bold text-[16px]">
-                  Fill Color
-                </Typography>
-                <ColorInput
-                  value={parseColor(style.fillColor).withChannelValue(
-                    'alpha',
-                    style.fillOpacity,
-                  )}
-                  onChange={(color) => {
-                    updateStyleDebounced({
-                      fillColor: color.toString('hex'),
-                      fillOpacity: color.getChannelValue('alpha'),
-                    });
-                  }}
-                />
-              </>
-            )}
+          {(selectedLayer.data.layer_type === 'point' ||
+            selectedLayer.data.layer_type === 'polygon') && (
+            <>
+              <Divider className="my-[20px]" />
+              <Typography className="font-bold text-[16px]">
+                Fill Color
+              </Typography>
+              <ColorInput
+                value={parseColor(style.fillColor).withChannelValue(
+                  'alpha',
+                  style.fillOpacity,
+                )}
+                onChange={(color) => {
+                  updateStyleDebounced({
+                    fillColor: color.toString('hex'),
+                    fillOpacity: color.getChannelValue('alpha'),
+                  });
+                }}
+              />
+            </>
+          )}
 
-          {selectedLayer.data.dataset_info.dataset_type !== 'raster' && (
+          {selectedLayer.data.layer_type !== 'raster' && (
             <>
               <Divider className="my-[20px]" />
               <Typography className="font-bold text-[16px]">

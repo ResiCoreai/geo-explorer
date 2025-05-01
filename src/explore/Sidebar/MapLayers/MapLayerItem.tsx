@@ -4,11 +4,10 @@ import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { Box, IconButton, Stack, Typography } from '@mui/material';
 import classNames from 'classnames';
-import { useCallback, useContext, useRef } from 'react';
+import { useCallback, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
-import { getLayerIconByCategory } from '@ncsa/geo-explorer/explore/Sidebar/utils/icons';
+import { useImplementation } from '@ncsa/geo-explorer/hooks/useImplementation';
 import { LayerControlIcon } from '@ncsa/geo-explorer/icons/LayerControl';
 import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
 import {
@@ -20,11 +19,6 @@ import {
   toggleVisibility,
 } from '@ncsa/geo-explorer/store/explore/slice';
 import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
-import {
-  isCategoricalData,
-  isClimateData,
-  isSingleCategoryData,
-} from '@ncsa/geo-explorer/types';
 
 export type MapLayerItemProps = {
   index: number;
@@ -32,12 +26,8 @@ export type MapLayerItemProps = {
 };
 
 export function MapLayerItem({ index, layer }: MapLayerItemProps) {
-  const {
-    CategoricalLegendIcon,
-    ClimateLayerSummary,
-    ClimateLegendIcon,
-    SingleLegendIcon,
-  } = useContext(GeoExplorerContext).components;
+  const { LegendIcon, TemporalLayerSummary } = useImplementation();
+
   const dispatch = useDispatch<AppDispatch>();
 
   const selectedLayer = useSelector((state: RootState) =>
@@ -139,15 +129,7 @@ export function MapLayerItem({ index, layer }: MapLayerItemProps) {
           <LayerControlIcon />
         </Stack>
         <Stack className="items-center justify-center mx-[6px]">
-          {isClimateData(layer) ? (
-            <ClimateLegendIcon layer={layer} />
-          ) : isCategoricalData(layer) ? (
-            <CategoricalLegendIcon layer={layer} />
-          ) : isSingleCategoryData(layer) ? (
-            <SingleLegendIcon layer={layer} />
-          ) : (
-            getLayerIconByCategory(layer)?.({ className: 'w-[18px] h-[18px]' })
-          )}
+          <LegendIcon layer={layer} />
         </Stack>
 
         <Typography className="flex-auto min-w-0 whitespace-nowrap overflow-hidden text-ellipsis text-[14px] font-semibold">
@@ -184,8 +166,8 @@ export function MapLayerItem({ index, layer }: MapLayerItemProps) {
           </IconButton>
         </Stack>
       </Stack>
-      {selected && isClimateData(layer) && (
-        <ClimateLayerSummary layer={layer} />
+      {selected && layer.data.timestamps.length > 0 && (
+        <TemporalLayerSummary layer={layer} />
       )}
     </Box>
   );

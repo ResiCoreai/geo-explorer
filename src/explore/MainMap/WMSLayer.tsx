@@ -1,6 +1,4 @@
-import { useContext } from 'react';
-
-import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
+import { useImplementation } from '@ncsa/geo-explorer/hooks/useImplementation';
 import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
 
 export type WMSLayerProps = {
@@ -9,10 +7,10 @@ export type WMSLayerProps = {
 };
 
 export function WMSLayer({ layer, prevLayer }: WMSLayerProps) {
-  const { WMSLayerSimple, WMSLayerTemporal } =
-    useContext(GeoExplorerContext).components;
-  return layer.data.dataset_info.dataset_type === 'raster' &&
-    layer.data.dataset_info.timestamps.length > 0 ? (
+  const { WMSLayerSimple, WMSLayerTemporal } = useImplementation();
+
+  return layer.data.layer_type === 'raster' &&
+    layer.data.timestamps.length > 0 ? (
     <WMSLayerTemporal layer={layer} prevLayer={prevLayer} />
   ) : (
     <WMSLayerSimple layer={layer} prevLayer={prevLayer} />
