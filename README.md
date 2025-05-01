@@ -82,6 +82,13 @@ This will download `@ncsa/geo-explorer` from GitHub Packages into your project.
   Example: `(url) => /geoserver/.test(url)` ensures that requests to paths containing `geoserver` are automatically
   secured.
 
+- **`children`**: The main component to render.  
+  This is usually the `GeoExplorer` component, which contains the map and sidebar.
+
+- **`components`** *(optional)*: A dictionary of custom components to override built-in ones. See the below section 
+  for more details.
+
+
 ### Advanced: Register Custom Components
 
 You can extend or override built-in components by passing them into `GeoExplorerProvider` via the `components` prop.
