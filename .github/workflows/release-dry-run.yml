@@ -23,4 +23,4 @@ jobs:
           node-version: "20"
           cache: "npm"
       - name: Release Dry Run
-        run: npx semantic-release --dry-run
+        run: npx semantic-release --dry-run --no-ci
