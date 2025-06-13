@@ -1,0 +1,26 @@
+name: release-dry-run
+
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+    branches:
+      - main
+
+env:
+  NPM_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
+
+jobs:
+  release-dry-run:
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+      - name: Release Dry Run
+        run: npx semantic-release

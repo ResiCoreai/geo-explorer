@@ -7,6 +7,14 @@
     ".": "./dist/index.js",
     "./index.css": "./dist/index.css"
   },
+  "release": {
+    "branches": [
+      "main"
+    ]
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "scripts": {
     "clean": "rm -rf dist",
     "tailwind": "tailwindcss -i ./src/input.css -o ./dist/index.css",

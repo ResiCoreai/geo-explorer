@@ -36,6 +36,6 @@ jobs:
       - name: build
         run: npm run build
 
-      # push NPM package
-      - name: publish
-        run: npm publish --registry=https://npm.pkg.github.com/
+      # Semantic release
+      - name: release
+        run: npx semantic-release
