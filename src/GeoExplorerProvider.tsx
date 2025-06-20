@@ -11,7 +11,7 @@ import {
   ComponentRegistry,
   defaultComponents,
 } from '@ncsa/geo-explorer/ComponentRegistry';
-import { store } from '@ncsa/geo-explorer/store';
+import { GeoExplorerReduxContext, store } from '@ncsa/geo-explorer/store';
 import { setLayers } from '@ncsa/geo-explorer/store/explore/slice';
 import { GeoExplorerConfig } from '@ncsa/geo-explorer/types';
 import { resolveFeatureType } from '@ncsa/geo-explorer/utils/dataset';
@@ -80,7 +80,9 @@ export function GeoExplorerProvider({
 
   return (
     <GeoExplorerContext.Provider value={contextValue}>
-      <ReduxStoreProvider store={store}>{children}</ReduxStoreProvider>
+      <ReduxStoreProvider context={GeoExplorerReduxContext} store={store}>
+        {children}
+      </ReduxStoreProvider>
     </GeoExplorerContext.Provider>
   );
 }

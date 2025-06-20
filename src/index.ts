@@ -5,7 +5,7 @@ export { OGCClient } from './utils/ogcClient';
 export { useOGCClient } from './hooks/useOGCClient';
 export { useImplementation } from './hooks/useImplementation';
 
-export { store } from './store';
+export { store, useStore, useSelector, useDispatch } from './store';
 export * from './store/explore/slice';
 export * from './store/explore/actions';
 
