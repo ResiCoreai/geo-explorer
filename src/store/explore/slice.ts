@@ -151,6 +151,9 @@ export const exploreSlice = createSlice({
         layer.visible = !layer.visible;
       }
     },
+    setMapLayers(state, action: PayloadAction<{ layers: MapLayer[] }>) {
+      state.mapLayers = action.payload.layers;
+    },
     addLayer(state, action: PayloadAction<{ layer_id: string }>) {
       const dataset =
         state.simpleLayerInventory.find(
@@ -237,7 +240,7 @@ export const exploreSlice = createSlice({
         layer.styleSLD = '';
       }
     },
-    setLayers(
+    setLayerInventory(
       state,
       action: PayloadAction<{
         simpleLayerInventory: Dataset[];
@@ -259,6 +262,7 @@ export const {
   toggleLayerSettings,
   setShowLayerSettings,
   selectBaseMap,
+  setMapLayers,
   addLayer,
   removeLayer,
   reorderStart,
@@ -270,5 +274,5 @@ export const {
   setSelectedFeatures,
   setLayerStyle,
   resetLayerStyle,
-  setLayers,
+  setLayerInventory,
 } = exploreSlice.actions;
