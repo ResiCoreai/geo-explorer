@@ -2,9 +2,13 @@ import { AddCircleOutline, RemoveCircle } from '@mui/icons-material';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import { IconButton } from '@mui/material';
 import className from 'classnames';
-import { useDispatch, useSelector } from 'react-redux';
 
-import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
+import {
+  AppDispatch,
+  RootState,
+  useDispatch,
+  useSelector,
+} from '@ncsa/geo-explorer/store';
 import {
   addLayer,
   removeLayer,

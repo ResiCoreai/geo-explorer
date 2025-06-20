@@ -7,9 +7,13 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
-import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
+import {
+  AppDispatch,
+  RootState,
+  useDispatch,
+  useSelector,
+} from '@ncsa/geo-explorer/store';
 import { selectBaseMap } from '@ncsa/geo-explorer/store/explore/slice';
 
 export const BaseMaps: React.FC = () => {

@@ -1,7 +1,6 @@
 import { bbox } from '@turf/turf';
 import { useEffect } from 'react';
 import { useMap } from 'react-map-gl/maplibre';
-import { useSelector } from 'react-redux';
 
 import {
   FIT_BOUNDS_PADDING,
@@ -9,7 +8,7 @@ import {
   MAX_ZOOM_LEVEL,
   SIDEBAR_WIDTH,
 } from '@ncsa/geo-explorer/config';
-import { RootState } from '@ncsa/geo-explorer/store';
+import { RootState, useSelector } from '@ncsa/geo-explorer/store';
 
 export function FitBounds() {
   const { current: map } = useMap();

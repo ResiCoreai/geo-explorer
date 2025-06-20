@@ -1,11 +1,15 @@
 import { Box, Stack } from '@mui/material';
 import classNames from 'classnames';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { LAYER_SETTINGS_HEIGHT } from '@ncsa/geo-explorer/config';
 import { useImplementation } from '@ncsa/geo-explorer/hooks/useImplementation';
-import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
+import {
+  AppDispatch,
+  RootState,
+  useDispatch,
+  useSelector,
+} from '@ncsa/geo-explorer/store';
 import { toggleLayerSettings } from '@ncsa/geo-explorer/store/explore/slice';
 
 export function MapLayerSettings() {

@@ -5,11 +5,15 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { Box, IconButton, Stack, Typography } from '@mui/material';
 import classNames from 'classnames';
 import { useCallback, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { useImplementation } from '@ncsa/geo-explorer/hooks/useImplementation';
 import { LayerControlIcon } from '@ncsa/geo-explorer/icons/LayerControl';
-import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
+import {
+  AppDispatch,
+  RootState,
+  useDispatch,
+  useSelector,
+} from '@ncsa/geo-explorer/store';
 import {
   reorderEnd,
   reorderStart,

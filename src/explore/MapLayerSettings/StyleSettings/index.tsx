@@ -11,10 +11,14 @@ import {
 } from '@mui/material';
 import { parseColor } from '@react-stately/color';
 import { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { useImplementation } from '@ncsa/geo-explorer/hooks/useImplementation';
-import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
+import {
+  AppDispatch,
+  RootState,
+  useDispatch,
+  useSelector,
+} from '@ncsa/geo-explorer/store';
 import { setLayerStyleSLD } from '@ncsa/geo-explorer/store/explore/actions';
 import {
   defaultLayerStyle,

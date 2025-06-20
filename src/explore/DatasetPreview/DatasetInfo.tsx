@@ -1,8 +1,7 @@
 import { Box, Divider, Typography } from '@mui/material';
-import { useSelector } from 'react-redux';
 
 import { layerTypeIcons } from '@ncsa/geo-explorer/explore/Sidebar/utils/icons';
-import { RootState } from '@ncsa/geo-explorer/store';
+import { RootState, useSelector } from '@ncsa/geo-explorer/store';
 
 export const DatasetInfo = () => {
   const dataset = useSelector(

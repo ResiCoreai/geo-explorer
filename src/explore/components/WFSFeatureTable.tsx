@@ -2,10 +2,9 @@ import { Box } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Feature, GeoJsonProperties } from 'geojson';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { useDispatch } from 'react-redux';
 
 import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
-import { AppDispatch } from '@ncsa/geo-explorer/store';
+import { AppDispatch, useDispatch } from '@ncsa/geo-explorer/store';
 import {
   SimpleFeature,
   setSelectedFeatures,

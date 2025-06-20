@@ -3,12 +3,11 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { Box, IconButton, Stack } from '@mui/material';
 import classNames from 'classnames';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 
 import { SIDEBAR_WIDTH } from '@ncsa/geo-explorer/config';
 import { MainMap } from '@ncsa/geo-explorer/explore/MainMap';
 import { useImplementation } from '@ncsa/geo-explorer/hooks/useImplementation';
-import { RootState } from '@ncsa/geo-explorer/store';
+import { RootState, useSelector } from '@ncsa/geo-explorer/store';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
 

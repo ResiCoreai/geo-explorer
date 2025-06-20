@@ -13,11 +13,15 @@ import {
   Typography,
 } from '@mui/material';
 import { useContext } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import { DatasetDescriptionTooltip } from '@ncsa/geo-explorer/icons/DatasetDescriptionTooltip';
-import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
+import {
+  AppDispatch,
+  RootState,
+  useDispatch,
+  useSelector,
+} from '@ncsa/geo-explorer/store';
 import { removeLayer } from '@ncsa/geo-explorer/store/explore/slice';
 
 export type HeaderProps = {

@@ -3,10 +3,9 @@ import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined';
 import { Box, InputAdornment, MenuItem, Select } from '@mui/material';
 import classNames from 'classnames';
 import { useEffect, useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
 
 import { useImplementation } from '@ncsa/geo-explorer/hooks/useImplementation';
-import { RootState } from '@ncsa/geo-explorer/store';
+import { RootState, useSelector } from '@ncsa/geo-explorer/store';
 import { Dataset } from '@ncsa/geo-explorer/types';
 
 export function TemporalLayerList() {

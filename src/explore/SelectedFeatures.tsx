@@ -13,9 +13,13 @@ import {
 import { center } from '@turf/turf';
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { useMap } from 'react-map-gl/maplibre';
-import { useDispatch, useSelector } from 'react-redux';
 
-import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
+import {
+  AppDispatch,
+  RootState,
+  useDispatch,
+  useSelector,
+} from '@ncsa/geo-explorer/store';
 import { setShowLayerSettings } from '@ncsa/geo-explorer/store/explore/slice';
 
 export function SelectedFeatures() {

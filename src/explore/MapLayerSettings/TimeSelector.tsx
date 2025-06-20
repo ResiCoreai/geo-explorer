@@ -2,9 +2,13 @@ import { Pause, PlayArrow } from '@mui/icons-material';
 import { Box, IconButton, Stack, Typography } from '@mui/material';
 import classNames from 'classnames';
 import { useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
-import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
+import {
+  AppDispatch,
+  RootState,
+  useDispatch,
+  useSelector,
+} from '@ncsa/geo-explorer/store';
 import {
   setTimestampIdx,
   togglePlaying,
