@@ -12,7 +12,7 @@ import {
   defaultComponents,
 } from '@ncsa/geo-explorer/ComponentRegistry';
 import { GeoExplorerReduxContext, store } from '@ncsa/geo-explorer/store';
-import { setLayers } from '@ncsa/geo-explorer/store/explore/slice';
+import { setLayerInventory } from '@ncsa/geo-explorer/store/explore/slice';
 import { GeoExplorerConfig } from '@ncsa/geo-explorer/types';
 import { resolveFeatureType } from '@ncsa/geo-explorer/utils/dataset';
 import { OGCClient } from '@ncsa/geo-explorer/utils/ogcClient';
@@ -61,7 +61,7 @@ export function GeoExplorerProvider({
       const { ogcClient } = contextValue;
       if (!config || !ogcClient) return;
       store.dispatch(
-        setLayers({
+        setLayerInventory({
           simpleLayerInventory: await Promise.all(
             config.simple_layers.map((dataset) =>
               resolveFeatureType(dataset, ogcClient),
