@@ -220,6 +220,7 @@ styles. You can access or extend the state by connecting to the Redux store expo
 | `toggleLayerSettings`  | Toggle visibility of the layer settings panel                   |
 | `setShowLayerSettings` | Explicitly show/hide the layer settings panel                   |
 | `selectBaseMap`        | Set the currently selected basemap                              |
+| `setMapLayers`         | Set the active map layers                                       |
 | `addLayer`             | Add a dataset to the active map layers                          |
 | `removeLayer`          | Remove a layer from the map                                     |
 | `toggleVisibility`     | Show/hide a specific map layer                                  |
@@ -231,7 +232,7 @@ styles. You can access or extend the state by connecting to the Redux store expo
 | `reorderStart`         | Record the initial index when starting a drag/reorder operation |
 | `reorderEnd`           | Apply reordering of layers                                      |
 | `setCurrentIndex`      | Update the current drag index                                   |
-| `initLayers`           | Initialize layers from config (data, climate, basemaps)         |
+| `setLayerInventory`    | Set layer inventory (data, climate, basemaps)                   |
 
 ---
 
