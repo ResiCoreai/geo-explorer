@@ -35,6 +35,11 @@ type Props = {
   isProtectedResource?: (url: string) => boolean;
   children: ReactNode;
   components?: Partial<ComponentRegistry>;
+  onReady?: (args: {
+    config: GeoExplorerConfig;
+    ogcClient: OGCClient;
+    store: typeof store;
+  }) => void | Promise<void>;
 };
 
 export function GeoExplorerProvider({
@@ -43,6 +48,7 @@ export function GeoExplorerProvider({
   isProtectedResource,
   children,
   components,
+  onReady,
 }: Props) {
   const contextValue: ContextType<typeof GeoExplorerContext> = useMemo(() => {
     return {
@@ -60,6 +66,8 @@ export function GeoExplorerProvider({
     (async function init() {
       const { ogcClient } = contextValue;
       if (!config || !ogcClient) return;
+
+      //  Step 1: Default init
       store.dispatch(
         setLayerInventory({
           simpleLayerInventory: await Promise.all(
@@ -75,6 +83,11 @@ export function GeoExplorerProvider({
           baseMaps: config.basemaps,
         }),
       );
+
+      // Step 2: Custom post-init hook
+      if (onReady) {
+        await onReady({ config, ogcClient, store });
+      }
     })();
   }, [config, contextValue]);
 
