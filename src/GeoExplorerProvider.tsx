@@ -13,7 +13,7 @@ import {
 } from '@ncsa/geo-explorer/ComponentRegistry';
 import { GeoExplorerReduxContext, store } from '@ncsa/geo-explorer/store';
 import { setLayerInventory } from '@ncsa/geo-explorer/store/explore/slice';
-import { GeoExplorerConfig } from '@ncsa/geo-explorer/types';
+import { GeoExplorerConfig, MapConfig } from '@ncsa/geo-explorer/types';
 import { resolveFeatureType } from '@ncsa/geo-explorer/utils/dataset';
 import { OGCClient } from '@ncsa/geo-explorer/utils/ogcClient';
 
@@ -22,11 +22,13 @@ export const GeoExplorerContext = createContext<{
   ogcClient: OGCClient | null;
   isProtectedResource?: ((url: string) => boolean) | undefined;
   __UNSTABLE_components: ComponentRegistry;
+  mapConfig?: MapConfig | null;
 }>({
   accessToken: undefined,
   ogcClient: null,
   isProtectedResource: () => false,
   __UNSTABLE_components: defaultComponents,
+  mapConfig: null,
 });
 
 type Props = {
@@ -59,6 +61,7 @@ export function GeoExplorerProvider({
         ...defaultComponents,
         ...components,
       },
+      mapConfig: config?.mapConfig ?? null,
     };
   }, [config, components]);
 

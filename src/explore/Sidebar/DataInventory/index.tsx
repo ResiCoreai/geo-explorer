@@ -26,6 +26,7 @@ export function DataInventory() {
           </IconButton>
         </Box>
       }
+      initialExpanded={true}
     >
       <Box className="flex flex-col h-full">
         <Box className="flex-none px-[32px]">

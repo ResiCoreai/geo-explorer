@@ -22,11 +22,20 @@ export interface Basemap {
   thumbnail_url: string;
 }
 
+export interface MapConfig {
+  center: [number, number];
+  zoom: number;
+  pitch?: number;
+  maxPitch?: number;
+  tileSize?: number;
+}
+
 export interface GeoExplorerConfig {
   bearerToken?: string;
   basemaps: Basemap[];
   simple_layers: Dataset[];
   temporal_layers: Dataset[];
+  mapConfig?: MapConfig;
 }
 
 export interface FeatureTypeInfo {

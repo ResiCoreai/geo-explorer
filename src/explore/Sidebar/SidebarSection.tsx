@@ -9,6 +9,7 @@ export type SidebarSectionProps = {
   weight?: number;
   extras?: ReactNode;
   children?: ReactNode;
+  initialExpanded?: boolean;
 };
 
 export function SidebarSection({
@@ -17,8 +18,9 @@ export function SidebarSection({
   extras,
   weight = 1,
   children,
+  initialExpanded = true,
 }: SidebarSectionProps) {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(initialExpanded);
 
   return (
     <>

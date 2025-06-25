@@ -25,7 +25,7 @@ export function MainMap() {
     useImplementation();
 
   const dispatch = useDispatch<AppDispatch>();
-  const { accessToken, ogcClient, isProtectedResource } =
+  const { accessToken, ogcClient, isProtectedResource, mapConfig } =
     useContext(GeoExplorerContext);
 
   const mapLayers = useSelector((state: RootState) => state.explore.mapLayers);
@@ -87,10 +87,10 @@ export function MainMap() {
         }
       }}
       initialViewState={{
-        longitude: -88.2272 - 3,
-        latitude: 40.1075,
-        zoom: 6,
-        pitch: 0,
+        longitude: mapConfig?.center?.[0] ?? -88.2272 - 3,
+        latitude: mapConfig?.center?.[1] ?? 40.1075,
+        zoom: mapConfig?.zoom ?? 6,
+        pitch: mapConfig?.pitch ?? 0,
       }}
       interactiveLayerIds={['storage']}
       onClick={(e) => {
@@ -101,7 +101,7 @@ export function MainMap() {
         }
       }}
       cursor={selectedLayer ? 'crosshair' : ''}
-      maxPitch={85}
+      maxPitch={mapConfig?.maxPitch ?? 85}
     >
       <NavigationControl position="top-right" visualizePitch={true} />
       <FullscreenControl position="top-right" />
@@ -114,7 +114,7 @@ export function MainMap() {
               baseMaps[0]?.tile_url_template ??
               '',
           ]}
-          tileSize={256}
+          tileSize={mapConfig?.tileSize ?? 256}
         >
           <Layer type="raster" />
         </Source>
