@@ -23,8 +23,8 @@ export interface Basemap {
 }
 
 export interface MapConfig {
-  center: [number, number];
-  zoom: number;
+  center?: [number, number];
+  zoom?: number;
   pitch?: number;
   maxPitch?: number;
   tileSize?: number;

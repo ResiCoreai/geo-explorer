@@ -15,3 +15,8 @@ export {
   SimpleLayerItemProps,
   SimpleLayerItem,
 } from './explore/Sidebar/DataInventory/SimpleLayerItem';
+
+export * from './MapAccessRegistery';
+
+// TODO export Map type from maplibre-gl used in geo-explorer need to think a better way to do this
+export type { Map } from 'maplibre-gl';

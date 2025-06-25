@@ -8,6 +8,7 @@ import {
 } from 'react-map-gl/maplibre';
 
 import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
+import { provideMapInstanceToHandlers } from '@ncsa/geo-explorer/MapAccessRegistery';
 import { FitBounds } from '@ncsa/geo-explorer/explore/MainMap/controls/FitBounds';
 import { useImplementation } from '@ncsa/geo-explorer/hooks/useImplementation';
 import {
@@ -86,6 +87,7 @@ export function MainMap() {
           // do nothing
         }
       }}
+      onLoad={(e) => provideMapInstanceToHandlers(e.target)}
       initialViewState={{
         longitude: mapConfig?.center?.[0] ?? -88.2272 - 3,
         latitude: mapConfig?.center?.[1] ?? 40.1075,
