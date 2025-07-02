@@ -50,7 +50,7 @@ export function StyleEditor({ layer }: Props) {
       </Stack>
       <Stack className="flex-1 py-[10px]">
         <Box className="flex-1 overflow-y-scroll">
-          <Accordion elevation={0}>
+          <Accordion elevation={0} defaultExpanded>
             <AccordionSummary expandIcon={<ExpandMore />}>
               <Typography className="font-medium uppercase">General</Typography>
             </AccordionSummary>
