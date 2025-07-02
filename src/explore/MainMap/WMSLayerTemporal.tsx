@@ -29,6 +29,7 @@ export function WMSLayerTemporal({ layer, prevLayer }: WMSLayerTemporalProps) {
   const tiles = useMemo(() => {
     const params: Params = {
       layers: [layer.data.layer_id],
+      styles: [layer.style_name],
       __style_version__: layer.version,
     };
     if (curTimestamp) {
@@ -42,6 +43,7 @@ export function WMSLayerTemporal({ layer, prevLayer }: WMSLayerTemporalProps) {
   const prevTiles = useMemo(() => {
     const params: Params = {
       layers: [layer.data.layer_id],
+      styles: [layer.style_name],
       __style_version__: layer.version,
     };
     if (prevTimestamp) {
@@ -55,6 +57,7 @@ export function WMSLayerTemporal({ layer, prevLayer }: WMSLayerTemporalProps) {
   const nextTiles = useMemo(() => {
     const params: Params = {
       layers: [layer.data.layer_id],
+      styles: [layer.style_name],
       __style_version__: layer.version,
     };
     if (nextTimestamp) {

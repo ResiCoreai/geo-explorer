@@ -2,9 +2,16 @@ import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
-import { Box, IconButton, Stack, Typography } from '@mui/material';
+import {
+  Box,
+  IconButton,
+  Menu,
+  MenuItem,
+  Stack,
+  Typography,
+} from '@mui/material';
 import classNames from 'classnames';
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 import { useImplementation } from '@ncsa/geo-explorer/hooks/useImplementation';
 import { LayerControlIcon } from '@ncsa/geo-explorer/icons/LayerControl';
@@ -19,6 +26,7 @@ import {
   reorderStart,
   selectMapLayer,
   setCurrentIndex,
+  setShowStyleSettings,
   toggleLayerSettings,
   toggleVisibility,
 } from '@ncsa/geo-explorer/store/explore/slice';
@@ -112,6 +120,9 @@ export function MapLayerItem({ index, layer }: MapLayerItemProps) {
     dispatch(toggleLayerSettings());
   }, [selected, layer]);
 
+  const [menuOpen, setMenuOpen] = useState(false);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
+
   return (
     <Box
       ref={elRef}
@@ -165,7 +176,12 @@ export function MapLayerItem({ index, layer }: MapLayerItemProps) {
               <VisibilityOffOutlinedIcon className="fill-[#13294B8C]" />
             )}
           </IconButton>
-          <IconButton size="small" className="flex-none text-[#13294B]">
+          <IconButton
+            size="small"
+            className="flex-none text-[#13294B]"
+            ref={anchorElRef}
+            onClick={() => setMenuOpen(true)}
+          >
             <MoreHorizOutlinedIcon className="fill-[#13294B8C]" />
           </IconButton>
         </Stack>
@@ -173,6 +189,22 @@ export function MapLayerItem({ index, layer }: MapLayerItemProps) {
       {selected && layer.data.timestamps.length > 0 && (
         <TemporalLayerSummary layer={layer} />
       )}
+      <Menu
+        anchorEl={anchorElRef.current}
+        open={menuOpen}
+        onClose={() => setMenuOpen(false)}
+      >
+        <MenuItem
+          onClick={(e) => {
+            e.stopPropagation();
+            dispatch(selectMapLayer({ layer_id: layer.data.layer_id }));
+            dispatch(setShowStyleSettings({ show: true }));
+            setMenuOpen(false);
+          }}
+        >
+          Appearance Settings
+        </MenuItem>
+      </Menu>
     </Box>
   );
 }

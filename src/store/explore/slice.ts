@@ -33,6 +33,7 @@ type ExploreState = {
   selectedDataset: string | null;
   mapLayers: MapLayer[];
   selectedLayer: string | null;
+  showStyleSettings: boolean;
   showLayerSettings: boolean;
   selectedBaseMap: string | null;
   selectedFeatures: SimpleFeature[];
@@ -59,6 +60,7 @@ export const exploreSlice = createSlice({
     selectedDataset: null,
     mapLayers: [],
     selectedLayer: null,
+    showStyleSettings: false,
     showLayerSettings: false,
     selectedBaseMap: null,
     selectedFeatures: [],
@@ -100,6 +102,9 @@ export const exploreSlice = createSlice({
     },
     setShowLayerSettings(state, action: PayloadAction<{ show: boolean }>) {
       state.showLayerSettings = action.payload.show;
+    },
+    setShowStyleSettings(state, action: PayloadAction<{ show: boolean }>) {
+      state.showStyleSettings = action.payload.show;
     },
     selectBaseMap(state, action: PayloadAction<{ layer_id: string | null }>) {
       if (action.payload.layer_id == null) {
@@ -176,6 +181,7 @@ export const exploreSlice = createSlice({
         timestampIdx: 0,
         visible: true,
         version: 0,
+        style_name: dataset.default_style_name ?? '',
         style: defaultLayerStyle,
         styleSLD: '',
       });
@@ -212,6 +218,21 @@ export const exploreSlice = createSlice({
     },
     setSelectedFeatures(state, action: PayloadAction<SimpleFeature[]>) {
       state.selectedFeatures = action.payload;
+    },
+    setLayerStyleName(
+      state,
+      action: PayloadAction<{
+        layer_id: string;
+        style_name: string;
+      }>,
+    ) {
+      const layer = state.mapLayers.find(
+        (layer) => layer.data.layer_id === action.payload.layer_id,
+      );
+      if (layer) {
+        layer.version++;
+        layer.style_name = action.payload.style_name;
+      }
     },
     setLayerStyle(
       state,
@@ -261,6 +282,7 @@ export const {
   selectMapLayer,
   toggleLayerSettings,
   setShowLayerSettings,
+  setShowStyleSettings,
   selectBaseMap,
   setMapLayers,
   addLayer,
@@ -272,6 +294,7 @@ export const {
   togglePlaying,
   setTimestampIdx,
   setSelectedFeatures,
+  setLayerStyleName,
   setLayerStyle,
   resetLayerStyle,
   setLayerInventory,
