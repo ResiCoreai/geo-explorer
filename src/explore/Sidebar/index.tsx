@@ -1,9 +1,9 @@
-import { StyleEditor } from '@ncsa/geo-explorer/explore/Sidebar/StyleEditor';
 import { useImplementation } from '@ncsa/geo-explorer/hooks/useImplementation';
 import { RootState, useSelector } from '@ncsa/geo-explorer/store';
 
 export function Sidebar() {
-  const { BaseMaps, DataInventory, MapLayers } = useImplementation();
+  const { BaseMaps, DataInventory, MapLayers, StyleEditor } =
+    useImplementation();
   const selectedLayer = useSelector((state: RootState) =>
     state.explore.mapLayers.find(
       (layer) => layer.data.layer_id === state.explore.selectedLayer,
