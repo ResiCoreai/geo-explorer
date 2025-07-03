@@ -6,6 +6,7 @@ export type MapLayer = {
   timestampIdx: number;
   visible: boolean;
   version: number; // used to keep track of style updates
+  style_name: string;
   style: MapLayerStyle;
   styleSLD: string;
 };

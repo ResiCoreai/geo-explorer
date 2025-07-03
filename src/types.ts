@@ -7,6 +7,7 @@ export interface Dataset {
   description: string;
   default_style_name?: string;
   ogc_service_url: string;
+  workspace: string;
   timestamps: string[];
   unit?: string;
   labels: {

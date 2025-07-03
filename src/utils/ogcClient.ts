@@ -77,6 +77,15 @@ export class OGCClient {
     });
   }
 
+  public async getStyleNames(dataset: Dataset): Promise<string[]> {
+    const { data } = await this.request<{
+      styles: { style: Array<{ name: string }> };
+    }>({
+      url: `${dataset.ogc_service_url}/rest/workspaces/${dataset.workspace}/styles.json`,
+    });
+    return data.styles.style.map((s) => s.name);
+  }
+
   public async getLegendJSON<T extends Symbolizer>(
     dataset: Dataset,
   ): Promise<Legend<T>> {
