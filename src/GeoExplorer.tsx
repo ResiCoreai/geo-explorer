@@ -1,11 +1,11 @@
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { Box, IconButton, Stack } from '@mui/material';
-import classNames from 'classnames';
 import { useState } from 'react';
 
 import { SIDEBAR_WIDTH } from '@ncsa/geo-explorer/config';
 import { MainMap } from '@ncsa/geo-explorer/explore/MainMap';
+import { LegendPanel } from '@ncsa/geo-explorer/explore/MainMap/LegendPanel';
 import { useImplementation } from '@ncsa/geo-explorer/hooks/useImplementation';
 import { RootState, useSelector } from '@ncsa/geo-explorer/store';
 
@@ -14,8 +14,11 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 export function GeoExplorer() {
   const { DatasetPreview, MapLayerSettings, Sidebar } = useImplementation();
 
-  const selectedMapLayer = useSelector(
-    (state: RootState) => state.explore.selectedLayer,
+  const mapLayers = useSelector((state: RootState) => state.explore.mapLayers);
+  const selectedLayer = useSelector((state: RootState) =>
+    state.explore.mapLayers.find(
+      (layer) => layer.data.layer_id === state.explore.selectedLayer,
+    ),
   );
 
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -52,20 +55,16 @@ export function GeoExplorer() {
           <Sidebar />
         </Box>
 
-        <Stack
-          direction="column"
-          className="flex-1 items-stretch min-w-0 relative"
-        >
-          <Box className="flex-1" />
-          <Box
-            className={classNames(
-              'flex-none pointer-events-auto transition-transform flex flex-colum items-center',
-              !selectedMapLayer && 'translate-y-full',
+        <Box className="flex-1 relative">
+          <Box className="pointer-events-auto absolute bottom-0 left-0 right-0">
+            {selectedLayer && (
+              <Box className="float-right m-2">
+                <LegendPanel layers={mapLayers} selectedLayer={selectedLayer} />
+              </Box>
             )}
-          >
             <MapLayerSettings />
           </Box>
-        </Stack>
+        </Box>
       </Stack>
       <DatasetPreview />
     </Box>
