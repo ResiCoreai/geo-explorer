@@ -152,8 +152,10 @@ export const exploreSlice = createSlice({
       const layer = state.mapLayers.find(
         (l) => l.data.layer_id === action.payload.layer_id,
       );
-      if (layer) {
-        layer.visible = !layer.visible;
+      if (!layer) return;
+      layer.visible = !layer.visible;
+      if (state.selectedLayer === action.payload.layer_id && !layer.visible) {
+        state.selectedFeatures = [];
       }
     },
     setMapLayers(state, action: PayloadAction<{ layers: MapLayer[] }>) {
@@ -194,8 +196,8 @@ export const exploreSlice = createSlice({
       if (state.selectedLayer === action.payload.layer_id) {
         state.selectedLayer = null;
         state.showLayerSettings = false;
+        state.selectedFeatures = [];
       }
-      state.selectedFeatures = [];
     },
     togglePlaying(state, action: PayloadAction<{ layer_id: string }>) {
       const layer = state.mapLayers.find(
