@@ -22,7 +22,8 @@ import { setSelectedFeatures } from '@ncsa/geo-explorer/store/explore/slice';
 import { isAbortError } from '@ncsa/geo-explorer/utils/maplibre-utils';
 
 export function MainMap() {
-  const { RippleOverlay, WMSLayer, SelectedFeatures } = useImplementation();
+  const { LegendPanel, RippleOverlay, WMSLayer, SelectedFeatures } =
+    useImplementation();
 
   const dispatch = useDispatch<AppDispatch>();
   const { accessToken, ogcClient, isProtectedResource, mapConfig } =
@@ -42,7 +43,6 @@ export function MainMap() {
   return (
     <Map
       id="map"
-      attributionControl={false}
       transformRequest={(url) => {
         if (isProtectedResource?.(url)) {
           const layer_id = new URLSearchParams(url).get('layers')!;
@@ -133,6 +133,12 @@ export function MainMap() {
       <RippleOverlay />
       <SelectedFeatures />
       <FitBounds />
+
+      {selectedLayer && (
+        <div className="absolute bottom-12 right-3 z-50">
+          <LegendPanel layers={mapLayers} selectedLayer={selectedLayer} />
+        </div>
+      )}
     </Map>
   );
 }

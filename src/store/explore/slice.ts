@@ -49,38 +49,6 @@ export const defaultLayerStyle: MapLayerStyle = {
   layerOpacity: 1,
 };
 
-function moveMapLayer(
-  mapLayers: MapLayer[],
-  fromIndex: number,
-  toIndex: number,
-): MapLayer[] {
-  if (
-    fromIndex >= 0 &&
-    fromIndex <= mapLayers.length &&
-    toIndex >= 0 &&
-    toIndex <= mapLayers.length &&
-    fromIndex !== toIndex
-  ) {
-    if (toIndex < fromIndex) {
-      return [
-        ...mapLayers.slice(0, toIndex),
-        mapLayers[fromIndex]!,
-        ...mapLayers.slice(toIndex, fromIndex),
-        ...mapLayers.slice(fromIndex + 1),
-      ];
-    } else {
-      return [
-        ...mapLayers.slice(0, fromIndex),
-        ...mapLayers.slice(fromIndex + 1, toIndex),
-        mapLayers[fromIndex]!,
-        ...mapLayers.slice(toIndex),
-      ];
-    }
-  } else {
-    return mapLayers;
-  }
-}
-
 export const exploreSlice = createSlice({
   name: 'mapLayers',
   initialState: {
@@ -125,7 +93,6 @@ export const exploreSlice = createSlice({
         if (layer) {
           state.selectedLayer = layer.data.layer_id;
           state.showLayerSettings = false;
-          state.showStyleSettings = false;
         }
       }
       state.selectedFeatures = [];
@@ -151,19 +118,31 @@ export const exploreSlice = createSlice({
     },
     reorderEnd: (state) => {
       const { currentIndex, prevIndex, mapLayers } = state;
-      state.mapLayers = moveMapLayer(mapLayers, prevIndex, currentIndex);
+      if (
+        prevIndex >= 0 &&
+        prevIndex <= mapLayers.length &&
+        currentIndex >= 0 &&
+        currentIndex <= mapLayers.length &&
+        prevIndex !== currentIndex
+      ) {
+        if (currentIndex < prevIndex) {
+          state.mapLayers = [
+            ...mapLayers.slice(0, currentIndex),
+            mapLayers[prevIndex]!,
+            ...mapLayers.slice(currentIndex, prevIndex),
+            ...mapLayers.slice(prevIndex + 1),
+          ];
+        } else {
+          state.mapLayers = [
+            ...mapLayers.slice(0, prevIndex),
+            ...mapLayers.slice(prevIndex + 1, currentIndex),
+            mapLayers[prevIndex]!,
+            ...mapLayers.slice(currentIndex),
+          ];
+        }
+      }
       state.prevIndex = -1;
       state.currentIndex = -1;
-    },
-    moveLayer(
-      state,
-      action: PayloadAction<{ fromIndex: number; toIndex: number }>,
-    ) {
-      state.mapLayers = moveMapLayer(
-        state.mapLayers,
-        action.payload.fromIndex,
-        action.payload.toIndex,
-      );
     },
     setCurrentIndex(state, action: PayloadAction<{ index: number }>) {
       state.currentIndex = action.payload.index;
@@ -173,10 +152,8 @@ export const exploreSlice = createSlice({
       const layer = state.mapLayers.find(
         (l) => l.data.layer_id === action.payload.layer_id,
       );
-      if (!layer) return;
-      layer.visible = !layer.visible;
-      if (state.selectedLayer === action.payload.layer_id && !layer.visible) {
-        state.selectedFeatures = [];
+      if (layer) {
+        layer.visible = !layer.visible;
       }
     },
     setMapLayers(state, action: PayloadAction<{ layers: MapLayer[] }>) {
@@ -217,9 +194,8 @@ export const exploreSlice = createSlice({
       if (state.selectedLayer === action.payload.layer_id) {
         state.selectedLayer = null;
         state.showLayerSettings = false;
-        state.showStyleSettings = false;
-        state.selectedFeatures = [];
       }
+      state.selectedFeatures = [];
     },
     togglePlaying(state, action: PayloadAction<{ layer_id: string }>) {
       const layer = state.mapLayers.find(
@@ -311,7 +287,6 @@ export const {
   setMapLayers,
   addLayer,
   removeLayer,
-  moveLayer,
   reorderStart,
   reorderEnd,
   setCurrentIndex,
