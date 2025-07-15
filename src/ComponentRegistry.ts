@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 import { DatasetPreview } from '@ncsa/geo-explorer/explore/DatasetPreview';
 import { DatasetInfo } from '@ncsa/geo-explorer/explore/DatasetPreview/DatasetInfo';
 import { MainMap } from '@ncsa/geo-explorer/explore/MainMap';
@@ -62,4 +64,8 @@ export const defaultComponents = {
   SelectedFeatures,
 };
 
-export type ComponentRegistry = typeof defaultComponents;
+export type ComponentRegistry = {
+  [P in keyof typeof defaultComponents]: (
+    ...args: Parameters<(typeof defaultComponents)[P]>
+  ) => ReactNode;
+};

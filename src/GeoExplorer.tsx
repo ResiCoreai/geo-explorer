@@ -1,18 +1,25 @@
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { Box, IconButton, Stack } from '@mui/material';
-import { useState } from 'react';
 
 import { SIDEBAR_WIDTH } from '@ncsa/geo-explorer/config';
 import { MainMap } from '@ncsa/geo-explorer/explore/MainMap';
 import { LegendPanel } from '@ncsa/geo-explorer/explore/MainMap/LegendPanel';
 import { useImplementation } from '@ncsa/geo-explorer/hooks/useImplementation';
-import { RootState, useSelector } from '@ncsa/geo-explorer/store';
+import {
+  AppDispatch,
+  RootState,
+  useDispatch,
+  useSelector,
+} from '@ncsa/geo-explorer/store';
+import { setSidebarOpen } from '@ncsa/geo-explorer/store/explore/slice';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 export function GeoExplorer() {
   const { DatasetPreview, MapLayerSettings, Sidebar } = useImplementation();
+
+  const dispatch = useDispatch<AppDispatch>();
 
   const mapLayers = useSelector((state: RootState) => state.explore.mapLayers);
   const selectedLayer = useSelector((state: RootState) =>
@@ -20,11 +27,12 @@ export function GeoExplorer() {
       (layer) => layer.data.layer_id === state.explore.selectedLayer,
     ),
   );
-
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const sidebarOpen = useSelector(
+    (state: RootState) => state.explore.sidebarOpen,
+  );
 
   return (
-    <Box className="w-full h-full">
+    <Box className="w-full h-full relative overflow-hidden">
       <MainMap />
       <Stack
         direction="row"
@@ -43,7 +51,9 @@ export function GeoExplorer() {
                 ? 'absolute -right-[15px] top-2 z-10 bg-white'
                 : 'absolute -right-[40px] top-2 z-10 bg-white'
             }
-            onClick={() => setSidebarOpen(!sidebarOpen)}
+            onClick={() => {
+              dispatch(setSidebarOpen({ open: !sidebarOpen }));
+            }}
             size="small"
           >
             {sidebarOpen ? (
