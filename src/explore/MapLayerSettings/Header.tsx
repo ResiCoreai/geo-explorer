@@ -26,10 +26,11 @@ import { removeLayer } from '@ncsa/geo-explorer/store/explore/slice';
 
 export type HeaderProps = {
   onOpenStyleSettings: () => void;
+  onClick: () => void;
   onClose: () => void;
 };
 
-export function Header({ onOpenStyleSettings, onClose }: HeaderProps) {
+export function Header({ onOpenStyleSettings, onClick, onClose }: HeaderProps) {
   const dispatch = useDispatch<AppDispatch>();
   const { ogcClient } = useContext(GeoExplorerContext);
 
@@ -42,7 +43,11 @@ export function Header({ onOpenStyleSettings, onClose }: HeaderProps) {
   if (!selectedLayer) return null;
 
   return (
-    <Stack direction="row" className="select-none items-center">
+    <Stack
+      direction="row"
+      className="select-none items-center"
+      onClick={onClick}
+    >
       <Stack direction="column">
         <Stack direction="row" className="items-center">
           <Typography className="font-medium text-[16px]">
