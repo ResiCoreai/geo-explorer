@@ -1,13 +1,8 @@
-import { bbox } from '@turf/turf';
 import { useCallback, useContext, useEffect } from 'react';
 import { useMap } from 'react-map-gl/maplibre';
 
 import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
-import {
-  FIT_BOUNDS_PADDING,
-  MAX_ZOOM_LEVEL,
-  SIDEBAR_WIDTH,
-} from '@ncsa/geo-explorer/config';
+import { FIT_BOUNDS_PADDING, SIDEBAR_WIDTH } from '@ncsa/geo-explorer/config';
 import { RootState, useSelector } from '@ncsa/geo-explorer/store';
 
 const DEFAULT_BOUNDS: [number, number, number, number] = [
@@ -17,10 +12,6 @@ const DEFAULT_BOUNDS: [number, number, number, number] = [
 export function FitBounds() {
   const { current: map } = useMap();
   const { mapConfig } = useContext(GeoExplorerContext);
-
-  const features = useSelector(
-    (state: RootState) => state.explore.selectedFeatures,
-  );
 
   const settingsOpen = useSelector(
     (state: RootState) =>
@@ -66,18 +57,6 @@ export function FitBounds() {
     settingsOpen,
     settingsExpanded,
   ]);
-
-  useEffect(() => {
-    if (!map) return;
-    if (features.length == 0) return;
-    const [minX, minY, maxX, maxY] = bbox({
-      type: 'FeatureCollection',
-      features,
-    });
-    map.fitBounds([minX, minY, maxX, maxY], {
-      maxZoom: MAX_ZOOM_LEVEL, // This is necessary for point layers
-    });
-  }, [map, features]);
 
   return null;
 }
