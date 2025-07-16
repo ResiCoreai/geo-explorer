@@ -18,7 +18,6 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 
 export function GeoExplorer() {
   const { DatasetPreview, MapLayerSettings, Sidebar } = useImplementation();
-
   const dispatch = useDispatch<AppDispatch>();
 
   const mapLayers = useSelector((state: RootState) => state.explore.mapLayers);
@@ -66,13 +65,20 @@ export function GeoExplorer() {
         </Box>
 
         <Box className="flex-1 relative">
-          <Box className="pointer-events-auto absolute bottom-0 left-0 right-0">
+          <Box className="absolute bottom-0 left-0 right-0">
             {selectedLayer && (
-              <Box className="float-right m-2">
-                <LegendPanel layers={mapLayers} selectedLayer={selectedLayer} />
-              </Box>
+              <Stack direction="row" className="justify-end m-2">
+                <Box className="pointer-events-auto">
+                  <LegendPanel
+                    layers={mapLayers}
+                    selectedLayer={selectedLayer}
+                  />
+                </Box>
+              </Stack>
             )}
-            <MapLayerSettings />
+            <Box className="pointer-events-auto ">
+              <MapLayerSettings />
+            </Box>
           </Box>
         </Box>
       </Stack>

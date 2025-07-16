@@ -43,10 +43,6 @@ export function MainMap() {
     <Map
       id="map"
       attributionControl={false}
-      longitude={mapConfig?.center?.[0] ?? -88.2272 - 3}
-      latitude={mapConfig?.center?.[1] ?? 40.1075}
-      zoom={mapConfig?.zoom ?? 6}
-      pitch={mapConfig?.pitch ?? 0}
       transformRequest={(url) => {
         if (isProtectedResource?.(url)) {
           const layer_id = new URLSearchParams(url).get('layers')!;

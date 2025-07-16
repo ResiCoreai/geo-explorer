@@ -24,8 +24,7 @@ export interface Basemap {
 }
 
 export interface MapConfig {
-  center?: [number, number];
-  zoom?: number;
+  boundingBox?: [number, number, number, number];
   pitch?: number;
   maxPitch?: number;
   tileSize?: number;

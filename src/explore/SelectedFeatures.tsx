@@ -20,7 +20,10 @@ import {
   useDispatch,
   useSelector,
 } from '@ncsa/geo-explorer/store';
-import { setShowLayerSettings } from '@ncsa/geo-explorer/store/explore/slice';
+import {
+  setLayerSettingsExpanded,
+  setShowLayerSettings,
+} from '@ncsa/geo-explorer/store/explore/slice';
 
 export function SelectedFeatures() {
   const { current: map } = useMap();
@@ -90,10 +93,11 @@ export function SelectedFeatures() {
 
   const viewFullTable = () => {
     dispatch(setShowLayerSettings({ show: true }));
+    dispatch(setLayerSettingsExpanded({ expanded: true }));
   };
 
   return (
-    <Box className="absolute left-0 top-0 w-[320px]" ref={elRef}>
+    <Box className="absolute left-0 top-0 w-[320px] z-10" ref={elRef}>
       <Box className="flex items-center justify-center">
         <svg width="16" height="10">
           <polygon fill="white" points="8,0 0,10, 16,10" />
@@ -102,7 +106,7 @@ export function SelectedFeatures() {
 
       {/* Card */}
       <Card className="rounded-md shadow-md overflow-hidden text-[14px] leading-[100%] tracking-[0.15px] p-2">
-        <CardContent className="max-h-[500px] overflow-y-auto pt-2 pb-1">
+        <CardContent className="max-h-[400px] overflow-y-auto pt-2 pb-1">
           {/* Layer Title + Icon */}
           {selectedLayer && (
             <Box className="flex items-center gap-2 mb-3">

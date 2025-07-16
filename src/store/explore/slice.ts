@@ -36,6 +36,7 @@ type ExploreState = {
   sidebarOpen: boolean;
   showStyleSettings: boolean;
   showLayerSettings: boolean;
+  layerSettingsExpanded: boolean;
   selectedBaseMap: string | null;
   selectedFeatures: SimpleFeature[];
 };
@@ -96,6 +97,7 @@ export const exploreSlice = createSlice({
     sidebarOpen: true,
     showStyleSettings: false,
     showLayerSettings: false,
+    layerSettingsExpanded: false,
     selectedBaseMap: null,
     selectedFeatures: [],
   } as ExploreState,
@@ -140,6 +142,12 @@ export const exploreSlice = createSlice({
     },
     setShowLayerSettings(state, action: PayloadAction<{ show: boolean }>) {
       state.showLayerSettings = action.payload.show;
+    },
+    setLayerSettingsExpanded(
+      state,
+      action: PayloadAction<{ expanded: boolean }>,
+    ) {
+      state.layerSettingsExpanded = action.payload.expanded;
     },
     setShowStyleSettings(state, action: PayloadAction<{ show: boolean }>) {
       state.showStyleSettings = action.payload.show;
@@ -313,6 +321,7 @@ export const {
   toggleLayerSettings,
   setShowLayerSettings,
   setShowStyleSettings,
+  setLayerSettingsExpanded,
   selectBaseMap,
   setMapLayers,
   addLayer,
