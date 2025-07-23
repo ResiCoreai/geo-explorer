@@ -12,6 +12,7 @@ const DEFAULT_BOUNDS: [number, number, number, number] = [
 export function FitBounds() {
   const { current: map } = useMap();
   const { mapConfig } = useContext(GeoExplorerContext);
+  const mapLayers = useSelector((state: RootState) => state.explore.mapLayers);
 
   const settingsOpen = useSelector(
     (state: RootState) =>
@@ -41,13 +42,46 @@ export function FitBounds() {
 
   useEffect(() => {
     if (!map) return;
+
     const update = () => {
       map.setPitch(mapConfig?.pitch ?? 0);
-      map.fitBounds(mapConfig?.boundingBox ?? DEFAULT_BOUNDS, {
+
+      // Collect all valid bounding boxes from mapLayers
+      const validBounds = mapLayers
+        .map((mapLayer) => mapLayer.data.boundingBox)
+        .filter(
+          (b): b is [number, number, number, number] =>
+            Array.isArray(b) &&
+            b.length === 4 &&
+            b.every((v) => typeof v === 'number'),
+        );
+
+      let targetBounds;
+
+      if (validBounds.length > 0) {
+        // Compute the union bounding box
+        const minX = Math.min(...validBounds.map((b) => b[0]));
+        const minY = Math.min(...validBounds.map((b) => b[1]));
+        const maxX = Math.max(...validBounds.map((b) => b[2]));
+        const maxY = Math.max(...validBounds.map((b) => b[3]));
+
+        targetBounds = [minX, minY, maxX, maxY] as [
+          number,
+          number,
+          number,
+          number,
+        ];
+      } else {
+        // No valid bounding boxes, fall back to mapConfig bounding box or default bounds
+        targetBounds = mapConfig?.boundingBox ?? DEFAULT_BOUNDS;
+      }
+
+      map.fitBounds(targetBounds, {
         ...fitBoundsOptions(),
         animate: false,
       });
     };
+
     update();
   }, [
     map,
@@ -56,6 +90,7 @@ export function FitBounds() {
     sidebarOpen,
     settingsOpen,
     settingsExpanded,
+    mapLayers,
   ]);
 
   return null;
