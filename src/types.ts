@@ -15,6 +15,7 @@ export interface Dataset {
     dataset_category: string;
     [key: string]: string;
   };
+  boundingBox?: [number, number, number, number];
 }
 
 export interface Basemap {

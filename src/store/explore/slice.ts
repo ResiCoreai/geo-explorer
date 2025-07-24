@@ -39,6 +39,7 @@ type ExploreState = {
   layerSettingsExpanded: boolean;
   selectedBaseMap: string | null;
   selectedFeatures: SimpleFeature[];
+  initializing: boolean;
 };
 
 export const defaultLayerStyle: MapLayerStyle = {
@@ -100,6 +101,7 @@ export const exploreSlice = createSlice({
     layerSettingsExpanded: false,
     selectedBaseMap: null,
     selectedFeatures: [],
+    initializing: false,
   } as ExploreState,
   reducers: {
     selectDataset(state, action: PayloadAction<{ layer_id: string | null }>) {
@@ -311,6 +313,9 @@ export const exploreSlice = createSlice({
       state.baseMaps = action.payload.baseMaps;
       state.mapLayers = [];
     },
+    setInitializing(state, action: PayloadAction<{ initializing: boolean }>) {
+      state.initializing = action.payload.initializing;
+    },
   },
 });
 
@@ -338,4 +343,5 @@ export const {
   setLayerStyle,
   resetLayerStyle,
   setLayerInventory,
+  setInitializing,
 } = exploreSlice.actions;

@@ -2,16 +2,22 @@ import { useCallback, useContext, useEffect } from 'react';
 import { useMap } from 'react-map-gl/maplibre';
 
 import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
-import { FIT_BOUNDS_PADDING, SIDEBAR_WIDTH } from '@ncsa/geo-explorer/config';
+import {
+  DEFAULT_BOUNDS,
+  FIT_BOUNDS_PADDING,
+  SIDEBAR_WIDTH,
+} from '@ncsa/geo-explorer/config';
 import { RootState, useSelector } from '@ncsa/geo-explorer/store';
-
-const DEFAULT_BOUNDS: [number, number, number, number] = [
-  -97.486882, 34.834377, -80.414128, 43.820904,
-];
 
 export function FitBounds() {
   const { current: map } = useMap();
   const { mapConfig } = useContext(GeoExplorerContext);
+
+  const initializing = useSelector(
+    (state: RootState) => state.explore.initializing,
+  );
+
+  const mapLayers = useSelector((state: RootState) => state.explore.mapLayers);
 
   const settingsOpen = useSelector(
     (state: RootState) =>
@@ -41,13 +47,47 @@ export function FitBounds() {
 
   useEffect(() => {
     if (!map) return;
+    if (initializing) return;
+
     const update = () => {
       map.setPitch(mapConfig?.pitch ?? 0);
-      map.fitBounds(mapConfig?.boundingBox ?? DEFAULT_BOUNDS, {
+
+      // Collect all valid bounding boxes from mapLayers
+      const validBounds = mapLayers
+        .map((mapLayer) => mapLayer.data.boundingBox)
+        .filter(
+          (b): b is [number, number, number, number] =>
+            Array.isArray(b) &&
+            b.length === 4 &&
+            b.every((v) => typeof v === 'number'),
+        );
+
+      let targetBounds;
+
+      if (validBounds.length > 0) {
+        // Compute the union bounding box
+        const minX = Math.min(...validBounds.map((b) => b[0]));
+        const minY = Math.min(...validBounds.map((b) => b[1]));
+        const maxX = Math.max(...validBounds.map((b) => b[2]));
+        const maxY = Math.max(...validBounds.map((b) => b[3]));
+
+        targetBounds = [minX, minY, maxX, maxY] as [
+          number,
+          number,
+          number,
+          number,
+        ];
+      } else {
+        // No valid bounding boxes, fall back to mapConfig bounding box or default bounds
+        targetBounds = mapConfig?.boundingBox ?? DEFAULT_BOUNDS;
+      }
+
+      map.fitBounds(targetBounds, {
         ...fitBoundsOptions(),
         animate: false,
       });
     };
+
     update();
   }, [
     map,
@@ -56,7 +96,25 @@ export function FitBounds() {
     sidebarOpen,
     settingsOpen,
     settingsExpanded,
+    mapLayers,
   ]);
+
+  useEffect(() => {
+    if (!map) return;
+    if (!initializing) {
+      const initMapBound = mapConfig?.boundingBox;
+      if (initMapBound) {
+        const sw: [number, number] = [initMapBound[0], initMapBound[1]];
+        const ne: [number, number] = [initMapBound[2], initMapBound[3]];
+        map.fitBounds([sw, ne], {
+          padding: 40,
+          animate: false,
+        });
+      } else {
+        map.fitBounds(DEFAULT_BOUNDS, { padding: 40, animate: false });
+      }
+    }
+  }, [map, initializing]);
 
   return null;
 }
