@@ -47,7 +47,21 @@ export function FitBounds() {
 
   useEffect(() => {
     if (!map) return;
-    if (initializing) return; // skip during initial layer load
+    if (initializing) {
+      const initMapBound = mapConfig?.boundingBox;
+      if (initMapBound) {
+        const sw: [number, number] = [initMapBound[0], initMapBound[1]];
+        const ne: [number, number] = [initMapBound[2], initMapBound[3]];
+        map.fitBounds([sw, ne], {
+          padding: 40,
+          animate: false,
+        });
+        return;
+      }
+    } else {
+      map.fitBounds(DEFAULT_BOUNDS, { padding: 40, animate: false });
+      return;
+    }
 
     const update = () => {
       map.setPitch(mapConfig?.pitch ?? 0);
