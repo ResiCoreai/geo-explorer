@@ -9,13 +9,14 @@ import {
 } from '@ncsa/geo-explorer/config';
 import { RootState, useSelector } from '@ncsa/geo-explorer/store';
 
-type FitBoundsProps = {
-  initialViewApplied?: boolean;
-};
-
-export function FitBounds({ initialViewApplied = false }: FitBoundsProps) {
+export function FitBounds() {
   const { current: map } = useMap();
   const { mapConfig } = useContext(GeoExplorerContext);
+
+  const initializing = useSelector(
+    (state: RootState) => state.explore.initializing,
+  );
+
   const mapLayers = useSelector((state: RootState) => state.explore.mapLayers);
 
   const settingsOpen = useSelector(
@@ -46,7 +47,7 @@ export function FitBounds({ initialViewApplied = false }: FitBoundsProps) {
 
   useEffect(() => {
     if (!map) return;
-    if (!initialViewApplied) return; // skip on first load
+    if (initializing) return; // skip during initial layer load
 
     const update = () => {
       map.setPitch(mapConfig?.pitch ?? 0);

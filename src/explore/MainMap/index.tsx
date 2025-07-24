@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import {
   FullscreenControl,
   Layer,
@@ -41,7 +41,6 @@ export function MainMap() {
   );
 
   // Grab the initial map view from the mapConfig
-  const [initialViewApplied, setInitialViewApplied] = useState(false);
   const initMapBound = mapConfig?.boundingBox;
   const handleOnLoad = (e: maplibregl.MapLibreEvent) => {
     const map = e.target;
@@ -57,7 +56,6 @@ export function MainMap() {
     } else {
       map.fitBounds(DEFAULT_BOUNDS, { padding: 40, animate: false });
     }
-    setInitialViewApplied(true);
   };
 
   return (
@@ -148,7 +146,7 @@ export function MainMap() {
 
       <RippleOverlay />
       <SelectedFeatures />
-      <FitBounds initialViewApplied={initialViewApplied} />
+      <FitBounds />
     </Map>
   );
 }

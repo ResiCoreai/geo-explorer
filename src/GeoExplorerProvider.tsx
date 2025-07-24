@@ -12,7 +12,10 @@ import {
   defaultComponents,
 } from '@ncsa/geo-explorer/ComponentRegistry';
 import { GeoExplorerReduxContext, store } from '@ncsa/geo-explorer/store';
-import { setLayerInventory } from '@ncsa/geo-explorer/store/explore/slice';
+import {
+  setInitializing,
+  setLayerInventory,
+} from '@ncsa/geo-explorer/store/explore/slice';
 import { GeoExplorerConfig, MapConfig } from '@ncsa/geo-explorer/types';
 import { resolveFeatureType } from '@ncsa/geo-explorer/utils/dataset';
 import { OGCClient } from '@ncsa/geo-explorer/utils/ogcClient';
@@ -70,6 +73,9 @@ export function GeoExplorerProvider({
       const { ogcClient } = contextValue;
       if (!config || !ogcClient) return;
 
+      // Initialization starts
+      store.dispatch(setInitializing({ initializing: true }));
+
       //  Step 1: Default init
       store.dispatch(
         setLayerInventory({
@@ -91,6 +97,9 @@ export function GeoExplorerProvider({
       if (onReady) {
         await onReady({ config, ogcClient, store });
       }
+
+      // Initialization ends
+      store.dispatch(setInitializing({ initializing: false }));
     })();
   }, [config, contextValue]);
 
