@@ -9,7 +9,6 @@ import {
 
 import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import { provideMapInstanceToHandlers } from '@ncsa/geo-explorer/MapAccessRegistery';
-import { DEFAULT_BOUNDS } from '@ncsa/geo-explorer/config';
 import { FitBounds } from '@ncsa/geo-explorer/explore/MainMap/controls/FitBounds';
 import { useImplementation } from '@ncsa/geo-explorer/hooks/useImplementation';
 import {
@@ -39,24 +38,6 @@ export function MainMap() {
   const selectedBaseMap = useSelector(
     (state: RootState) => state.explore.selectedBaseMap,
   );
-
-  // Grab the initial map view from the mapConfig
-  const initMapBound = mapConfig?.boundingBox;
-  const handleOnLoad = (e: maplibregl.MapLibreEvent) => {
-    const map = e.target;
-    provideMapInstanceToHandlers(map);
-
-    if (initMapBound) {
-      const sw: [number, number] = [initMapBound[0], initMapBound[1]];
-      const ne: [number, number] = [initMapBound[2], initMapBound[3]];
-      map.fitBounds([sw, ne], {
-        padding: 40,
-        animate: false,
-      });
-    } else {
-      map.fitBounds(DEFAULT_BOUNDS, { padding: 40, animate: false });
-    }
-  };
 
   return (
     <Map
@@ -106,8 +87,7 @@ export function MainMap() {
           // do nothing
         }
       }}
-      // onLoad={(e) => provideMapInstanceToHandlers(e.target)}
-      onLoad={handleOnLoad}
+      onLoad={(e) => provideMapInstanceToHandlers(e.target)}
       interactiveLayerIds={['storage']}
       onClick={(e) => {
         if (selectedLayer && selectedLayer.data.layer_type !== 'raster') {
