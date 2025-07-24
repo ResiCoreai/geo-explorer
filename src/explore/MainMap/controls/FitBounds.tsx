@@ -2,14 +2,18 @@ import { useCallback, useContext, useEffect } from 'react';
 import { useMap } from 'react-map-gl/maplibre';
 
 import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
-import { FIT_BOUNDS_PADDING, SIDEBAR_WIDTH } from '@ncsa/geo-explorer/config';
+import {
+  DEFAULT_BOUNDS,
+  FIT_BOUNDS_PADDING,
+  SIDEBAR_WIDTH,
+} from '@ncsa/geo-explorer/config';
 import { RootState, useSelector } from '@ncsa/geo-explorer/store';
 
-const DEFAULT_BOUNDS: [number, number, number, number] = [
-  -97.486882, 34.834377, -80.414128, 43.820904,
-];
+type FitBoundsProps = {
+  initialViewApplied?: boolean;
+};
 
-export function FitBounds() {
+export function FitBounds({ initialViewApplied = false }: FitBoundsProps) {
   const { current: map } = useMap();
   const { mapConfig } = useContext(GeoExplorerContext);
   const mapLayers = useSelector((state: RootState) => state.explore.mapLayers);
@@ -42,6 +46,7 @@ export function FitBounds() {
 
   useEffect(() => {
     if (!map) return;
+    if (!initialViewApplied) return; // skip on first load
 
     const update = () => {
       map.setPitch(mapConfig?.pitch ?? 0);
