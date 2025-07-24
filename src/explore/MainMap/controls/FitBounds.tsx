@@ -1,46 +1,120 @@
-import { bbox } from '@turf/turf';
-import { useEffect } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
 import { useMap } from 'react-map-gl/maplibre';
-import { useSelector } from 'react-redux';
 
+import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import {
+  DEFAULT_BOUNDS,
   FIT_BOUNDS_PADDING,
-  LAYER_SETTINGS_HEIGHT,
-  MAX_ZOOM_LEVEL,
   SIDEBAR_WIDTH,
 } from '@ncsa/geo-explorer/config';
-import { RootState } from '@ncsa/geo-explorer/store';
+import { RootState, useSelector } from '@ncsa/geo-explorer/store';
 
 export function FitBounds() {
   const { current: map } = useMap();
+  const { mapConfig } = useContext(GeoExplorerContext);
 
-  const features = useSelector(
-    (state: RootState) => state.explore.selectedFeatures,
+  const initializing = useSelector(
+    (state: RootState) => state.explore.initializing,
   );
+
+  const mapLayers = useSelector((state: RootState) => state.explore.mapLayers);
 
   const settingsOpen = useSelector(
     (state: RootState) =>
       state.explore.selectedLayer && state.explore.showLayerSettings,
   );
+  const settingsExpanded = useSelector(
+    (state: RootState) =>
+      state.explore.selectedLayer && state.explore.layerSettingsExpanded,
+  );
+  const sidebarOpen = useSelector(
+    (state: RootState) => state.explore.sidebarOpen,
+  );
+
+  const fitBoundsOptions = useCallback(() => {
+    const layerSettingsHeight =
+      document.querySelector('#layer-settings')?.getBoundingClientRect()
+        .height ?? 0;
+    return {
+      padding: {
+        top: FIT_BOUNDS_PADDING,
+        right: FIT_BOUNDS_PADDING,
+        left: (sidebarOpen ? SIDEBAR_WIDTH : 0) + FIT_BOUNDS_PADDING,
+        bottom: layerSettingsHeight + FIT_BOUNDS_PADDING,
+      },
+    };
+  }, [sidebarOpen]);
 
   useEffect(() => {
-    if (features.length > 0) {
-      const [minX, minY, maxX, maxY] = bbox({
-        type: 'FeatureCollection',
-        features,
+    if (!map) return;
+    if (initializing) return;
+
+    const update = () => {
+      map.setPitch(mapConfig?.pitch ?? 0);
+
+      // Collect all valid bounding boxes from mapLayers
+      const validBounds = mapLayers
+        .map((mapLayer) => mapLayer.data.boundingBox)
+        .filter(
+          (b): b is [number, number, number, number] =>
+            Array.isArray(b) &&
+            b.length === 4 &&
+            b.every((v) => typeof v === 'number'),
+        );
+
+      let targetBounds;
+
+      if (validBounds.length > 0) {
+        // Compute the union bounding box
+        const minX = Math.min(...validBounds.map((b) => b[0]));
+        const minY = Math.min(...validBounds.map((b) => b[1]));
+        const maxX = Math.max(...validBounds.map((b) => b[2]));
+        const maxY = Math.max(...validBounds.map((b) => b[3]));
+
+        targetBounds = [minX, minY, maxX, maxY] as [
+          number,
+          number,
+          number,
+          number,
+        ];
+      } else {
+        // No valid bounding boxes, fall back to mapConfig bounding box or default bounds
+        targetBounds = mapConfig?.boundingBox ?? DEFAULT_BOUNDS;
+      }
+
+      map.fitBounds(targetBounds, {
+        ...fitBoundsOptions(),
+        animate: false,
       });
-      map?.fitBounds([minX, minY, maxX, maxY], {
-        maxZoom: MAX_ZOOM_LEVEL, // This is necessary for point layers
-        padding: {
-          top: FIT_BOUNDS_PADDING,
-          right: FIT_BOUNDS_PADDING,
-          left: SIDEBAR_WIDTH + FIT_BOUNDS_PADDING,
-          bottom:
-            (settingsOpen ? LAYER_SETTINGS_HEIGHT : 0) + FIT_BOUNDS_PADDING,
-        },
-      });
+    };
+
+    update();
+  }, [
+    map,
+    mapConfig,
+    fitBoundsOptions,
+    sidebarOpen,
+    settingsOpen,
+    settingsExpanded,
+    mapLayers,
+  ]);
+
+  useEffect(() => {
+    if (!map) return;
+    if (!initializing) {
+      const initMapBound = mapConfig?.boundingBox;
+      if (initMapBound) {
+        const sw: [number, number] = [initMapBound[0], initMapBound[1]];
+        const ne: [number, number] = [initMapBound[2], initMapBound[3]];
+        map.fitBounds([sw, ne], {
+          padding: 40,
+          animate: false,
+        });
+      } else {
+        map.fitBounds(DEFAULT_BOUNDS, { padding: 40, animate: false });
+      }
     }
-  }, [features]);
+  }, [map, initializing]);
 
   return null;
 }

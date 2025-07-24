@@ -11,9 +11,12 @@ import {
   ComponentRegistry,
   defaultComponents,
 } from '@ncsa/geo-explorer/ComponentRegistry';
-import { store } from '@ncsa/geo-explorer/store';
-import { setLayers } from '@ncsa/geo-explorer/store/explore/slice';
-import { GeoExplorerConfig } from '@ncsa/geo-explorer/types';
+import { GeoExplorerReduxContext, store } from '@ncsa/geo-explorer/store';
+import {
+  setInitializing,
+  setLayerInventory,
+} from '@ncsa/geo-explorer/store/explore/slice';
+import { GeoExplorerConfig, MapConfig } from '@ncsa/geo-explorer/types';
 import { resolveFeatureType } from '@ncsa/geo-explorer/utils/dataset';
 import { OGCClient } from '@ncsa/geo-explorer/utils/ogcClient';
 
@@ -21,12 +24,14 @@ export const GeoExplorerContext = createContext<{
   accessToken?: string | undefined;
   ogcClient: OGCClient | null;
   isProtectedResource?: ((url: string) => boolean) | undefined;
-  __UNSTABLE_USE_AT_YOUR_OWN_RISK_components: ComponentRegistry;
+  __UNSTABLE_components: ComponentRegistry;
+  mapConfig?: MapConfig | null;
 }>({
   accessToken: undefined,
   ogcClient: null,
   isProtectedResource: () => false,
-  __UNSTABLE_USE_AT_YOUR_OWN_RISK_components: defaultComponents,
+  __UNSTABLE_components: defaultComponents,
+  mapConfig: null,
 });
 
 type Props = {
@@ -35,6 +40,11 @@ type Props = {
   isProtectedResource?: (url: string) => boolean;
   children: ReactNode;
   components?: Partial<ComponentRegistry>;
+  onReady?: (args: {
+    config: GeoExplorerConfig;
+    ogcClient: OGCClient;
+    store: typeof store;
+  }) => void | Promise<void>;
 };
 
 export function GeoExplorerProvider({
@@ -43,16 +53,18 @@ export function GeoExplorerProvider({
   isProtectedResource,
   children,
   components,
+  onReady,
 }: Props) {
   const contextValue: ContextType<typeof GeoExplorerContext> = useMemo(() => {
     return {
       accessToken,
       ogcClient: config ? new OGCClient({ accessToken }) : null,
       isProtectedResource,
-      __UNSTABLE_USE_AT_YOUR_OWN_RISK_components: {
+      __UNSTABLE_components: {
         ...defaultComponents,
         ...components,
       },
+      mapConfig: config?.mapConfig ?? null,
     };
   }, [config, components]);
 
@@ -60,8 +72,13 @@ export function GeoExplorerProvider({
     (async function init() {
       const { ogcClient } = contextValue;
       if (!config || !ogcClient) return;
+
+      // Initialization starts
+      store.dispatch(setInitializing({ initializing: true }));
+
+      //  Step 1: Default init
       store.dispatch(
-        setLayers({
+        setLayerInventory({
           simpleLayerInventory: await Promise.all(
             config.simple_layers.map((dataset) =>
               resolveFeatureType(dataset, ogcClient),
@@ -75,12 +92,22 @@ export function GeoExplorerProvider({
           baseMaps: config.basemaps,
         }),
       );
+
+      // Step 2: Custom post-init hook
+      if (onReady) {
+        await onReady({ config, ogcClient, store });
+      }
+
+      // Initialization ends
+      store.dispatch(setInitializing({ initializing: false }));
     })();
   }, [config, contextValue]);
 
   return (
     <GeoExplorerContext.Provider value={contextValue}>
-      <ReduxStoreProvider store={store}>{children}</ReduxStoreProvider>
+      <ReduxStoreProvider context={GeoExplorerReduxContext} store={store}>
+        {children}
+      </ReduxStoreProvider>
     </GeoExplorerContext.Provider>
   );
 }

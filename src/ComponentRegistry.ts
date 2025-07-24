@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 import { DatasetPreview } from '@ncsa/geo-explorer/explore/DatasetPreview';
 import { DatasetInfo } from '@ncsa/geo-explorer/explore/DatasetPreview/DatasetInfo';
 import { MainMap } from '@ncsa/geo-explorer/explore/MainMap';
@@ -26,6 +28,7 @@ import { LegendIcon } from '@ncsa/geo-explorer/explore/Sidebar/MapLayers/LegendI
 import { MapLayerItem } from '@ncsa/geo-explorer/explore/Sidebar/MapLayers/MapLayerItem';
 import { TemporalLayerSummary } from '@ncsa/geo-explorer/explore/Sidebar/MapLayers/TemporalLayerSummary';
 import { SidebarSection } from '@ncsa/geo-explorer/explore/Sidebar/SidebarSection';
+import { StyleEditor } from '@ncsa/geo-explorer/explore/Sidebar/StyleEditor';
 import { WFSFeatureTable } from '@ncsa/geo-explorer/explore/components/WFSFeatureTable';
 
 export const defaultComponents = {
@@ -42,6 +45,7 @@ export const defaultComponents = {
   WMSLayerSimple,
   WMSLayerTemporal,
   StyleSettings,
+  StyleEditor,
   ColorInput,
   NumberInput,
   Header,
@@ -60,4 +64,8 @@ export const defaultComponents = {
   SelectedFeatures,
 };
 
-export type ComponentRegistry = typeof defaultComponents;
+export type ComponentRegistry = {
+  [P in keyof typeof defaultComponents]: (
+    ...args: Parameters<(typeof defaultComponents)[P]>
+  ) => ReactNode;
+};

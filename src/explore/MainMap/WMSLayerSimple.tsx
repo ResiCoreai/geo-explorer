@@ -17,6 +17,7 @@ export function WMSLayerSimple({ layer, prevLayer }: WMSLayerSimpleProps) {
   const tiles = useMemo(() => {
     const params: Params = {
       layers: [layer.data.layer_id],
+      styles: [layer.style_name],
       __style_version__: layer.version,
     };
     return ogcClient

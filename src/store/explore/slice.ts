@@ -33,9 +33,13 @@ type ExploreState = {
   selectedDataset: string | null;
   mapLayers: MapLayer[];
   selectedLayer: string | null;
+  sidebarOpen: boolean;
+  showStyleSettings: boolean;
   showLayerSettings: boolean;
+  layerSettingsExpanded: boolean;
   selectedBaseMap: string | null;
   selectedFeatures: SimpleFeature[];
+  initializing: boolean;
 };
 
 export const defaultLayerStyle: MapLayerStyle = {
@@ -48,6 +52,38 @@ export const defaultLayerStyle: MapLayerStyle = {
   layerOpacity: 1,
 };
 
+function moveMapLayer(
+  mapLayers: MapLayer[],
+  fromIndex: number,
+  toIndex: number,
+): MapLayer[] {
+  if (
+    fromIndex >= 0 &&
+    fromIndex <= mapLayers.length &&
+    toIndex >= 0 &&
+    toIndex <= mapLayers.length &&
+    fromIndex !== toIndex
+  ) {
+    if (toIndex < fromIndex) {
+      return [
+        ...mapLayers.slice(0, toIndex),
+        mapLayers[fromIndex]!,
+        ...mapLayers.slice(toIndex, fromIndex),
+        ...mapLayers.slice(fromIndex + 1),
+      ];
+    } else {
+      return [
+        ...mapLayers.slice(0, fromIndex),
+        ...mapLayers.slice(fromIndex + 1, toIndex),
+        mapLayers[fromIndex]!,
+        ...mapLayers.slice(toIndex),
+      ];
+    }
+  } else {
+    return mapLayers;
+  }
+}
+
 export const exploreSlice = createSlice({
   name: 'mapLayers',
   initialState: {
@@ -59,9 +95,13 @@ export const exploreSlice = createSlice({
     selectedDataset: null,
     mapLayers: [],
     selectedLayer: null,
+    sidebarOpen: true,
+    showStyleSettings: false,
     showLayerSettings: false,
+    layerSettingsExpanded: false,
     selectedBaseMap: null,
     selectedFeatures: [],
+    initializing: false,
   } as ExploreState,
   reducers: {
     selectDataset(state, action: PayloadAction<{ layer_id: string | null }>) {
@@ -91,15 +131,28 @@ export const exploreSlice = createSlice({
         if (layer) {
           state.selectedLayer = layer.data.layer_id;
           state.showLayerSettings = false;
+          state.showStyleSettings = false;
         }
       }
       state.selectedFeatures = [];
+    },
+    setSidebarOpen(state, action: PayloadAction<{ open: boolean }>) {
+      state.sidebarOpen = action.payload.open;
     },
     toggleLayerSettings(state) {
       state.showLayerSettings = !state.showLayerSettings;
     },
     setShowLayerSettings(state, action: PayloadAction<{ show: boolean }>) {
       state.showLayerSettings = action.payload.show;
+    },
+    setLayerSettingsExpanded(
+      state,
+      action: PayloadAction<{ expanded: boolean }>,
+    ) {
+      state.layerSettingsExpanded = action.payload.expanded;
+    },
+    setShowStyleSettings(state, action: PayloadAction<{ show: boolean }>) {
+      state.showStyleSettings = action.payload.show;
     },
     selectBaseMap(state, action: PayloadAction<{ layer_id: string | null }>) {
       if (action.payload.layer_id == null) {
@@ -113,31 +166,19 @@ export const exploreSlice = createSlice({
     },
     reorderEnd: (state) => {
       const { currentIndex, prevIndex, mapLayers } = state;
-      if (
-        prevIndex >= 0 &&
-        prevIndex <= mapLayers.length &&
-        currentIndex >= 0 &&
-        currentIndex <= mapLayers.length &&
-        prevIndex !== currentIndex
-      ) {
-        if (currentIndex < prevIndex) {
-          state.mapLayers = [
-            ...mapLayers.slice(0, currentIndex),
-            mapLayers[prevIndex]!,
-            ...mapLayers.slice(currentIndex, prevIndex),
-            ...mapLayers.slice(prevIndex + 1),
-          ];
-        } else {
-          state.mapLayers = [
-            ...mapLayers.slice(0, prevIndex),
-            ...mapLayers.slice(prevIndex + 1, currentIndex),
-            mapLayers[prevIndex]!,
-            ...mapLayers.slice(currentIndex),
-          ];
-        }
-      }
+      state.mapLayers = moveMapLayer(mapLayers, prevIndex, currentIndex);
       state.prevIndex = -1;
       state.currentIndex = -1;
+    },
+    moveLayer(
+      state,
+      action: PayloadAction<{ fromIndex: number; toIndex: number }>,
+    ) {
+      state.mapLayers = moveMapLayer(
+        state.mapLayers,
+        action.payload.fromIndex,
+        action.payload.toIndex,
+      );
     },
     setCurrentIndex(state, action: PayloadAction<{ index: number }>) {
       state.currentIndex = action.payload.index;
@@ -147,9 +188,14 @@ export const exploreSlice = createSlice({
       const layer = state.mapLayers.find(
         (l) => l.data.layer_id === action.payload.layer_id,
       );
-      if (layer) {
-        layer.visible = !layer.visible;
+      if (!layer) return;
+      layer.visible = !layer.visible;
+      if (state.selectedLayer === action.payload.layer_id && !layer.visible) {
+        state.selectedFeatures = [];
       }
+    },
+    setMapLayers(state, action: PayloadAction<{ layers: MapLayer[] }>) {
+      state.mapLayers = action.payload.layers;
     },
     addLayer(state, action: PayloadAction<{ layer_id: string }>) {
       const dataset =
@@ -173,6 +219,7 @@ export const exploreSlice = createSlice({
         timestampIdx: 0,
         visible: true,
         version: 0,
+        style_name: dataset.default_style_name ?? '',
         style: defaultLayerStyle,
         styleSLD: '',
       });
@@ -185,8 +232,9 @@ export const exploreSlice = createSlice({
       if (state.selectedLayer === action.payload.layer_id) {
         state.selectedLayer = null;
         state.showLayerSettings = false;
+        state.showStyleSettings = false;
+        state.selectedFeatures = [];
       }
-      state.selectedFeatures = [];
     },
     togglePlaying(state, action: PayloadAction<{ layer_id: string }>) {
       const layer = state.mapLayers.find(
@@ -209,6 +257,21 @@ export const exploreSlice = createSlice({
     },
     setSelectedFeatures(state, action: PayloadAction<SimpleFeature[]>) {
       state.selectedFeatures = action.payload;
+    },
+    setLayerStyleName(
+      state,
+      action: PayloadAction<{
+        layer_id: string;
+        style_name: string;
+      }>,
+    ) {
+      const layer = state.mapLayers.find(
+        (layer) => layer.data.layer_id === action.payload.layer_id,
+      );
+      if (layer) {
+        layer.version++;
+        layer.style_name = action.payload.style_name;
+      }
     },
     setLayerStyle(
       state,
@@ -237,7 +300,7 @@ export const exploreSlice = createSlice({
         layer.styleSLD = '';
       }
     },
-    setLayers(
+    setLayerInventory(
       state,
       action: PayloadAction<{
         simpleLayerInventory: Dataset[];
@@ -250,17 +313,25 @@ export const exploreSlice = createSlice({
       state.baseMaps = action.payload.baseMaps;
       state.mapLayers = [];
     },
+    setInitializing(state, action: PayloadAction<{ initializing: boolean }>) {
+      state.initializing = action.payload.initializing;
+    },
   },
 });
 
 export const {
   selectDataset,
   selectMapLayer,
+  setSidebarOpen,
   toggleLayerSettings,
   setShowLayerSettings,
+  setShowStyleSettings,
+  setLayerSettingsExpanded,
   selectBaseMap,
+  setMapLayers,
   addLayer,
   removeLayer,
+  moveLayer,
   reorderStart,
   reorderEnd,
   setCurrentIndex,
@@ -268,7 +339,9 @@ export const {
   togglePlaying,
   setTimestampIdx,
   setSelectedFeatures,
+  setLayerStyleName,
   setLayerStyle,
   resetLayerStyle,
-  setLayers,
+  setLayerInventory,
+  setInitializing,
 } = exploreSlice.actions;

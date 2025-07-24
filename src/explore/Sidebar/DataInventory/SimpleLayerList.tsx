@@ -1,11 +1,10 @@
 import FolderOpenOutlinedIcon from '@mui/icons-material/FolderOpenOutlined';
 import { Box, InputAdornment, MenuItem, Select } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
 
 import { layerTypeIcons } from '@ncsa/geo-explorer/explore/Sidebar/utils/icons';
 import { useImplementation } from '@ncsa/geo-explorer/hooks/useImplementation';
-import { RootState } from '@ncsa/geo-explorer/store';
+import { RootState, useSelector } from '@ncsa/geo-explorer/store';
 import { Dataset } from '@ncsa/geo-explorer/types';
 
 export function SimpleLayerList() {

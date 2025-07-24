@@ -1,28 +1,37 @@
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { Box, IconButton, Stack } from '@mui/material';
-import classNames from 'classnames';
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
 
 import { SIDEBAR_WIDTH } from '@ncsa/geo-explorer/config';
 import { MainMap } from '@ncsa/geo-explorer/explore/MainMap';
+import { LegendPanel } from '@ncsa/geo-explorer/explore/MainMap/LegendPanel';
 import { useImplementation } from '@ncsa/geo-explorer/hooks/useImplementation';
-import { RootState } from '@ncsa/geo-explorer/store';
+import {
+  AppDispatch,
+  RootState,
+  useDispatch,
+  useSelector,
+} from '@ncsa/geo-explorer/store';
+import { setSidebarOpen } from '@ncsa/geo-explorer/store/explore/slice';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 export function GeoExplorer() {
   const { DatasetPreview, MapLayerSettings, Sidebar } = useImplementation();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const selectedMapLayer = useSelector(
-    (state: RootState) => state.explore.selectedLayer,
+  const mapLayers = useSelector((state: RootState) => state.explore.mapLayers);
+  const selectedLayer = useSelector((state: RootState) =>
+    state.explore.mapLayers.find(
+      (layer) => layer.data.layer_id === state.explore.selectedLayer,
+    ),
+  );
+  const sidebarOpen = useSelector(
+    (state: RootState) => state.explore.sidebarOpen,
   );
 
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-
   return (
-    <Box className="w-full h-full">
+    <Box className="w-full h-full relative overflow-hidden">
       <MainMap />
       <Stack
         direction="row"
@@ -41,7 +50,9 @@ export function GeoExplorer() {
                 ? 'absolute -right-[15px] top-2 z-10 bg-white'
                 : 'absolute -right-[40px] top-2 z-10 bg-white'
             }
-            onClick={() => setSidebarOpen(!sidebarOpen)}
+            onClick={() => {
+              dispatch(setSidebarOpen({ open: !sidebarOpen }));
+            }}
             size="small"
           >
             {sidebarOpen ? (
@@ -53,20 +64,23 @@ export function GeoExplorer() {
           <Sidebar />
         </Box>
 
-        <Stack
-          direction="column"
-          className="flex-1 items-stretch min-w-0 relative"
-        >
-          <Box className="flex-1" />
-          <Box
-            className={classNames(
-              'flex-none pointer-events-auto transition-transform flex flex-colum items-center',
-              !selectedMapLayer && 'translate-y-full',
+        <Box className="flex-1 relative">
+          <Box className="absolute bottom-0 left-0 right-0">
+            {selectedLayer && (
+              <Stack direction="row" className="justify-end m-2">
+                <Box className="pointer-events-auto">
+                  <LegendPanel
+                    layers={mapLayers}
+                    selectedLayer={selectedLayer}
+                  />
+                </Box>
+              </Stack>
             )}
-          >
-            <MapLayerSettings />
+            <Box className="pointer-events-auto ">
+              <MapLayerSettings />
+            </Box>
           </Box>
-        </Stack>
+        </Box>
       </Stack>
       <DatasetPreview />
     </Box>

@@ -13,10 +13,14 @@ import {
   Typography,
 } from '@mui/material';
 import { useCallback, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { useImplementation } from '@ncsa/geo-explorer/hooks/useImplementation';
-import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
+import {
+  AppDispatch,
+  RootState,
+  useDispatch,
+  useSelector,
+} from '@ncsa/geo-explorer/store';
 import {
   addLayer,
   removeLayer,

@@ -77,6 +77,19 @@ export class OGCClient {
     });
   }
 
+  public async getStyleNames(dataset: Dataset): Promise<string[]> {
+    // If not set default to layer workspace
+    const styleWorkspace = dataset.default_style_workspace ?? dataset.workspace;
+
+    const { data } = await this.request<{
+      styles: { style: Array<{ name: string }> };
+    }>({
+      url: `${dataset.ogc_service_url}/rest/workspaces/${styleWorkspace}/styles.json`,
+    });
+
+    return data.styles.style.map((s) => s.name);
+  }
+
   public async getLegendJSON<T extends Symbolizer>(
     dataset: Dataset,
   ): Promise<Legend<T>> {

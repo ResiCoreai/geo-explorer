@@ -13,19 +13,24 @@ import {
   Typography,
 } from '@mui/material';
 import { useContext } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import { DatasetDescriptionTooltip } from '@ncsa/geo-explorer/icons/DatasetDescriptionTooltip';
-import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
+import {
+  AppDispatch,
+  RootState,
+  useDispatch,
+  useSelector,
+} from '@ncsa/geo-explorer/store';
 import { removeLayer } from '@ncsa/geo-explorer/store/explore/slice';
 
 export type HeaderProps = {
   onOpenStyleSettings: () => void;
+  onClick: () => void;
   onClose: () => void;
 };
 
-export function Header({ onOpenStyleSettings, onClose }: HeaderProps) {
+export function Header({ onOpenStyleSettings, onClick, onClose }: HeaderProps) {
   const dispatch = useDispatch<AppDispatch>();
   const { ogcClient } = useContext(GeoExplorerContext);
 
@@ -38,7 +43,11 @@ export function Header({ onOpenStyleSettings, onClose }: HeaderProps) {
   if (!selectedLayer) return null;
 
   return (
-    <Stack direction="row" className="select-none items-center">
+    <Stack
+      direction="row"
+      className="select-none items-center"
+      onClick={onClick}
+    >
       <Stack direction="column">
         <Stack direction="row" className="items-center">
           <Typography className="font-medium text-[16px]">

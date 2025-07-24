@@ -1,21 +1,42 @@
+import {
+  ArrowDownwardOutlined,
+  ArrowUpwardOutlined,
+  ColorLensOutlined,
+} from '@mui/icons-material';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
-import { Box, IconButton, Stack, Typography } from '@mui/material';
+import {
+  Box,
+  Divider,
+  IconButton,
+  ListItemIcon,
+  Menu,
+  MenuItem,
+  Stack,
+  Typography,
+} from '@mui/material';
 import classNames from 'classnames';
-import { useCallback, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useCallback, useRef, useState } from 'react';
 
 import { useImplementation } from '@ncsa/geo-explorer/hooks/useImplementation';
 import { LayerControlIcon } from '@ncsa/geo-explorer/icons/LayerControl';
-import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
 import {
+  AppDispatch,
+  RootState,
+  useDispatch,
+  useSelector,
+} from '@ncsa/geo-explorer/store';
+import {
+  moveLayer,
+  removeLayer,
   reorderEnd,
   reorderStart,
   selectMapLayer,
   setCurrentIndex,
-  toggleLayerSettings,
+  setShowLayerSettings,
+  setShowStyleSettings,
   toggleVisibility,
 } from '@ncsa/geo-explorer/store/explore/slice';
 import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
@@ -30,6 +51,7 @@ export function MapLayerItem({ index, layer }: MapLayerItemProps) {
 
   const dispatch = useDispatch<AppDispatch>();
 
+  const mapLayers = useSelector((state: RootState) => state.explore.mapLayers);
   const selectedLayer = useSelector((state: RootState) =>
     state.explore.mapLayers.find(
       (layer) => layer.data.layer_id === state.explore.selectedLayer,
@@ -97,16 +119,8 @@ export function MapLayerItem({ index, layer }: MapLayerItemProps) {
     );
   }, [selected, layer]);
 
-  const toggleSettings = useCallback(() => {
-    if (!selected) {
-      dispatch(
-        selectMapLayer({
-          layer_id: layer.data.layer_id,
-        }),
-      );
-    }
-    dispatch(toggleLayerSettings());
-  }, [selected, layer]);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const anchorElRef = useRef<HTMLButtonElement>(null);
 
   return (
     <Box
@@ -144,13 +158,6 @@ export function MapLayerItem({ index, layer }: MapLayerItemProps) {
           <IconButton
             size="small"
             className="flex-none text-[#13294B]"
-            onClick={toggleSettings}
-          >
-            <TableChartOutlinedIcon className="fill-[#13294B8C]" />
-          </IconButton>
-          <IconButton
-            size="small"
-            className="flex-none text-[#13294B]"
             onClick={() => {
               dispatch(toggleVisibility({ layer_id: layer.data.layer_id }));
             }}
@@ -161,7 +168,12 @@ export function MapLayerItem({ index, layer }: MapLayerItemProps) {
               <VisibilityOffOutlinedIcon className="fill-[#13294B8C]" />
             )}
           </IconButton>
-          <IconButton size="small" className="flex-none text-[#13294B]">
+          <IconButton
+            size="small"
+            className="flex-none text-[#13294B]"
+            ref={anchorElRef}
+            onClick={() => setMenuOpen(true)}
+          >
             <MoreHorizOutlinedIcon className="fill-[#13294B8C]" />
           </IconButton>
         </Stack>
@@ -169,6 +181,71 @@ export function MapLayerItem({ index, layer }: MapLayerItemProps) {
       {selected && layer.data.timestamps.length > 0 && (
         <TemporalLayerSummary layer={layer} />
       )}
+      <Menu
+        anchorEl={anchorElRef.current}
+        open={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        onClick={(e) => {
+          e.stopPropagation();
+          setMenuOpen(false);
+        }}
+      >
+        <MenuItem
+          onClick={() => {
+            dispatch(selectMapLayer({ layer_id: layer.data.layer_id }));
+            dispatch(setShowStyleSettings({ show: true }));
+          }}
+        >
+          <ListItemIcon>
+            <ColorLensOutlined />
+          </ListItemIcon>
+          More style settings
+        </MenuItem>
+        <Divider />
+        <MenuItem
+          onClick={() => {
+            dispatch(selectMapLayer({ layer_id: layer.data.layer_id }));
+            dispatch(setShowLayerSettings({ show: true }));
+          }}
+        >
+          <ListItemIcon>
+            <TableChartOutlinedIcon />
+          </ListItemIcon>
+          View data table
+        </MenuItem>
+        <Divider />
+        <MenuItem
+          disabled={index === 0}
+          onClick={() => {
+            dispatch(moveLayer({ fromIndex: index, toIndex: index - 1 }));
+          }}
+        >
+          <ListItemIcon>
+            <ArrowUpwardOutlined />
+          </ListItemIcon>
+          Move forward
+        </MenuItem>
+        <MenuItem
+          disabled={index === mapLayers.length - 1}
+          onClick={() => {
+            dispatch(moveLayer({ fromIndex: index, toIndex: index + 2 }));
+          }}
+        >
+          <ListItemIcon>
+            <ArrowDownwardOutlined />
+          </ListItemIcon>
+          Move backward
+        </MenuItem>
+        <Divider />
+        <MenuItem
+          className="text-[#D32F2F]"
+          onClick={() => {
+            dispatch(removeLayer({ layer_id: layer.data.layer_id }));
+          }}
+        >
+          Remove from map
+        </MenuItem>
+      </Menu>
     </Box>
   );
 }

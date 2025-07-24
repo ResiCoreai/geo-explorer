@@ -6,13 +6,16 @@ export interface Dataset {
   display_name: string;
   description: string;
   default_style_name?: string;
+  default_style_workspace?: string;
   ogc_service_url: string;
+  workspace: string;
   timestamps: string[];
   unit?: string;
   labels: {
     dataset_category: string;
     [key: string]: string;
   };
+  boundingBox?: [number, number, number, number];
 }
 
 export interface Basemap {
@@ -22,11 +25,19 @@ export interface Basemap {
   thumbnail_url: string;
 }
 
+export interface MapConfig {
+  boundingBox?: [number, number, number, number];
+  pitch?: number;
+  maxPitch?: number;
+  tileSize?: number;
+}
+
 export interface GeoExplorerConfig {
   bearerToken?: string;
   basemaps: Basemap[];
   simple_layers: Dataset[];
   temporal_layers: Dataset[];
+  mapConfig?: MapConfig;
 }
 
 export interface FeatureTypeInfo {

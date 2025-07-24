@@ -1,12 +1,18 @@
 import { Box, Stack } from '@mui/material';
 import classNames from 'classnames';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
-import { LAYER_SETTINGS_HEIGHT } from '@ncsa/geo-explorer/config';
 import { useImplementation } from '@ncsa/geo-explorer/hooks/useImplementation';
-import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
-import { toggleLayerSettings } from '@ncsa/geo-explorer/store/explore/slice';
+import {
+  AppDispatch,
+  RootState,
+  useDispatch,
+  useSelector,
+} from '@ncsa/geo-explorer/store';
+import {
+  setLayerSettingsExpanded,
+  toggleLayerSettings,
+} from '@ncsa/geo-explorer/store/explore/slice';
 
 export function MapLayerSettings() {
   const { Header, StyleSettings, TimeSelector, WFSFeatureTable } =
@@ -21,6 +27,9 @@ export function MapLayerSettings() {
   const showLayerSettings = useSelector(
     (state: RootState) => state.explore.showLayerSettings,
   );
+  const expanded = useSelector(
+    (state: RootState) => state.explore.layerSettingsExpanded,
+  );
 
   const [styleSettingsOpen, setStyleSettingsOpen] = useState(false);
 
@@ -28,34 +37,36 @@ export function MapLayerSettings() {
 
   return (
     <>
-      <Stack direction="column" className="w-full items-center">
+      <Stack
+        id="layer-settings"
+        direction="column"
+        className="w-full items-center"
+      >
         <Stack
           direction="column"
           className={classNames(
-            'bg-white gap-[16px] px-[32px] py-[16px] box-border',
-            'transform-none',
-            'transition-[width,height] ease-out',
+            'w-full bg-white gap-[16px] px-[32px] py-[16px] box-border',
           )}
-          sx={{
-            width: '100%',
-            height:
-              selectedLayer.data.layer_type === 'raster'
-                ? 'auto'
-                : LAYER_SETTINGS_HEIGHT,
-          }}
         >
           <Header
             onOpenStyleSettings={() => setStyleSettingsOpen(true)}
+            onClick={() => {
+              dispatch(setLayerSettingsExpanded({ expanded: !expanded }));
+            }}
             onClose={() => {
               dispatch(toggleLayerSettings());
             }}
           />
-          {selectedLayer.data.timestamps.length > 0 && <TimeSelector />}
-          {selectedLayer.data.layer_type !== 'raster' ? (
-            <Box className="flex-1 min-h-0 cursor-auto">
-              <WFSFeatureTable dataset={selectedLayer.data} />
-            </Box>
-          ) : null}
+          {expanded && (
+            <>
+              {selectedLayer.data.timestamps.length > 0 && <TimeSelector />}
+              {selectedLayer.data.layer_type !== 'raster' ? (
+                <Box className="cursor-auto h-[300px]">
+                  <WFSFeatureTable dataset={selectedLayer.data} />
+                </Box>
+              ) : null}
+            </>
+          )}
         </Stack>
       </Stack>
       <StyleSettings

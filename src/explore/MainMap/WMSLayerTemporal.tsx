@@ -1,10 +1,9 @@
 import { useContext, useEffect, useMemo } from 'react';
 import { Layer, Source, useMap } from 'react-map-gl/maplibre';
-import { useDispatch } from 'react-redux';
 
 import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
 import { TILE_SIZE } from '@ncsa/geo-explorer/config';
-import { AppDispatch } from '@ncsa/geo-explorer/store';
+import { AppDispatch, useDispatch } from '@ncsa/geo-explorer/store';
 import { setTimestampIdx } from '@ncsa/geo-explorer/store/explore/slice';
 import { MapLayer } from '@ncsa/geo-explorer/store/explore/types';
 import { nextCircular, prevCircular } from '@ncsa/geo-explorer/utils/array';
@@ -30,6 +29,7 @@ export function WMSLayerTemporal({ layer, prevLayer }: WMSLayerTemporalProps) {
   const tiles = useMemo(() => {
     const params: Params = {
       layers: [layer.data.layer_id],
+      styles: [layer.style_name],
       __style_version__: layer.version,
     };
     if (curTimestamp) {
@@ -43,6 +43,7 @@ export function WMSLayerTemporal({ layer, prevLayer }: WMSLayerTemporalProps) {
   const prevTiles = useMemo(() => {
     const params: Params = {
       layers: [layer.data.layer_id],
+      styles: [layer.style_name],
       __style_version__: layer.version,
     };
     if (prevTimestamp) {
@@ -56,6 +57,7 @@ export function WMSLayerTemporal({ layer, prevLayer }: WMSLayerTemporalProps) {
   const nextTiles = useMemo(() => {
     const params: Params = {
       layers: [layer.data.layer_id],
+      styles: [layer.style_name],
       __style_version__: layer.version,
     };
     if (nextTimestamp) {

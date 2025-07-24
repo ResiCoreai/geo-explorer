@@ -7,9 +7,13 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
-import { AppDispatch, RootState } from '@ncsa/geo-explorer/store';
+import {
+  AppDispatch,
+  RootState,
+  useDispatch,
+  useSelector,
+} from '@ncsa/geo-explorer/store';
 import { selectBaseMap } from '@ncsa/geo-explorer/store/explore/slice';
 
 export const BaseMaps: React.FC = () => {
@@ -35,7 +39,7 @@ export const BaseMaps: React.FC = () => {
   };
 
   return (
-    <Box className="flex-none h-[60px] items-center bg-[#F4F5F7] p-[12px]">
+    <Box className="flex-none h-[80px] items-center bg-[#F4F5F7] p-[12px]">
       <Box className="flex-grow-1">
         <Typography variant="caption" color="gray">
           Basemap

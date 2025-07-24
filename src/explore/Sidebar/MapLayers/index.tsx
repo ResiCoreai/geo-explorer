@@ -1,9 +1,8 @@
 import LayersOutlinedIcon from '@mui/icons-material/LayersOutlined';
 import classNames from 'classnames';
-import { useSelector } from 'react-redux';
 
 import { useImplementation } from '@ncsa/geo-explorer/hooks/useImplementation';
-import { RootState } from '@ncsa/geo-explorer/store';
+import { RootState, useSelector } from '@ncsa/geo-explorer/store';
 
 export function MapLayers() {
   const { MapLayerItem, SidebarSection } = useImplementation();

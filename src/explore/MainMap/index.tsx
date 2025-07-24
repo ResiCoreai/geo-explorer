@@ -6,21 +6,26 @@ import {
   NavigationControl,
   Source,
 } from 'react-map-gl/maplibre';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { GeoExplorerContext } from '@ncsa/geo-explorer/GeoExplorerProvider';
+import { provideMapInstanceToHandlers } from '@ncsa/geo-explorer/MapAccessRegistery';
 import { FitBounds } from '@ncsa/geo-explorer/explore/MainMap/controls/FitBounds';
 import { useImplementation } from '@ncsa/geo-explorer/hooks/useImplementation';
-import { AppDispatch, RootState, store } from '@ncsa/geo-explorer/store';
+import {
+  AppDispatch,
+  RootState,
+  store,
+  useDispatch,
+  useSelector,
+} from '@ncsa/geo-explorer/store';
 import { setSelectedFeatures } from '@ncsa/geo-explorer/store/explore/slice';
 import { isAbortError } from '@ncsa/geo-explorer/utils/maplibre-utils';
 
 export function MainMap() {
-  const { LegendPanel, RippleOverlay, WMSLayer, SelectedFeatures } =
-    useImplementation();
+  const { RippleOverlay, WMSLayer, SelectedFeatures } = useImplementation();
 
   const dispatch = useDispatch<AppDispatch>();
-  const { accessToken, ogcClient, isProtectedResource } =
+  const { accessToken, ogcClient, isProtectedResource, mapConfig } =
     useContext(GeoExplorerContext);
 
   const mapLayers = useSelector((state: RootState) => state.explore.mapLayers);
@@ -37,6 +42,7 @@ export function MainMap() {
   return (
     <Map
       id="map"
+      attributionControl={false}
       transformRequest={(url) => {
         if (isProtectedResource?.(url)) {
           const layer_id = new URLSearchParams(url).get('layers')!;
@@ -81,12 +87,7 @@ export function MainMap() {
           // do nothing
         }
       }}
-      initialViewState={{
-        longitude: -88.2272 - 3,
-        latitude: 40.1075,
-        zoom: 6,
-        pitch: 0,
-      }}
+      onLoad={(e) => provideMapInstanceToHandlers(e.target)}
       interactiveLayerIds={['storage']}
       onClick={(e) => {
         if (selectedLayer && selectedLayer.data.layer_type !== 'raster') {
@@ -96,7 +97,7 @@ export function MainMap() {
         }
       }}
       cursor={selectedLayer ? 'crosshair' : ''}
-      maxPitch={85}
+      maxPitch={mapConfig?.maxPitch ?? 85}
     >
       <NavigationControl position="top-right" visualizePitch={true} />
       <FullscreenControl position="top-right" />
@@ -109,7 +110,7 @@ export function MainMap() {
               baseMaps[0]?.tile_url_template ??
               '',
           ]}
-          tileSize={256}
+          tileSize={mapConfig?.tileSize ?? 256}
         >
           <Layer type="raster" />
         </Source>
@@ -126,12 +127,6 @@ export function MainMap() {
       <RippleOverlay />
       <SelectedFeatures />
       <FitBounds />
-
-      {selectedLayer && (
-        <div className="absolute bottom-12 right-3 z-50">
-          <LegendPanel layers={mapLayers} selectedLayer={selectedLayer} />
-        </div>
-      )}
     </Map>
   );
 }
