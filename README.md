@@ -27,27 +27,7 @@ To use Geo-Explorer effectively:
 
 ## Installation
 
-Because `@ncsa/geo-explorer` is hosted in a **private GitHub Packages** registry, you must configure a valid `~/.npmrc` file with a GitHub token to install it:
-
-```
-//npm.pkg.github.com/:_authToken=ghp_{your_github_token}
-@ncsa:registry=https://npm.pkg.github.com/
-```
-
-> 🔒 A GitHub personal access token (PAT) is required because the repository is private.
-
-Once your `~/.npmrc` is set up:
-
-1. Add `@ncsa/geo-explorer` to your app’s `package.json` dependencies:
-   ```json
-   {
-     "dependencies": {
-       "@ncsa/geo-explorer": "^x.y.z"
-     }
-   }
-   ```
-
-2. Then run:
+run:
    ```bash
    npm install
    ```
