@@ -21,7 +21,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint",
     "format": "prettier --write src",
-    "prepare": "husky"
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
