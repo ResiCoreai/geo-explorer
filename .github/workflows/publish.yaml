@@ -26,7 +26,7 @@ jobs:
           registry-url: https://npm.pkg.github.com/
           scope: "@resicoreai"
 
-      - name: Update package scope
+      - name: Update package scope and version
         run: |
           node -e "
             const fs = require('fs');
@@ -37,12 +37,11 @@ jobs:
             fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
           "
 
-      - name: Configure npm
-        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.RUNNER_GITHUB_TOKEN }}" > ~/.npmrc
-
       - run: npm ci
 
       - run: npm run build
 
       - name: publish
         run: npm publish --registry=https://npm.pkg.github.com/
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
