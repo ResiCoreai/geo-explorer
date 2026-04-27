@@ -1,41 +1,48 @@
 name: publish
 
-on: [workflow_dispatch]
-
-env:
-  MAIN_REPO: ncsa/geo-explorer
-  NPM_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
 
 jobs:
-  # ----------------------------------------------------------------------
-  # NODE BUILD
-  # ----------------------------------------------------------------------
   build:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, resicore]
+    permissions:
+      contents: read
+      packages: write
 
     steps:
-      # checkout source code
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.RUNNER_GITHUB_TOKEN }}
 
-      # setup node
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
           cache: "npm"
           cache-dependency-path: ./package-lock.json
+          registry-url: https://npm.pkg.github.com/
+          scope: "@resicoreai"
 
-      # generate npmrc file to login to github package registry
-      - name: Login to GitHub Package Registry
-        run: echo "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}" > .npmrc
+      - name: Update package scope
+        run: |
+          node -e "
+            const fs = require('fs');
+            const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+            pkg.name = '@resicoreai/geo-explorer';
+            pkg.version = '1.0.0';
+            pkg.publishConfig = { registry: 'https://npm.pkg.github.com/' };
+            fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
+          "
 
-      # Install dependencies
-      - name: build
-        run: npm ci
+      - name: Configure npm
+        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.RUNNER_GITHUB_TOKEN }}" > ~/.npmrc
 
-      # build NPM package
-      - name: build
-        run: npm run build
+      - run: npm ci
 
-      # push NPM package
+      - run: npm run build
+
       - name: publish
         run: npm publish --registry=https://npm.pkg.github.com/
