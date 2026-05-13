@@ -1,0 +1,1 @@
+{"version":3,"file":"useOGCClient.js","sourceRoot":"","sources":["../../src/hooks/useOGCClient.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,UAAU,EAAE,MAAM,OAAO,CAAC;AAEnC,OAAO,EAAE,kBAAkB,EAAE,MAAM,wCAAwC,CAAC;AAG5E,MAAM,UAAU,YAAY;IAC1B,MAAM,EAAE,SAAS,EAAE,GAAG,UAAU,CAAC,kBAAkB,CAAC,CAAC;IACrD,OAAO,SAAS,CAAC;AACnB,CAAC"}
